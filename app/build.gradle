@@ -1,14 +1,21 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.chaquo.python'
 
 android {
     compileSdkVersion 27
 
     defaultConfig {
+        python {
+            version "3.6.5"
+        }
         applicationId "com.runmyrobot.android_robot_for_phone"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
     }
     buildTypes {
         release {
