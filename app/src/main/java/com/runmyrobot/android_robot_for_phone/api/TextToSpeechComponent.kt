@@ -103,7 +103,7 @@ class TextToSpeechComponent internal constructor(val context: Context, private v
                     && !it.isBlank() //don't set if just blank
                 }?.let { it }
             }
-            return null
+            return ""
         }
     }
 }
