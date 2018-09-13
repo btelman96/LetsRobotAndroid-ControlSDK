@@ -5,6 +5,10 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 27
 
+    signingConfigs {
+        release
+    }
+//TODO https://stackoverflow.com/questions/29731648/how-you-increment-the-version-number-using-travis-ci/39042137
     defaultConfig {
         applicationId "com.runmyrobot.android_robot_for_phone"
         minSdkVersion 19
@@ -17,7 +21,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
+    }
+
+    def isRunningOnTravis = System.getenv("CI") == "true"
+
+    if (isRunningOnTravis) {
+        // configure keystore
+
+        signingConfigs.release.storeFile = file("../keyb.jks.enc")
+        signingConfigs.release.storePassword = System.getenv("keystore_password")
+        signingConfigs.release.keyAlias = System.getenv("keystore_alias")
+        signingConfigs.release.keyPassword = System.getenv("keystore_alias_password")
     }
 }
 
