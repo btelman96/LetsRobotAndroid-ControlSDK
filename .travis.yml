@@ -22,6 +22,3 @@ cache:
 before_script:
 - chmod +x gradlew
 script: "./gradlew build check"
-before_install:
-- openssl aes-256-cbc -K $encrypted_3a5d4aaef520_key -iv $encrypted_3a5d4aaef520_iv
-  -in keyb.jks.enc -out keyb.jks -d
