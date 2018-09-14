@@ -25,3 +25,11 @@ script: "./gradlew build check"
 before_install:
 - openssl aes-256-cbc -K $encrypted_3510f38a4b24_key -iv $encrypted_3510f38a4b24_iv
   -in keyb.jks.enc -out keyb.jks -d
+deploy:
+  provider: releases
+  api_key:
+    secure: l1xisq/89rmKo94MojaqlebIEwjjmDver0CAYz3nC/7/Ar3Ujf0LlhcA9fyI3KXasbaSJqOYY9QgzJfGDksWmeB7lohajwS0aHQFUUlmhhhj6/VfgoSJy+YKgkE/GCU/xydaBxDdL5C1wKiXArhPOVR/fdQGyK6J7hrvN1QA6xRq+v2nDjNOp4sn9gYFgjqA/kcO47oBVSffsf4nO1QNj+oE95H2SmPubrATAO0lABv0QTmjy6/gqF+KAVQCzYTZ+NGnKFrZmtCVUbyc0bGqghFIWGvyNtLzcnmcZrumYA2batkIf1JN7dvhq6pxnwsPNLcYUYKx1WEDtxOPhtwrn6bqgQ3NrtOKXsTimQNqWaw7VJQ4MFX1yyl9C36FfgBQob38jE89a6UBw6mGFmOgTpCovHM8XV3usTJLpIc2k3WyAdupiTR9cpf/AZ/7I9yfbkeY3GUwHAEoQkWuNPxXr8dyATyA7t2IXr6Eqq2Ta0ZFAOdmATSpRZh3Hal04jn50oc4bMVsEPxYEy2ok0pnoIwI7qelNTqRebK21dPczLQLD/pLuxWUyYsiYvjQVnZrBYLzpJPuhOp99h2kFnqNzgUxeOvuBun49ocIc6z5fGtNaCUIR5Xy1Z2IaWcvKEsgoOAstwdD619jWdU9BUfHdpBuKOhRTEdOzrmT0LTArm0=
+  file: app/build/outputs/apk/release/*
+  on:
+    repo: btelman96/runmyrobot_android
+    tags: true
