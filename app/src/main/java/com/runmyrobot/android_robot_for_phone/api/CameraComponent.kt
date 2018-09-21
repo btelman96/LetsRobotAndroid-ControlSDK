@@ -1,10 +1,10 @@
 package com.runmyrobot.android_robot_for_phone.api
 
 import android.content.Context
-import android.graphics.ImageFormat
-import android.graphics.Rect
-import android.graphics.YuvImage
+import android.graphics.*
 import android.hardware.Camera
+import android.renderscript.*
+import android.renderscript.Element.U8_4
 import android.util.Log
 import android.view.SurfaceHolder
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
@@ -17,7 +17,9 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.DataOutputStream
 import java.io.IOException
+import java.nio.ByteBuffer
 import java.util.concurrent.atomic.AtomicBoolean
 
 
@@ -37,6 +39,8 @@ class CameraComponent
 constructor(context: Context, val cameraId: String, val holder: SurfaceHolder) : Component(context), FFmpegExecuteResponseHandler, android.hardware.Camera.PreviewCallback, SurfaceHolder.Callback {
     internal var ffmpegRunning = AtomicBoolean(false)
     var ffmpeg : FFmpeg
+    var rs = RenderScript.create(context)
+    var yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(rs, U8_4(rs))
     init {
         holder.addCallback(this)
         ffmpeg = FFmpeg.getInstance(context)
@@ -120,24 +124,59 @@ constructor(context: Context, val cameraId: String, val holder: SurfaceHolder) :
 
     private lateinit var r: Rect
 
+    private var rgbaType: Type.Builder? = null
+
     override fun onPreviewFrame(b: ByteArray?, camera: android.hardware.Camera?) {
         if(!streaming.get()) return
         if(!limiter.tryAcquire()) return
-        if (width == 0 || height == 0) {
+        b ?: return //return if null
+        if (width == 0 || height == 0 || rgbaType == null) {
             camera?.parameters?.let {
                 val size = it.previewSize
                 width = size.width
                 height = size.height
                 r = Rect(0, 0, width, height)
+                rgbaType = Type.Builder(rs, Element.RGBA_8888(rs)).setX(width).setY(height)
             }
         }
+
         if (!ffmpegRunning.getAndSet(true)) {
             bootFFMPEG()
         }
         process?.let {
-            val im = YuvImage(b, ImageFormat.NV21, width, height, null)
+            val os = DataOutputStream(it.outputStream)
+            val yuvType = Type.Builder(rs, Element.U8(rs)).setX(b.size)
+            val `in` = Allocation.createTyped(rs, yuvType.create(), Allocation.USAGE_SCRIPT)
+            val outA = Allocation.createTyped(rs, rgbaType!!.create(), Allocation.USAGE_SCRIPT)
+            `in`.copyFrom(b)
+
+            yuvToRgbIntrinsic.setInput(`in`)
+            yuvToRgbIntrinsic.forEach(outA)
+            val cameraBitmap = Bitmap.createBitmap(width, height,
+                    Bitmap.Config.ARGB_8888)
+            outA.copyTo(cameraBitmap)
+
+            /*val out = ByteArrayOutputStream()
+            val yuvImage = YuvImage(b, ImageFormat.NV21, width, height, null)
+            yuvImage.compressToJpeg(Rect(0, 0, width, height), 100, out)
+            val imageBytes = out.toByteArray()
+            val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)*/
+            val newBitmap = Bitmap.createBitmap(width, height,
+                    Bitmap.Config.ARGB_8888)
+
+            val canvas = Canvas(newBitmap)
+            canvas.drawBitmap(cameraBitmap, r, r, null)
+            cameraBitmap.recycle()
+            canvas.drawCircle(40f, 40f, 20f, Paint().also {
+                it.color = Color.BLACK
+            })
+
+            //val im = YuvImage(b, ImageFormat.NV21, width, height, null)
             try {
-                im.compressToJpeg(r, 100, it.outputStream)
+                var buffer = ByteBuffer.allocate(newBitmap.byteCount)
+                newBitmap.copyPixelsToBuffer(buffer)
+                os.write(buffer.get(ByteArray(newBitmap.byteCount)))
+                newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
