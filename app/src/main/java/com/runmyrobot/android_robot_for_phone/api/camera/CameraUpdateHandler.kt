@@ -1,20 +1,30 @@
 package com.runmyrobot.android_robot_for_phone.api.camera
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Rect
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
 import android.os.Message
-import android.renderscript.*
 import android.renderscript.Element.U8_4
+import android.renderscript.RenderScript
+import android.renderscript.ScriptIntrinsicYuvToRGB
+import android.renderscript.Type
 import android.util.Log
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler
-import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.runmyrobot.android_robot_for_phone.RobotApplication
 import com.runmyrobot.android_robot_for_phone.api.UDPOutputStream
 import com.runmyrobot.android_robot_for_phone.utils.StoreUtil
+import org.bytedeco.javacpp.avcodec.AV_CODEC_ID_MPEG1VIDEO
+import org.bytedeco.javacpp.avutil
+import org.bytedeco.javacpp.avutil.AV_PIX_FMT_YUV420P
+import org.bytedeco.javacv.FFmpegFrameRecorder
+import org.bytedeco.javacv.Frame
+import org.bytedeco.javacv.Frame.DEPTH_UBYTE
+import org.bytedeco.javacv.LeptonicaFrameConverter
+import java.nio.ByteBuffer
+
 
 /**
  * Threaded calls to update the camera feed
@@ -55,12 +65,13 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
                 }
             }
             PUBLISH_TO_PROCESS -> {
-                Log.d(LOGTAG, "PUBLISH_TO_PROCESS")
+
                 //Only proceed if our trustworthy booleans are true
                 if(streaming){
                     //And then lets not trust them
                     try{
                         (msg.obj as? ByteArray)?.let {
+                            Log.d(LOGTAG, "PUBLISH_TO_PROCESS")
                             renderYuvToService(msg.arg1, msg.arg2, it)
                         }
                     }catch (e : Exception){e.printStackTrace()}
@@ -86,6 +97,8 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
 
     private var streamOut: UDPOutputStream? = null
 
+    private var frameRecorder: FFmpegFrameRecorder? = null
+
     private fun bootFFMPEG(addr : String) {
         Log.d(LOGTAG, "bootFFMPEG")
         if(!streaming){
@@ -108,51 +121,68 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
             val stream_key = RobotApplication.Instance.getCameraPass()
             //TODO hook up with bitrate and resolution prefs
             val command = "-f mjpeg -i udp://localhost:1234 -f mpegts -framerate 30 -codec:v mpeg1video -b:v 10k -bf 0 -muxdelay 0.001 -tune zerolatency -preset ultrafast -pix_fmt yuv420p $builder http://$addr/$stream_key/$xres/$yres/"
-            ffmpeg.execute(UUID, null, command.split(" ").toTypedArray(), this)
-            streamOut = UDPOutputStream("localhost", 1234)
-        } catch (e: FFmpegCommandAlreadyRunningException) {
+            //ffmpeg.execute(UUID, null, command.split(" ").toTypedArray(), this)
+            //streamOut = UDPOutputStream("localhost", 1234)
+            try {
+                frameRecorder?.stop()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            frameRecorder = null
+            print("http://$addr/$stream_key/$xres/$yres/")
+            frameRecorder = FFmpegFrameRecorder("http://$addr/$stream_key/$xres/$yres/", xres.toInt(), yres.toInt())
+            frameRecorder?.let {
+                //it.aspectRatio = 16.0/9.0
+                it.format = "mpegts"
+                it.videoCodec = AV_CODEC_ID_MPEG1VIDEO
+                it.frameRate = 30.0
+                it.videoOptions["tune"] = "zerolatency"
+                it.videoOptions["preset"] = "ultrafast"
+                it.videoBitrate = 2000000
+                it.pixelFormat = AV_PIX_FMT_YUV420P
+            }
+            frameRecorder?.start()
+        } catch (e: Exception) {
             e.printStackTrace()
             // Handle if FFmpeg is already running
         }
     }
 
+    private val convertor = LeptonicaFrameConverter()
+
+    private var videoTS = 0L
+
+    private var startTime = 0L
+
+    private var yuvImage: Frame? = null
+
     private fun renderYuvToService(width : Int, height : Int, b : ByteArray){
         Log.d(LOGTAG, "bootFFMPEG_OKAY")
-        if(r.height() != height || r.width() != width){
-            r.set(0, 0, width, height)
-            rgbaType = Type.Builder(rs, Element.RGBA_8888(rs)).setX(width).setY(height)
-        }
-        val yuvType = Type.Builder(rs, Element.U8(rs)).setX(b.size)
-        val `in` = Allocation.createTyped(rs, yuvType.create(), Allocation.USAGE_SCRIPT)
-        val outA = Allocation.createTyped(rs, rgbaType!!.create(), Allocation.USAGE_SCRIPT)
-        `in`.copyFrom(b)
-
-        yuvToRgbIntrinsic.setInput(`in`)
-        yuvToRgbIntrinsic.forEach(outA)
-        val cameraBitmap = Bitmap.createBitmap(width, height,
-                Bitmap.Config.ARGB_8888)
-        outA.copyTo(cameraBitmap)
-
-        /*val out = ByteArrayOutputStream()
-        val yuvImage = YuvImage(b, ImageFormat.NV21, width, height, null)
-        yuvImage.compressToJpeg(Rect(0, 0, width, height), 100, out)
-        val imageBytes = out.toByteArray()
-        val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)*/
-        val newBitmap = Bitmap.createBitmap(width, height,
-                Bitmap.Config.ARGB_8888)
-
-        val canvas = Canvas(newBitmap)
-        canvas.drawBitmap(cameraBitmap, r, r, null)
-        cameraBitmap.recycle()
-        canvas.drawCircle(40f, 40f, 20f, Paint().also {
-            it.color = Color.BLACK
-        })
-        //val im = YuvImage(b, ImageFormat.NV21, width, height, null)
         try {
-            streamOut?.bufferSize = 15000
-            streamOut?.setMaxBufferSize(15000)
-            newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, streamOut)
+            // Let's define our start time...
+            // This needs to be initialized as close to when we'll use it as
+            // possible,
+            // as the delta from assignment to computed time could be too high
+            if (startTime == 0L)
+                startTime = System.currentTimeMillis()
+
+            // Create timestamp for this frame
+            videoTS = 1000 * (System.currentTimeMillis() - startTime)
+            // Check for AV drift
+            if (videoTS > frameRecorder!!.timestamp)
+            {
+                System.out.println(
+                        "Lip-flap correction: "
+                                + videoTS + " : "
+                                + frameRecorder!!.timestamp + " -> "
+                                + (videoTS - frameRecorder!!.timestamp))
+
+                // We tell the recorder to write this frame at this timestamp
+                frameRecorder!!.timestamp = videoTS
+            }
+            frameRecorder?.recordImage(width, height,DEPTH_UBYTE, 2,0,avutil.AV_PIX_FMT_NV21, ByteBuffer.wrap(b))
         } catch (e: Exception) {
+            notifyDeadProcess()
             e.printStackTrace()
         }
     }

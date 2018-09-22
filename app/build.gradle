@@ -24,7 +24,15 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug{
+            ndk {
+                abiFilters "armeabi-v7a", "armeabi"
+            }
+        }
         release {
+            ndk {
+                abiFilters "armeabi-v7a", "armeabi"
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
