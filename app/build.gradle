@@ -55,8 +55,8 @@ dependencies {
     //implementation project(':logging')
     implementation 'com.akexorcist:bluetoothspp:1.0.0'
     implementation 'com.bugsnag:bugsnag-android:4.+'
-    compile 'com.bugsnag:bugsnag-android-ndk:1.+'
-
+    implementation 'com.bugsnag:bugsnag-android-ndk:1.+'
+    implementation group: 'org.bytedeco', name: 'javacpp', version: '1.4.2'
 }
 repositories {
     mavenCentral()
