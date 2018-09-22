@@ -88,11 +88,13 @@ constructor(context: Context, val cameraId: String, val holder: SurfaceHolder) :
         if(!streaming.get()) return
         if(!limiter.tryAcquire()) return
         b ?: return //return if null
-        camera?.parameters?.let {
-            val size = it.previewSize
-            this.width = size.width
-            this.height = size.height
-            this.r = Rect(0, 0, width, height)
+        if(this.width == 0 || this.height == 0) {
+            camera?.parameters?.let {
+                val size = it.previewSize
+                this.width = size.width
+                this.height = size.height
+                this.r = Rect(0, 0, width, height)
+            }
         }
         cameraUpdateHandler.postYuv(width, height, b)
     }
