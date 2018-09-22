@@ -13,8 +13,8 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.runmyrobot.android_robot_for_phone.RobotApplication
+import com.runmyrobot.android_robot_for_phone.api.UDPOutputStream
 import com.runmyrobot.android_robot_for_phone.utils.StoreUtil
-import java.io.DataOutputStream
 
 /**
  * Threaded calls to update the camera feed
@@ -57,7 +57,7 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
             PUBLISH_TO_PROCESS -> {
                 Log.d(LOGTAG, "PUBLISH_TO_PROCESS")
                 //Only proceed if our trustworthy booleans are true
-                if(streaming && processExists){
+                if(streaming){
                     //And then lets not trust them
                     try{
                         (msg.obj as? ByteArray)?.let {
@@ -84,6 +84,8 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
         }
     }
 
+    private var streamOut: UDPOutputStream? = null
+
     private fun bootFFMPEG(addr : String) {
         Log.d(LOGTAG, "bootFFMPEG")
         if(!streaming){
@@ -105,8 +107,9 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
             val kbps = "20"
             val stream_key = RobotApplication.Instance.getCameraPass()
             //TODO hook up with bitrate and resolution prefs
-            val command = "-f image2pipe -codec:v mjpeg -i - -f mpegts -framerate 30 -codec:v mpeg1video -b:v 10k -bf 0 -muxdelay 0.001 -tune zerolatency -preset ultrafast -pix_fmt yuv420p $builder http://$addr/$stream_key/$xres/$yres/"
+            val command = "-f mjpeg -i udp://localhost:1234 -f mpegts -framerate 30 -codec:v mpeg1video -b:v 10k -bf 0 -muxdelay 0.001 -tune zerolatency -preset ultrafast -pix_fmt yuv420p $builder http://$addr/$stream_key/$xres/$yres/"
             ffmpeg.execute(UUID, null, command.split(" ").toTypedArray(), this)
+            streamOut = UDPOutputStream("localhost", 1234)
         } catch (e: FFmpegCommandAlreadyRunningException) {
             e.printStackTrace()
             // Handle if FFmpeg is already running
@@ -144,10 +147,11 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
         canvas.drawCircle(40f, 40f, 20f, Paint().also {
             it.color = Color.BLACK
         })
-        val os = DataOutputStream(process?.outputStream)
         //val im = YuvImage(b, ImageFormat.NV21, width, height, null)
         try {
-            newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            streamOut?.bufferSize = 15000
+            streamOut?.setMaxBufferSize(15000)
+            newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, streamOut)
         } catch (e: Exception) {
             e.printStackTrace()
         }
