@@ -80,7 +80,7 @@ constructor(context: Context, val cameraId: String, val holder: SurfaceHolder) :
 
     var width = 0
     var height = 0
-    var limiter = RateLimiter.create(30.0)
+    var limiter = RateLimiter.create(10.0)
 
     private lateinit var r: Rect
 
@@ -96,7 +96,14 @@ constructor(context: Context, val cameraId: String, val holder: SurfaceHolder) :
                 this.r = Rect(0, 0, width, height)
             }
         }
-        cameraUpdateHandler.postYuv(width, height, b)
+        if(cameraUpdateHandler.postYuv(width, height, b)) {
+            successCounter++
+            if(successCounter > 2)
+                status = ComponentStatus.STABLE
+        }
+        else{
+            status = ComponentStatus.INTERMITTENT
+        }
     }
 
     private fun setupCam(){
