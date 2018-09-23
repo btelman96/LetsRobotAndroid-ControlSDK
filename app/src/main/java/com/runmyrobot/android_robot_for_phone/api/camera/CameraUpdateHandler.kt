@@ -11,6 +11,7 @@ import com.runmyrobot.android_robot_for_phone.utils.StoreUtil
 import org.bytedeco.javacpp.avcodec.AV_CODEC_ID_MPEG1VIDEO
 import org.bytedeco.javacpp.avutil
 import org.bytedeco.javacpp.avutil.AV_PIX_FMT_YUV420P
+import org.bytedeco.javacv.FFmpegFrameFilter
 import org.bytedeco.javacv.FFmpegFrameRecorder
 import org.bytedeco.javacv.Frame.DEPTH_UBYTE
 import java.nio.ByteBuffer
@@ -76,6 +77,10 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
 
     private var frameRecorder: FFmpegFrameRecorder? = null
 
+    private var rotationOption = 0
+
+    private var filter: FFmpegFrameFilter? = null
+
     private fun bootFFMPEG(addr : String) {
         Log.d(TAG, "bootFFMPEG")
         if(!streaming){
@@ -84,10 +89,10 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
         Log.d(TAG, "bootFFMPEG_OKAY")
         try {
             // to execute "ffmpeg -version" command you just need to pass "-version"
-            val xres = "640"
-            val yres = "480"
+            val xres = "640".toInt()
+            val yres = "480".toInt()
 
-            val rotationOption = StoreUtil.getOrientation(context).ordinal //leave blank
+            rotationOption = StoreUtil.getOrientation(context).ordinal //leave blank
             val builder = StringBuilder()
             for (i in 0..rotationOption){
                 if(i == 0) builder.append("transpose=1")
@@ -99,12 +104,13 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
             val streamKey = RobotApplication.Instance.getCameraPass()
             try {
                 frameRecorder?.stop()
+                filter?.stop()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
             frameRecorder = null
             print("http://$addr/$streamKey/$xres/$yres/")
-            frameRecorder = FFmpegFrameRecorder("http://$addr/$streamKey/$xres/$yres/", xres.toInt(), yres.toInt())
+            frameRecorder = FFmpegFrameRecorder("http://$addr/$streamKey/$xres/$yres/", xres, yres)
             frameRecorder?.let {
                 //it.aspectRatio = 16.0/9.0
                 it.format = "mpegts"
@@ -112,10 +118,12 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
                 it.frameRate = 30.0
                 it.videoOptions["tune"] = "zerolatency"
                 it.videoOptions["preset"] = "ultrafast"
-                it.videoOptions["vf"] = builder.toString()
+                //it.videoOptions["vf"] = builder.toString()
                 it.videoBitrate = kbps
                 it.pixelFormat = AV_PIX_FMT_YUV420P
             }
+            filter = FFmpegFrameFilter("transpose=cclock_flip", yres, xres)
+            filter?.start()
             frameRecorder?.start()
             updateProcess() //allow frames to be processed
         } catch (e: Exception) {
@@ -152,7 +160,23 @@ class CameraUpdateHandler(val context: Context, looper: Looper) : Handler(looper
                 // We tell the recorder to write this frame at this timestamp
                 frameRecorder!!.timestamp = videoTS
             }
-            frameRecorder?.recordImage(width, height,DEPTH_UBYTE, 2,0,avutil.AV_PIX_FMT_NV21, ByteBuffer.wrap(b))
+            if(rotationOption == 0) {
+                frameRecorder?.recordImage(width, height,DEPTH_UBYTE, 2,0,avutil.AV_PIX_FMT_NV21, ByteBuffer.wrap(b))
+            }
+            else{
+                for(i in 0..rotationOption){ //Rotating video...
+                    if(i > 1){
+                        //if already rotated, and we need more, do it again
+                        filter?.push(filter?.pullImage())
+                    }
+                    else {
+                        //Push image
+                        filter?.pushImage(width, height, DEPTH_UBYTE, 2, 0, avutil.AV_PIX_FMT_NV21, ByteBuffer.wrap(b))
+                    }
+                }
+                //Finally push to ffmpeg frame recorder
+                frameRecorder?.record(filter?.pull())
+            }
         } catch (e: Exception) {
             notifyDeadProcess()
             e.printStackTrace()
