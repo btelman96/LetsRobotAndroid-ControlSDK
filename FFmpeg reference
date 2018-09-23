@@ -1,0 +1,256 @@
+E/ffmpeg  (26984): 0: Success
+E/ffmpeg  (26984): -1: Operation not permitted
+E/ffmpeg  (26984): -2: No such file or directory
+E/ffmpeg  (26984): -3: No such process
+E/ffmpeg  (26984): -4: Interrupted system call
+E/ffmpeg  (26984): -5: I/O error
+E/ffmpeg  (26984): -6: No such device or address
+E/ffmpeg  (26984): -7: Argument list too long
+E/ffmpeg  (26984): -8: Exec format error
+E/ffmpeg  (26984): -9: Bad file number
+E/ffmpeg  (26984): -10: No child processes
+E/ffmpeg  (26984): -11: Try again
+E/ffmpeg  (26984): -12: Out of memory
+E/ffmpeg  (26984): -13: Permission denied
+E/ffmpeg  (26984): -14: Bad address
+E/ffmpeg  (26984): -15: Block device required
+E/ffmpeg  (26984): -16: Device or resource busy
+E/ffmpeg  (26984): -17: File exists
+E/ffmpeg  (26984): -18: Cross-device link
+E/ffmpeg  (26984): -19: No such device
+E/ffmpeg  (26984): -20: Not a directory
+E/ffmpeg  (26984): -21: Is a directory
+E/ffmpeg  (26984): -22: Invalid argument
+E/ffmpeg  (26984): -23: File table overflow
+E/ffmpeg  (26984): -24: Too many open files
+E/ffmpeg  (26984): -25: Not a typewriter
+E/ffmpeg  (26984): -26: Text file busy
+E/ffmpeg  (26984): -27: File too large
+E/ffmpeg  (26984): -28: No space left on device
+E/ffmpeg  (26984): -29: Illegal seek
+E/ffmpeg  (26984): -30: Read-only file system
+E/ffmpeg  (26984): -31: Too many links
+E/ffmpeg  (26984): -32: Broken pipe
+E/ffmpeg  (26984): -33: Math argument out of domain of func
+E/ffmpeg  (26984): -34: Math result not representable
+E/ffmpeg  (26984): -35: Resource deadlock would occur
+E/ffmpeg  (26984): -36: File name too long
+E/ffmpeg  (26984): -37: No record locks available
+E/ffmpeg  (26984): -38: Function not implemented
+E/ffmpeg  (26984): -39: Directory not empty
+E/ffmpeg  (26984): -40: Too many symbolic links encountered
+E/ffmpeg  (26984): -41: Unknown error 41
+E/ffmpeg  (26984): -42: No message of desired type
+E/ffmpeg  (26984): -43: Identifier removed
+E/ffmpeg  (26984): -44: Channel number out of range
+E/ffmpeg  (26984): -45: Level 2 not synchronized
+E/ffmpeg  (26984): -46: Level 3 halted
+E/ffmpeg  (26984): -47: Level 3 reset
+E/ffmpeg  (26984): -48: Link number out of range
+E/ffmpeg  (26984): -49: Protocol driver not attached
+E/ffmpeg  (26984): -50: No CSI structure available
+E/ffmpeg  (26984): -51: Level 2 halted
+E/ffmpeg  (26984): -52: Invalid exchange
+E/ffmpeg  (26984): -53: Invalid request descriptor
+E/ffmpeg  (26984): -54: Exchange full
+E/ffmpeg  (26984): -55: No anode
+E/ffmpeg  (26984): -56: Invalid request code
+E/ffmpeg  (26984): -57: Invalid slot
+E/ffmpeg  (26984): -58: Unknown error 58
+E/ffmpeg  (26984): -59: Bad font file format
+E/ffmpeg  (26984): -60: Device not a stream
+E/ffmpeg  (26984): -61: No data available
+E/ffmpeg  (26984): -62: Timer expired
+E/ffmpeg  (26984): -63: Out of streams resources
+E/ffmpeg  (26984): -64: Machine is not on the network
+E/ffmpeg  (26984): -65: Package not installed
+E/ffmpeg  (26984): -66: Object is remote
+E/ffmpeg  (26984): -67: Link has been severed
+E/ffmpeg  (26984): -68: Advertise error
+E/ffmpeg  (26984): -69: Srmount error
+E/ffmpeg  (26984): -70: Communication error on send
+E/ffmpeg  (26984): -71: Protocol error
+E/ffmpeg  (26984): -72: Multihop attempted
+E/ffmpeg  (26984): -73: RFS specific error
+E/ffmpeg  (26984): -74: Not a data message
+E/ffmpeg  (26984): -75: Value too large for defined data type
+E/ffmpeg  (26984): -76: Name not unique on network
+E/ffmpeg  (26984): -77: File descriptor in bad state
+E/ffmpeg  (26984): -78: Remote address changed
+E/ffmpeg  (26984): -79: Can not access a needed shared library
+E/ffmpeg  (26984): -80: Accessing a corrupted shared library
+E/ffmpeg  (26984): -81: .lib section in a.out corrupted
+E/ffmpeg  (26984): -82: Attempting to link in too many shared libraries
+E/ffmpeg  (26984): -83: Cannot exec a shared library directly
+E/ffmpeg  (26984): -84: Illegal byte sequence
+E/ffmpeg  (26984): -85: Interrupted system call should be restarted
+E/ffmpeg  (26984): -86: Streams pipe error
+E/ffmpeg  (26984): -87: Too many users
+E/ffmpeg  (26984): -88: Socket operation on non-socket
+E/ffmpeg  (26984): -89: Destination address required
+E/ffmpeg  (26984): -90: Message too long
+E/ffmpeg  (26984): -91: Protocol wrong type for socket
+E/ffmpeg  (26984): -92: Protocol not available
+E/ffmpeg  (26984): -93: Protocol not supported
+E/ffmpeg  (26984): -94: Socket type not supported
+E/ffmpeg  (26984): -95: Operation not supported on transport endpoint
+E/ffmpeg  (26984): -96: Protocol family not supported
+E/ffmpeg  (26984): -97: Address family not supported by protocol
+E/ffmpeg  (26984): -98: Address already in use
+E/ffmpeg  (26984): -99: Cannot assign requested address
+E/ffmpeg  (26984): -100: Network is down
+E/ffmpeg  (26984): -101: Network is unreachable
+E/ffmpeg  (26984): -102: Network dropped connection because of reset
+E/ffmpeg  (26984): -103: Software caused connection abort
+E/ffmpeg  (26984): -104: Connection reset by peer
+E/ffmpeg  (26984): -105: No buffer space available
+E/ffmpeg  (26984): -106: Transport endpoint is already connected
+E/ffmpeg  (26984): -107: Transport endpoint is not connected
+E/ffmpeg  (26984): -108: Cannot send after transport endpoint shutdown
+E/ffmpeg  (26984): -109: Too many references: cannot splice
+E/ffmpeg  (26984): -110: Connection timed out
+E/ffmpeg  (26984): -111: Connection refused
+E/ffmpeg  (26984): -112: Host is down
+E/ffmpeg  (26984): -113: No route to host
+E/ffmpeg  (26984): -114: Operation already in progress
+E/ffmpeg  (26984): -115: Operation now in progress
+E/ffmpeg  (26984): -116: Stale NFS file handle
+E/ffmpeg  (26984): -117: Structure needs cleaning
+E/ffmpeg  (26984): -118: Not a XENIX named type file
+E/ffmpeg  (26984): -119: No XENIX semaphores available
+E/ffmpeg  (26984): -120: Is a named type file
+E/ffmpeg  (26984): -121: Remote I/O error
+E/ffmpeg  (26984): -122: Quota exceeded
+E/ffmpeg  (26984): -123: No medium found
+E/ffmpeg  (26984): -124: Wrong medium type
+E/ffmpeg  (26984): -125: Operation Canceled
+E/ffmpeg  (26984): -126: Required key not available
+E/ffmpeg  (26984): -127: Key has expired
+E/ffmpeg  (26984): -128: Key has been revoked
+E/ffmpeg  (26984): -129: Key was rejected by service
+E/ffmpeg  (26984): -130: Owner died
+E/ffmpeg  (26984): -131: State not recoverable
+E/ffmpeg  (26984): -132: Unknown error 132
+E/ffmpeg  (26984): -133: Unknown error 133
+E/ffmpeg  (26984): -134: Unknown error 134
+E/ffmpeg  (26984): -135: Unknown error 135
+E/ffmpeg  (26984): -136: Unknown error 136
+E/ffmpeg  (26984): -137: Unknown error 137
+E/ffmpeg  (26984): -138: Unknown error 138
+E/ffmpeg  (26984): -139: Unknown error 139
+E/ffmpeg  (26984): -140: Unknown error 140
+E/ffmpeg  (26984): -141: Unknown error 141
+E/ffmpeg  (26984): -142: Unknown error 142
+E/ffmpeg  (26984): -143: Unknown error 143
+E/ffmpeg  (26984): -144: Unknown error 144
+E/ffmpeg  (26984): -145: Unknown error 145
+E/ffmpeg  (26984): -146: Unknown error 146
+E/ffmpeg  (26984): -147: Unknown error 147
+E/ffmpeg  (26984): -148: Unknown error 148
+E/ffmpeg  (26984): -149: Unknown error 149
+E/ffmpeg  (26984): -150: Unknown error 150
+E/ffmpeg  (26984): -151: Unknown error 151
+E/ffmpeg  (26984): -152: Unknown error 152
+E/ffmpeg  (26984): -153: Unknown error 153
+E/ffmpeg  (26984): -154: Unknown error 154
+E/ffmpeg  (26984): -155: Unknown error 155
+E/ffmpeg  (26984): -156: Unknown error 156
+E/ffmpeg  (26984): -157: Unknown error 157
+E/ffmpeg  (26984): -158: Unknown error 158
+E/ffmpeg  (26984): -159: Unknown error 159
+E/ffmpeg  (26984): -160: Unknown error 160
+E/ffmpeg  (26984): -161: Unknown error 161
+E/ffmpeg  (26984): -162: Unknown error 162
+E/ffmpeg  (26984): -163: Unknown error 163
+E/ffmpeg  (26984): -164: Unknown error 164
+E/ffmpeg  (26984): -165: Unknown error 165
+E/ffmpeg  (26984): -166: Unknown error 166
+E/ffmpeg  (26984): -167: Unknown error 167
+E/ffmpeg  (26984): -168: Unknown error 168
+E/ffmpeg  (26984): -169: Unknown error 169
+E/ffmpeg  (26984): -170: Unknown error 170
+E/ffmpeg  (26984): -171: Unknown error 171
+E/ffmpeg  (26984): -172: Unknown error 172
+E/ffmpeg  (26984): -173: Unknown error 173
+E/ffmpeg  (26984): -174: Unknown error 174
+E/ffmpeg  (26984): -175: Unknown error 175
+E/ffmpeg  (26984): -176: Unknown error 176
+E/ffmpeg  (26984): -177: Unknown error 177
+E/ffmpeg  (26984): -178: Unknown error 178
+E/ffmpeg  (26984): -179: Unknown error 179
+E/ffmpeg  (26984): -180: Unknown error 180
+E/ffmpeg  (26984): -181: Unknown error 181
+E/ffmpeg  (26984): -182: Unknown error 182
+E/ffmpeg  (26984): -183: Unknown error 183
+E/ffmpeg  (26984): -184: Unknown error 184
+E/ffmpeg  (26984): -185: Unknown error 185
+E/ffmpeg  (26984): -186: Unknown error 186
+E/ffmpeg  (26984): -187: Unknown error 187
+E/ffmpeg  (26984): -188: Unknown error 188
+E/ffmpeg  (26984): -189: Unknown error 189
+E/ffmpeg  (26984): -190: Unknown error 190
+E/ffmpeg  (26984): -191: Unknown error 191
+E/ffmpeg  (26984): -192: Unknown error 192
+E/ffmpeg  (26984): -193: Unknown error 193
+E/ffmpeg  (26984): -194: Unknown error 194
+E/ffmpeg  (26984): -195: Unknown error 195
+E/ffmpeg  (26984): -196: Unknown error 196
+E/ffmpeg  (26984): -197: Unknown error 197
+E/ffmpeg  (26984): -198: Unknown error 198
+E/ffmpeg  (26984): -199: Unknown error 199
+E/ffmpeg  (26984): -200: Unknown error 200
+E/ffmpeg  (26984): -201: Unknown error 201
+E/ffmpeg  (26984): -202: Unknown error 202
+E/ffmpeg  (26984): -203: Unknown error 203
+E/ffmpeg  (26984): -204: Unknown error 204
+E/ffmpeg  (26984): -205: Unknown error 205
+E/ffmpeg  (26984): -206: Unknown error 206
+E/ffmpeg  (26984): -207: Unknown error 207
+E/ffmpeg  (26984): -208: Unknown error 208
+E/ffmpeg  (26984): -209: Unknown error 209
+E/ffmpeg  (26984): -210: Unknown error 210
+E/ffmpeg  (26984): -211: Unknown error 211
+E/ffmpeg  (26984): -212: Unknown error 212
+E/ffmpeg  (26984): -213: Unknown error 213
+E/ffmpeg  (26984): -214: Unknown error 214
+E/ffmpeg  (26984): -215: Unknown error 215
+E/ffmpeg  (26984): -216: Unknown error 216
+E/ffmpeg  (26984): -217: Unknown error 217
+E/ffmpeg  (26984): -218: Unknown error 218
+E/ffmpeg  (26984): -219: Unknown error 219
+E/ffmpeg  (26984): -220: Unknown error 220
+E/ffmpeg  (26984): -221: Unknown error 221
+E/ffmpeg  (26984): -222: Unknown error 222
+E/ffmpeg  (26984): -223: Unknown error 223
+E/ffmpeg  (26984): -224: Unknown error 224
+E/ffmpeg  (26984): -225: Unknown error 225
+E/ffmpeg  (26984): -226: Unknown error 226
+E/ffmpeg  (26984): -227: Unknown error 227
+E/ffmpeg  (26984): -228: Unknown error 228
+E/ffmpeg  (26984): -229: Unknown error 229
+E/ffmpeg  (26984): -230: Unknown error 230
+E/ffmpeg  (26984): -231: Unknown error 231
+E/ffmpeg  (26984): -232: Unknown error 232
+E/ffmpeg  (26984): -233: Unknown error 233
+E/ffmpeg  (26984): -234: Unknown error 234
+E/ffmpeg  (26984): -235: Unknown error 235
+E/ffmpeg  (26984): -236: Unknown error 236
+E/ffmpeg  (26984): -237: Unknown error 237
+E/ffmpeg  (26984): -238: Unknown error 238
+E/ffmpeg  (26984): -239: Unknown error 239
+E/ffmpeg  (26984): -240: Unknown error 240
+E/ffmpeg  (26984): -241: Unknown error 241
+E/ffmpeg  (26984): -242: Unknown error 242
+E/ffmpeg  (26984): -243: Unknown error 243
+E/ffmpeg  (26984): -244: Unknown error 244
+E/ffmpeg  (26984): -245: Unknown error 245
+E/ffmpeg  (26984): -246: Unknown error 246
+E/ffmpeg  (26984): -247: Unknown error 247
+E/ffmpeg  (26984): -248: Unknown error 248
+E/ffmpeg  (26984): -249: Unknown error 249
+E/ffmpeg  (26984): -250: Unknown error 250
+E/ffmpeg  (26984): -251: Unknown error 251
+E/ffmpeg  (26984): -252: Unknown error 252
+E/ffmpeg  (26984): -253: Unknown error 253
+E/ffmpeg  (26984): -254: Unknown error 254
+E/ffmpeg  (26984): -255: Unknown error 255

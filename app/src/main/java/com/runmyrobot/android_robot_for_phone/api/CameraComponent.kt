@@ -1,18 +1,13 @@
 package com.runmyrobot.android_robot_for_phone.api
 
 import android.content.Context
-import android.graphics.ImageFormat
 import android.graphics.Rect
-import android.graphics.YuvImage
 import android.hardware.Camera
 import android.util.Log
 import android.view.SurfaceHolder
-import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler
-import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.google.common.util.concurrent.RateLimiter
-import com.runmyrobot.android_robot_for_phone.RobotApplication
-import com.runmyrobot.android_robot_for_phone.utils.StoreUtil
+import com.runmyrobot.android_robot_for_phone.api.camera.CameraUpdateHandler
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONException
@@ -36,10 +31,10 @@ class CameraComponent
  */
 constructor(context: Context, val cameraId: String, val holder: SurfaceHolder) : Component(context), FFmpegExecuteResponseHandler, android.hardware.Camera.PreviewCallback, SurfaceHolder.Callback {
     internal var ffmpegRunning = AtomicBoolean(false)
-    var ffmpeg : FFmpeg
+    val cameraUpdateHandler = CameraUpdateHandler.create(context, "cameraUpdateHandler")
+
     init {
         holder.addCallback(this)
-        ffmpeg = FFmpeg.getInstance(context)
     }
     var UUID = java.util.UUID.randomUUID().toString()
     var process : Process? = null
@@ -74,73 +69,40 @@ constructor(context: Context, val cameraId: String, val holder: SurfaceHolder) :
         if(host == null || port == null){
             status = ComponentStatus.ERROR
         }
-        else
+        else {
             streaming.set(true)
+            cameraUpdateHandler.enable("$host:$port")
+        }
         return true
     }
 
     private var successCounter: Int = 0
 
-    fun bootFFMPEG(){
-        if(!streaming.get()){
-            ffmpegRunning.set(false)
-            status = ComponentStatus.DISABLED
-            return
-        }
-        successCounter = 0
-        status = ComponentStatus.CONNECTING
-        try {
-            // to execute "ffmpeg -version" command you just need to pass "-version"
-            val xres = "640"
-            val yres = "480"
-
-            val rotationOption = StoreUtil.getOrientation(context).ordinal //leave blank
-            val builder = StringBuilder()
-            for (i in 0..rotationOption){
-                if(i == 0) builder.append("-vf transpose=1")
-                else builder.append(",transpose=1")
-            }
-            print("\"$builder\"")
-            val kbps = "20"
-            val video_host = host
-            val video_port = port
-            val stream_key = RobotApplication.Instance.getCameraPass()
-            //TODO hook up with bitrate and resolution prefs
-            val command = "-f image2pipe -codec:v mjpeg -i - -f mpegts -framerate 30 -codec:v mpeg1video -b:v 10k -bf 0 -muxdelay 0.001 -tune zerolatency -preset ultrafast -pix_fmt yuv420p $builder http://$video_host:$video_port/$stream_key/$xres/$yres/"
-            ffmpeg.execute(UUID, null, command.split(" ").toTypedArray(), this)
-        } catch (e: FFmpegCommandAlreadyRunningException) {
-            e.printStackTrace()
-            // Handle if FFmpeg is already running
-        }
-    }
-
     var width = 0
     var height = 0
-    var limiter = RateLimiter.create(30.0)
+    var limiter = RateLimiter.create(10.0)
 
     private lateinit var r: Rect
 
     override fun onPreviewFrame(b: ByteArray?, camera: android.hardware.Camera?) {
         if(!streaming.get()) return
         if(!limiter.tryAcquire()) return
-        if (width == 0 || height == 0) {
+        b ?: return //return if null
+        if(this.width == 0 || this.height == 0) {
             camera?.parameters?.let {
                 val size = it.previewSize
-                width = size.width
-                height = size.height
-                r = Rect(0, 0, width, height)
+                this.width = size.width
+                this.height = size.height
+                this.r = Rect(0, 0, width, height)
             }
         }
-        if (!ffmpegRunning.getAndSet(true)) {
-            bootFFMPEG()
+        if(cameraUpdateHandler.postYuv(width, height, b)) {
+            successCounter++
+            if(successCounter > 2)
+                status = ComponentStatus.STABLE
         }
-        process?.let {
-            val im = YuvImage(b, ImageFormat.NV21, width, height, null)
-            try {
-                im.compressToJpeg(r, 100, it.outputStream)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+        else{
+            status = ComponentStatus.INTERMITTENT
         }
     }
 
@@ -178,6 +140,7 @@ constructor(context: Context, val cameraId: String, val holder: SurfaceHolder) :
         // Setting this to false will prevent the preview from executing code, which will starve FFmpeg
         // And sever the stream
         streaming.set(false)
+        cameraUpdateHandler.disable()
         return true
     }
 
