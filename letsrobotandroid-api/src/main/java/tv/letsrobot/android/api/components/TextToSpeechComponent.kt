@@ -73,6 +73,8 @@ class TextToSpeechComponent internal constructor(context: Context, private val r
             if (it[0] is JSONObject) {
                 val `object` = it[0] as JSONObject
                 try {
+                    if(`object`.getBoolean("anonymous")) return@on
+                    //{"anonymous":false,"message":"[BeepBoop 2.0] test","_id":"5bbd4ce63097fa699c42c7ac","name":"recondelta090","non_global":true,"robot_id":"58853258","username_color":"#97E062","room":"recondelta090"}
                     val messageRaw = `object`.getString("message")
                     getMessageFromRaw(messageRaw)?.let {
                         //TODO use non-deprecated call? Does not support 4.4 though

@@ -172,4 +172,8 @@ object StoreUtil {
         }
         return CameraDirection.DIR_90
     }
+
+    fun getAutoStart(context: Context): Boolean {
+        return getSharedPrefs(context).getBoolean("autoStart", true)
+    }
 }

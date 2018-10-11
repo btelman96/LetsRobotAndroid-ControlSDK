@@ -135,6 +135,9 @@ class MainRobotActivity : Activity(), Runnable {
         builder.externalComponents = components //pass in arrayList of custom components
         try {
             core = builder.build() //Retrieve the built Core instance
+            if(StoreUtil.getAutoStart(this)){
+                core?.enable() //enable core if we hit the button to enable recording
+            }
         } catch (e: Core.InitializationException) {
             RobotApplication.Instance.reportError(e) // Reports an initialization error to application
             e.printStackTrace()
