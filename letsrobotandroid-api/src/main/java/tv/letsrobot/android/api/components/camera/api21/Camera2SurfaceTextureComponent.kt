@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.ImageFormat
+import android.graphics.Rect
 import android.hardware.camera2.*
 import android.media.Image
 import android.media.ImageReader
+import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
@@ -22,7 +24,7 @@ import tv.letsrobot.android.api.models.CameraSettings
  */
 @RequiresApi(21)
 class Camera2SurfaceTextureComponent(context: Context, settings: CameraSettings) : SurfaceTextureCameraBaseComponent(context, settings), ImageReader.OnImageAvailableListener {
-    val reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 10)
+    val reader = ImageReader.newInstance(1280, 720, ImageFormat.JPEG, 10)
 
     private var mPreviewBuilder: CaptureRequest.Builder? = null
     /**
@@ -108,7 +110,7 @@ class Camera2SurfaceTextureComponent(context: Context, settings: CameraSettings)
                 buffer.get(imageBytes)
                 //push(imageBytes, ImageFormat.JPEG, null)
                 val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                push(bitmap, ImageFormat.JPEG, null)
+                push(bitmap, ImageFormat.JPEG, Rect(0, 0, 720, 1280))
             }
         } finally {
             image?.close()

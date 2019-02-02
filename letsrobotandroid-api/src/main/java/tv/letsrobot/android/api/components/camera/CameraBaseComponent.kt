@@ -90,8 +90,18 @@ abstract class CameraBaseComponent(context: Context, val config: CameraSettings)
                 process?.let { _process ->
                     (it.b as? ByteArray)?.let { _ ->
                         processByteArray(_process, it)
-                    } ?: (it.b as? Bitmap)?.compress(Bitmap.CompressFormat.JPEG,
+                    } ?: (it.b as? Bitmap)?.let {bitmap ->
+                        val bitmapToUse = it.r?.let { rect ->
+                            bitmap
+                            //val matrix = Matrix()
+                            // if vertical
+                            //matrix.preScale(-1.0f, 1.0f)
+                            //val cropMap = Bitmap.createBitmap(bitmap, rect.left, rect.top, 1835, 3120)
+                            //Bitmap.createScaledBitmap(cropMap, rect.width(), rect.height(), false)
+                        } ?: bitmap
+                        bitmapToUse.compress(Bitmap.CompressFormat.JPEG,
                             100, _process.outputStream)
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -174,7 +184,7 @@ abstract class CameraBaseComponent(context: Context, val config: CameraSettings)
         val rotationOption = config.orientation.ordinal //leave blank
         val builder = StringBuilder()
         for (i in 0..rotationOption){
-            if(i == 0) builder.append("-vf transpose=1")
+            if(i == 0) builder.append("-vf transpose=1,vflip,crop=720:540:0:0,scale=768:432")
             else builder.append(",transpose=1")
         }
         val command = "-f image2pipe -codec:v mjpeg -i - -f mpegts -framerate ${config.frameRate} -codec:v mpeg1video -b ${bitrateKb}k -minrate ${bitrateKb}k -maxrate ${bitrateKb}k -bufsize ${bitrateKb/1.5}k -bf 0 -tune zerolatency -preset ultrafast -pix_fmt yuv420p $builder http://$host:$port/${config.pass}/$xres/$yres/"
