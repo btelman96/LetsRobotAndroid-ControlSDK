@@ -14,6 +14,22 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+    <!--Examples of Permissions that other apps can use-->
+    <permission
+        android:name="tv.letsrobot.controller.android.permission.INTERFACE_ROBOT"
+        android:label="Interface with the Robot Controls"
+        android:description="@string/lr_interface_perm"
+        android:protectionLevel="normal" />
+    <!--Example of a permission user would have to accept. App does not have access to API Key right now-->
+    <!--Probably will not be a permission that will stay-->
+    <permission
+        android:icon="@drawable/ic_settings_remote_black_24dp"
+        android:name="tv.letsrobot.controller.android.permission.ACCESS_CREDENTIALS"
+        android:label="Let'sRobot API Token Access"
+        android:description="@string/lr_auth_perm"
+
+        android:protectionLevel="dangerous" />
+
     <application android:usesCleartextTraffic="true">
         <service android:name=".services.LetsRobotService" />
     </application>

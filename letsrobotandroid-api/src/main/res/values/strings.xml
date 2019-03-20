@@ -2,4 +2,7 @@
     <string name="app_name">LetsRobotAndroid</string>
     <string name="channel_name">Service</string>
     <string name="channel_description">Gives a cancelable notification for the service, and status updates</string>
+    <string name="lr_perm_group">Let\'s Robot Permissions</string>
+    <string name="lr_interface_perm">Allow interfacing with robot from external applications</string>
+    <string name="lr_auth_perm">access Let\'s Robot API token</string>
 </resources>
