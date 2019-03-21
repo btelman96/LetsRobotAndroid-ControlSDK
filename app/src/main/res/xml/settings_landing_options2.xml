@@ -1,0 +1,19 @@
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="Settings">
+
+
+    <SwitchPreferenceCompat
+        app:key="notifications"
+        app:title="Enable message notificationsadsasd"/>
+
+    <Preference
+        app:fragment="tv.letsrobot.controller.android.SettingsLanding"
+        app:key="feedback"
+        app:title="Send feedback"
+        app:summary="Report technical issues or suggest new features">
+
+    </Preference>
+
+</androidx.preference.PreferenceScreen>
