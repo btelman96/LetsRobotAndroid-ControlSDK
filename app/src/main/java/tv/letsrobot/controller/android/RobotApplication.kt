@@ -1,14 +1,14 @@
 package tv.letsrobot.controller.android
 
-import android.app.Application
 import android.widget.Toast
+import androidx.multidex.MultiDexApplication
 import com.squareup.leakcanary.LeakCanary
 import tv.letsrobot.android.api.utils.PhoneBatteryMeter
 
 /**
  * Application class
  */
-class RobotApplication : Application() {
+class RobotApplication : MultiDexApplication() {
     var meter : PhoneBatteryMeter? = null
 
     override fun onCreate() {
