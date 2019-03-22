@@ -2,18 +2,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="Settings">
+    <Preference
+        app:icon="@drawable/ic_public_black_24dp"
+        app:key="connection"
+        app:title="Connection"
+        app:summary="RobotId, CameraId, Stream Key">
+    </Preference>
 
+    <Preference
+        app:icon="@drawable/ic_developer_board_black_32dp"
+        app:key="robotSettings"
+        app:title="Robot"
+        app:summary="Motors, Sensors, Telemetry">
+    </Preference>
 
     <SwitchPreferenceCompat
         app:key="notifications"
         app:title="Enable message notifications"/>
 
     <Preference
-        app:fragment="tv.letsrobot.controller.android.SettingsLanding2"
+        app:icon="@drawable/ic_camera_alt_black_24dp"
+        app:key="cameraSettings"
+        app:title="Camera"
+        app:summary="Resolution, Orientation, Bitrate">
+    </Preference>
+
+    <Preference
+        app:icon="@drawable/ic_mic_black_32dp"
+        app:key="microphoneSettings"
+        app:title="Microphone"
+        app:summary="Volume, Bitrate">
+    </Preference>
+
+    <Preference
+        app:icon="@drawable/ic_developer_board_black_32dp"
+        app:key="speakerSettings"
+        app:title="Robot"
+        app:summary="Text to Speech, Volume">
+    </Preference>
+
+    <Preference
+        app:icon="@drawable/ic_phone_android_black_24dp"
+        app:key="displaySettings"
+        app:title="Display"
+        app:summary="Timeout, Chat, Doze">
+    </Preference>
+
+    <Preference
+        app:key="openSource"
+        app:title="Open Source Licenses">
+    </Preference>
+
+    <Preference
         app:key="feedback"
         app:title="Send feedback"
         app:summary="Report technical issues or suggest new features">
-
     </Preference>
 
 </androidx.preference.PreferenceScreen>

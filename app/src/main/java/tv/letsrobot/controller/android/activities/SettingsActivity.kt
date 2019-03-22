@@ -2,30 +2,19 @@ package tv.letsrobot.controller.android.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import kotlinx.android.synthetic.main.activity_settings.*
 import tv.letsrobot.controller.android.R
 
-class SettingsActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceStartFragmentCallback{
+class SettingsActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        NavigationUI.setupActionBarWithNavController(this, NavHostFragment.findNavController(nav_host_fragment))
     }
 
-    override fun onPreferenceStartFragment(caller: PreferenceFragmentCompat, pref: Preference): Boolean {
-        // Instantiate the new Fragment
-        val args = pref.extras
-        val fragment = supportFragmentManager.fragmentFactory.instantiate(
-                classLoader,
-                pref.fragment,
-                args)
-        fragment.arguments = args
-        fragment.setTargetFragment(caller, 0)
-        // Replace the existing Fragment with the new Fragment
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.settingsContainer, fragment)
-                .addToBackStack(null)
-                .commit()
-        return true
-    }
+    override fun onSupportNavigateUp()
+            = NavHostFragment.findNavController(nav_host_fragment).navigateUp()
 }

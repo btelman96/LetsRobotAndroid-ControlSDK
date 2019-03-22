@@ -123,7 +123,7 @@ class MainRobotActivity : FragmentActivity(), Runnable{
     private fun launchSetupActivity() {
         letsRobotViewModel?.api?.disable()
         finish() //Stop activity
-        startActivity(Intent(this, ManualSetupActivity::class.java))
+        startActivity(Intent(this, SettingsActivity::class.java))
     }
 
     private fun toggleServiceConnection() {

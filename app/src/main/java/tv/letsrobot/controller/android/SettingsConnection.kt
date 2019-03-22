@@ -5,9 +5,9 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
 
-class SettingsLanding2 : PreferenceFragmentCompat() {
+class SettingsConnection : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.settings_landing_options, rootKey)
+        setPreferencesFromResource(R.xml.settings_connection, rootKey)
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
