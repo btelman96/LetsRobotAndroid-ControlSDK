@@ -1,0 +1,30 @@
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="Settings">
+    <tv.letsrobot.controller.android.ui.DividedSwitchPreference
+        app:key="robotSettingsEnable"
+        app:summary="Testing123"
+        app:icon="@drawable/ic_public_black_24dp"
+        app:title="Enable Robot Settings"/>
+
+    <EditTextPreference
+        app:key="RobotId"
+        app:title="Robot ID"
+        app:useSimpleSummaryProvider="true"
+        app:isPreferenceVisible="true"/>
+
+    <EditTextPreference
+        app:key="CameraId"
+        app:title="Camera ID"
+        app:useSimpleSummaryProvider="true"
+        app:isPreferenceVisible="true"/>
+
+    <EditTextPreference
+        app:key="CameraPass"
+        app:defaultValue="hello"
+        app:title="Stream Key"
+        app:useSimpleSummaryProvider="true"
+        app:isPreferenceVisible="true"/>
+
+</androidx.preference.PreferenceScreen>

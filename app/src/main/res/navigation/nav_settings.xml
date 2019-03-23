@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_settingsLanding_to_settingsConnection"
             app:destination="@id/settingsConnection" />
+        <action
+            android:id="@+id/action_settingsLanding_to_settingsRobot"
+            app:destination="@id/settingsRobot" />
     </fragment>
     <action
         android:id="@+id/action_nav_settings_pop"
@@ -22,4 +25,9 @@
         android:id="@+id/settingsConnection"
         android:name="tv.letsrobot.controller.android.SettingsConnection"
         android:label="Connection" />
+    <fragment
+        android:id="@+id/settingsRobot"
+        android:name="tv.letsrobot.controller.android.SettingsRobot"
+        android:label="Robot Settings"
+        tools:layout="@layout/fragment_settings_robot" />
 </navigation>

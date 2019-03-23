@@ -4,7 +4,7 @@
     android:title="Settings">
     <Preference
         app:icon="@drawable/ic_public_black_24dp"
-        app:key="connection"
+        app:key="connectionSettings"
         app:title="Connection"
         app:summary="RobotId, CameraId, Stream Key">
     </Preference>
@@ -15,10 +15,6 @@
         app:title="Robot"
         app:summary="Motors, Sensors, Telemetry">
     </Preference>
-
-    <SwitchPreferenceCompat
-        app:key="notifications"
-        app:title="Enable message notifications"/>
 
     <Preference
         app:icon="@drawable/ic_camera_alt_black_24dp"

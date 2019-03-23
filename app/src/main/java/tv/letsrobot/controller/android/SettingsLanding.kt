@@ -14,8 +14,11 @@ class SettingsLanding : PreferenceFragmentCompat() {
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         Snackbar.make(view!!, preference?.key.toString(), Snackbar.LENGTH_LONG).show()
         when(preference?.key){
-            "connection"->{
+            "connectionSettings"->{
                 Navigation.findNavController(view!!).navigate(R.id.action_settingsLanding_to_settingsConnection)
+            }
+            "robotSettings"->{
+                Navigation.findNavController(view!!).navigate(R.id.action_settingsLanding_to_settingsRobot)
             }
         }
         return super.onPreferenceTreeClick(preference)
