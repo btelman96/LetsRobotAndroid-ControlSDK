@@ -8,23 +8,4 @@
         app:icon="@drawable/ic_public_black_24dp"
         app:title="Enable Robot Settings"/>
 
-    <EditTextPreference
-        app:key="RobotId"
-        app:title="Robot ID"
-        app:useSimpleSummaryProvider="true"
-        app:isPreferenceVisible="true"/>
-
-    <EditTextPreference
-        app:key="CameraId"
-        app:title="Camera ID"
-        app:useSimpleSummaryProvider="true"
-        app:isPreferenceVisible="true"/>
-
-    <EditTextPreference
-        app:key="CameraPass"
-        app:defaultValue="hello"
-        app:title="Stream Key"
-        app:useSimpleSummaryProvider="true"
-        app:isPreferenceVisible="true"/>
-
 </androidx.preference.PreferenceScreen>

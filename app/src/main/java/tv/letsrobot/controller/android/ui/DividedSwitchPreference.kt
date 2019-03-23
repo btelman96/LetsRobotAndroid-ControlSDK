@@ -25,7 +25,10 @@ class DividedSwitchPreference : SwitchPreference {
 
 
     override fun onBindViewHolder(holder: PreferenceViewHolder?) {
-        val switchView = holder?.findViewById(android.R.id.switch_widget)
+        val switchView = holder?.findViewById(R.id.switch2)
+        holder?.findViewById(R.id.container)?.setOnClickListener {
+            notifyChanged()
+        }
         syncSwitchView(switchView!!)
         syncSummaryView(holder)
     }

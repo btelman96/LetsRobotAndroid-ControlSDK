@@ -9,6 +9,12 @@
         app:summary="RobotId, CameraId, Stream Key">
     </Preference>
 
+    <tv.letsrobot.controller.android.ui.DividedSwitchPreference
+        app:key="robotSettingsEnable"
+        app:summary="Motors, Sensors, Telemetry"
+        app:icon="@drawable/ic_developer_board_black_32dp"
+        app:title="Robot"/>
+
     <Preference
         app:icon="@drawable/ic_developer_board_black_32dp"
         app:key="robotSettings"

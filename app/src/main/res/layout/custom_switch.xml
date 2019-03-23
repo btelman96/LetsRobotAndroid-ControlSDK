@@ -1,27 +1,41 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/widget_frame"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_gravity="start|center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:id="@+id/container"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:weightSum="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="80dp"
+        tools:layout_conversion_absoluteWidth="165dp">
+
         <ImageView
             android:id="@android:id/icon"
-            android:layout_margin="24dp"
-            android:src="@drawable/ic_camera_alt_black_24dp"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:layout_height="wrap_content" />
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_camera_alt_black_24dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:orientation="vertical">
 
             <TextView
@@ -40,24 +54,35 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_gravity="end|center_vertical"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:orientation="horizontal">
-        <View
-            android:layout_margin="24dp"
-            android:background="#999999"
-            android:layout_width="2dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"/>
 
-        <Switch
-            android:id="@android:id/switch_widget"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-</FrameLayout>
+    <View
+        android:layout_width="2dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#999999"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/switch2"
+        app:layout_constraintStart_toEndOf="@+id/container"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.509"
+        tools:layout_conversion_absoluteHeight="27dp"
+        tools:layout_conversion_absoluteWidth="39dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
