@@ -1,23 +1,21 @@
-package tv.letsrobot.controller.android
+package tv.letsrobot.controller.android.activities.settings
 
-import android.os.Bundle
 import androidx.navigation.Navigation
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import com.google.android.material.snackbar.Snackbar
+import tv.letsrobot.controller.android.R
 
-class SettingsLanding : PreferenceFragmentCompat() {
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.settings_landing_options, rootKey)
+
+class SettingsLanding : BasePreferenceFragmentCompat() {
+    override fun getDesiredPreferencesFromResources(): Int {
+        return R.xml.settings_landing_options
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        Snackbar.make(view!!, preference?.key.toString(), Snackbar.LENGTH_LONG).show()
         when(preference?.key){
             "connectionSettings"->{
                 Navigation.findNavController(view!!).navigate(R.id.action_settingsLanding_to_settingsConnection)
             }
-            "robotSettings"->{
+            "robotSettingsEnable"->{
                 Navigation.findNavController(view!!).navigate(R.id.action_settingsLanding_to_settingsRobot)
             }
         }

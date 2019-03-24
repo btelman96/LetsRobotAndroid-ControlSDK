@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/settingsLanding"
-        android:name="tv.letsrobot.controller.android.SettingsLanding"
+        android:name="tv.letsrobot.controller.android.activities.settings.SettingsLanding"
         android:label="Settings"
         tools:layout="@layout/fragment_settings_landing" >
         <action
@@ -23,11 +23,11 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/settingsConnection"
-        android:name="tv.letsrobot.controller.android.SettingsConnection"
+        android:name="tv.letsrobot.controller.android.activities.settings.SettingsConnection"
         android:label="Connection" />
     <fragment
         android:id="@+id/settingsRobot"
-        android:name="tv.letsrobot.controller.android.SettingsRobot"
+        android:name="tv.letsrobot.controller.android.activities.settings.SettingsRobot"
         android:label="Robot Settings"
         tools:layout="@layout/fragment_settings_robot" />
 </navigation>

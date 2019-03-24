@@ -15,10 +15,16 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="robot_settings_master_switch_title">Use Robot Controls</string>
     <string name="power">Power</string>
     <string name="settings">Settings</string>
     <string name="title_activity_qr">QRActivity</string>
     <string name="qr_code">QR Code</string>
+
+
+    <!-- Switch On/Off  -->
+    <string name="switch_on_text">On</string>
+    <string name="switch_off_text">Off</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
