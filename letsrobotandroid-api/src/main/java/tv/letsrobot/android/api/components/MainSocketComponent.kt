@@ -32,6 +32,7 @@ class MainSocketComponent(context: Context) : Component(context) {
     override fun enableInternal() {
         setOwner()
         setupAppWebSocket()
+        setupUserWebSocket()
         handler.sendEmptyMessage(DO_SOME_WORK)
     }
 
@@ -54,7 +55,6 @@ class MainSocketComponent(context: Context) : Component(context) {
     }
 
     private fun setupAppWebSocket() {
-        userAppSocket = IO.socket("https://letsrobot.tv:8000")
         appServerSocket = IO.socket("http://letsrobot.tv:8022")
         appServerSocket?.on(Socket.EVENT_CONNECT_ERROR){
             status = ComponentStatus.ERROR
@@ -63,6 +63,12 @@ class MainSocketComponent(context: Context) : Component(context) {
             status = ComponentStatus.STABLE
             appServerSocket?.emit("identify_robot_id", robotId)
         }
+        appServerSocket?.connect()
+
+    }
+
+    private fun setupUserWebSocket(){
+        userAppSocket = IO.socket("https://letsrobot.tv:8000")
         appServerSocket?.on(Socket.EVENT_DISCONNECT){
             status = ComponentStatus.DISABLED
         }
@@ -77,12 +83,11 @@ class MainSocketComponent(context: Context) : Component(context) {
             say("user timed out")
             onUserRemoved(it)
         }
-        appServerSocket?.connect()
         userAppSocket?.connect()
     }
 
     fun say(text : String){
-        eventDispatcher?.handleMessage(getType(), EVENT_MAIN, TTSBaseComponent.TTSObject(text
+        eventDispatcher?.handleMessage(ComponentType.TTS, EVENT_MAIN, TTSBaseComponent.TTSObject(text
                 , TTSBaseComponent.COMMAND_PITCH, shouldFlush = true), this)
     }
 
