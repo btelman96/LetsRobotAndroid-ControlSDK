@@ -4,21 +4,41 @@
 
     <SwitchPreferenceCompat
         app:key="ttsEnabled"
-        app:title="Text To Speech"/>
+        app:title="Chat TTS"
+        app:summary="Receive chat from Let's Robot"/>
+
+    <SwitchPreferenceCompat
+        app:key="anonTTSEnabled"
+        app:title="Anonymous TTS"
+        app:summary="Anonymous users are able to use TTS"/>
 
     <SwitchPreferenceCompat
         app:key="banVoiceEnabled"
-        app:title="Timeout/Ban TTS"/>
+        app:title="Timeout/Ban TTS"
+        app:summary="'User timed out' or 'User banned'"/>
 
     <SwitchPreferenceCompat
-        app:key="batteryCommand"
+        app:key="ttsInternalEnabled"
+        app:title="Internal TTS Messages"
+        app:summary="Internal app events, such as connectivity"/>
+
+    <SwitchPreferenceCompat
+        app:key="batteryCommandEnabled"
         app:title="Battery Command TTS"
         app:summary=".battery level"/>
 
-    <androidx.preference.SeekBarPreference
-        app:key="audioVolume"
-        app:title="Volume"
-        app:defaultValue="100"
-        />
+    <Preference
+        app:key="volumeSettingsPage"
+        app:title="Sound Settings"
+        app:summary="System Sound Settings">
+        <intent android:action="android.settings.SOUND_SETTINGS"/>
+    </Preference>
+
+    <Preference
+        app:key="ttsSettingsPage"
+        app:title="TTS Settings"
+        app:summary="System Text To Speech Settings">
+        <intent android:action="com.android.settings.TTS_SETTINGS"/>
+    </Preference>
 
 </androidx.preference.PreferenceScreen>
