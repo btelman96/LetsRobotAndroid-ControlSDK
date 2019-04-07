@@ -13,8 +13,11 @@ class SettingsRobot : BasePreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as SettingsActivity).getSwitchBar().setSwitchBarText(
-                R.string.robot_settings_master_switch_title,
-                R.string.robot_settings_master_switch_title)
+        val switchBar = (activity as SettingsActivity).getSwitchBar()
+        switchBar.setSwitchBarText(
+                R.string.switch_on_text,
+                R.string.switch_off_text)
+        switchBar.show()
+        switchBar.setPrefsKey("robotSettingsEnable")
     }
 }

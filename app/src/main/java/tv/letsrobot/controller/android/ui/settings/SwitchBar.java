@@ -34,6 +34,8 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,7 +156,6 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
     }
 
     public void setSwitchBarText(int onText, int offText) {
-        setVisibility(View.VISIBLE);
         mOnTextId = onText;
         mOffTextId = offText;
         setTextViewLabelAndBackground(isChecked());
@@ -246,6 +247,10 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
         for (int n = 0; n < count; n++) {
             mSwitchChangeListeners.get(n).onSwitchChanged(mSwitch, isChecked);
         }
+    }
+
+    public void setPrefsKey(@NotNull String key) {
+
     }
 
     @Override
