@@ -1,12 +1,25 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="Camera">
-<androidx.preference.DropDownPreference
-    app:icon="@drawable/ic_developer_board_black_32dp"
-    app:key="cameraResolution"
-    app:title="Resolution"
-    app:useSimpleSummaryProvider="true"
-    app:entries="@array/resolution_pref_list"
-    app:entryValues="@array/resolution_pref_list"/>
+    <androidx.preference.DropDownPreference
+        app:key="cameraResolution"
+        app:title="Resolution"
+        app:useSimpleSummaryProvider="true"
+        app:entries="@array/resolution_pref_list"
+        app:entryValues="@array/resolution_pref_list"/>
+
+    <androidx.preference.DropDownPreference
+        app:key="cameraOrientation"
+        app:title="Orientation"
+        app:useSimpleSummaryProvider="true"
+        app:entries="@array/orientation_pref_list"
+        app:entryValues="@array/orientation_pref_list_values"/>
+
+    <androidx.preference.DropDownPreference
+        app:key="cameraBitrate"
+        app:title="Bitrate"
+        app:useSimpleSummaryProvider="true"
+        app:entries="@array/bitrate_video_list"
+        app:entryValues="@array/bitrate_video_list_values"/>
 
 </androidx.preference.PreferenceScreen>

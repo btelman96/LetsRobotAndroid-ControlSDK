@@ -1,0 +1,24 @@
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="Audio">
+
+    <SwitchPreferenceCompat
+        app:key="ttsEnabled"
+        app:title="Text To Speech"/>
+
+    <SwitchPreferenceCompat
+        app:key="banVoiceEnabled"
+        app:title="Timeout/Ban TTS"/>
+
+    <SwitchPreferenceCompat
+        app:key="batteryCommand"
+        app:title="Battery Command TTS"
+        app:summary=".battery level"/>
+
+    <androidx.preference.SeekBarPreference
+        app:key="audioVolume"
+        app:title="Volume"
+        app:defaultValue="100"
+        />
+
+</androidx.preference.PreferenceScreen>

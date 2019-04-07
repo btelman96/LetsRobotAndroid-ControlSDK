@@ -22,6 +22,12 @@ class SettingsLanding : BasePreferenceFragmentCompat() {
             "cameraSettingsEnable"->{
                 navigate(R.id.action_settingsLanding_to_settingsCamera)
             }
+            "microphoneSettingsEnable"->{
+                navigate(R.id.action_settingsLanding_to_settingsMicrophone)
+            }
+            "speakerSettingsEnable"->{
+                navigate(R.id.action_settingsLanding_to_settingsAudio)
+            }
         }
         return super.onPreferenceTreeClick(preference)
     }

@@ -19,6 +19,12 @@
         <action
             android:id="@+id/action_settingsLanding_to_settingsCamera"
             app:destination="@id/settingsCamera" />
+        <action
+            android:id="@+id/action_settingsLanding_to_settingsMicrophone"
+            app:destination="@id/settingsMicrophone" />
+        <action
+            android:id="@+id/action_settingsLanding_to_settingsAudio"
+            app:destination="@id/settingsAudio" />
     </fragment>
     <action
         android:id="@+id/action_nav_settings_pop"
@@ -27,7 +33,7 @@
     <fragment
         android:id="@+id/settingsConnection"
         android:name="tv.letsrobot.controller.android.activities.settings.SettingsConnection"
-        android:label="Connection" />
+        android:label="Connection Settings" />
     <fragment
         android:id="@+id/settingsRobot"
         android:name="tv.letsrobot.controller.android.activities.settings.SettingsRobot"
@@ -36,5 +42,13 @@
     <fragment
         android:id="@+id/settingsCamera"
         android:name="tv.letsrobot.controller.android.activities.settings.SettingsCamera"
-        android:label="SettingsCamera" />
+        android:label="Camera Settings" />
+    <fragment
+        android:id="@+id/settingsMicrophone"
+        android:name="tv.letsrobot.controller.android.activities.settings.SettingsMicrophone"
+        android:label="Microphone Settings" />
+    <fragment
+        android:id="@+id/settingsAudio"
+        android:name="tv.letsrobot.controller.android.activities.settings.SettingsAudio"
+        android:label="Audio Settings" />
 </navigation>
