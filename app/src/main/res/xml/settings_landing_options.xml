@@ -4,54 +4,54 @@
     android:title="Settings">
     <Preference
         app:icon="@drawable/ic_public_black_24dp"
-        app:key="connectionSettings"
-        app:title="Connection"
-        app:summary="RobotId, CameraId, Stream Key">
+        app:key="@string/connectionSettingsKey"
+        app:title="@string/connectionSettingsTitle"
+        app:summary="@string/connectionSettingsSummary">
     </Preference>
 
     <tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference
-        app:key="robotSettingsEnable"
-        app:summary="Motors, Sensors, Telemetry"
         app:icon="@drawable/ic_developer_board_black_32dp"
-        app:title="Robot"/>
+        app:key="@string/robotSettingsEnableKey"
+        app:title="@string/robotSettingsTitle"
+        app:summary="@string/robotSettingsSummary"/>
 
     <tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference
         app:icon="@drawable/ic_camera_alt_black_24dp"
-        app:key="cameraSettingsEnable"
-        app:title="Camera"
-        app:summary="Resolution, Orientation, Bitrate">
+        app:key="@string/cameraSettingsEnableKey"
+        app:title="@string/cameraSettingsTitle"
+        app:summary="@string/cameraSettingsSummary">
     </tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference>
 
     <tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference
         app:icon="@drawable/ic_mic_black_32dp"
-        app:key="microphoneSettingsEnable"
-        app:title="Microphone"
-        app:summary="Volume, Bitrate">
+        app:key="@string/microphoneSettingsEnableKey"
+        app:title="@string/microphoneSettingsTitle"
+        app:summary="@string/microphoneSettingsSummary">
     </tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference>
 
     <tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference
         app:icon="@drawable/ic_developer_board_black_32dp"
-        app:key="speakerSettingsEnable"
-        app:title="Audio"
-        app:summary="Text to Speech, Volume">
+        app:key="@string/audioSettingsEnableKey"
+        app:title="@string/audioSettingsTitle"
+        app:summary="@string/audioSettingsSummary">
     </tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference>
 
     <Preference
         app:icon="@drawable/ic_phone_android_black_24dp"
-        app:key="displaySettings"
-        app:title="Display"
-        app:summary="Timeout, Chat, Doze">
+        app:key="@string/displaySettingsKey"
+        app:title="@string/displaySettingsTitle"
+        app:summary="@string/displaySettingsSummary">
     </Preference>
 
     <Preference
-        app:key="openSource"
-        app:title="Open Source Licenses">
+        app:key="@string/openSourceSettingsKey"
+        app:title="@string/openSourceSettingsTitle">
     </Preference>
 
     <Preference
-        app:key="feedback"
-        app:title="Send feedback"
-        app:summary="Report technical issues or suggest new features">
+        app:key="@string/feedbackSettingsKey"
+        app:title="@string/feedbackSettingsTitle"
+        app:summary="@string/feedbackSettingsSummary">
     </Preference>
 
 </androidx.preference.PreferenceScreen>

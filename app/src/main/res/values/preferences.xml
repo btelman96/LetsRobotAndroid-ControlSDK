@@ -1,4 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Settings Landing Page-->
+
+    <!--Connection-->
+    <string name="connectionSettingsKey">connectionSettings</string>
+    <string name="connectionSettingsTitle">Connection</string>
+    <string name="connectionSettingsSummary">RobotId, CameraId, Stream Key</string>
+
+    <!--Robot-->
+    <string name="robotSettingsEnableKey">robotSettingsEnable</string>
+    <string name="robotSettingsTitle">Robot</string>
+    <string name="robotSettingsSummary">Motors, Sensors, Telemetry</string>
+
+    <!--Camera-->
+    <string name="cameraSettingsEnableKey">cameraSettingsEnable</string>
+    <string name="cameraSettingsTitle">Camera</string>
+    <string name="cameraSettingsSummary">Resolution, Orientation, Bitrate</string>
+
+    <!--Microphone-->
+    <string name="microphoneSettingsEnableKey">microphoneSettingsEnable</string>
+    <string name="microphoneSettingsTitle">Microphone</string>
+    <string name="microphoneSettingsSummary">Volume, Bitrate</string>
+
+    <!--Audio/Speaker-->
+    <string name="audioSettingsEnableKey">audioSettingsEnable</string>
+    <string name="audioSettingsTitle">Audio</string>
+    <string name="audioSettingsSummary">Text to Speech, Volume</string>
+
+    <!--Display-->
+    <string name="displaySettingsKey">displaySettings</string>
+    <string name="displaySettingsTitle">Display</string>
+    <string name="displaySettingsSummary">Timeout, Chat, Doze</string>
+
+    <!--Open Source-->
+    <string name="openSourceSettingsKey">openSource</string>
+    <string name="openSourceSettingsTitle">Open Source Licenses</string>
+
+    <!--Feedback-->
+    <string name="feedbackSettingsKey">feedback</string>
+    <string name="feedbackSettingsTitle">Send feedback</string>
+    <string name="feedbackSettingsSummary">Report technical issues or suggest new features</string>
+
+
 
 </resources>
