@@ -28,6 +28,9 @@ class SettingsLanding : BasePreferenceFragmentCompat() {
             "speakerSettingsEnable"->{
                 navigate(R.id.action_settingsLanding_to_settingsAudio)
             }
+            "displaySettings"->{
+                navigate(R.id.action_settingsLanding_to_settingsDisplay)
+            }
         }
         return super.onPreferenceTreeClick(preference)
     }

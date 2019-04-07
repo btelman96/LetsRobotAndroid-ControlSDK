@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_settingsLanding_to_settingsAudio"
             app:destination="@id/settingsAudio" />
+        <action
+            android:id="@+id/action_settingsLanding_to_settingsDisplay"
+            app:destination="@id/settingsDisplay" />
     </fragment>
     <action
         android:id="@+id/action_nav_settings_pop"
@@ -51,4 +54,8 @@
         android:id="@+id/settingsAudio"
         android:name="tv.letsrobot.controller.android.activities.settings.SettingsAudio"
         android:label="Audio Settings" />
+    <fragment
+        android:id="@+id/settingsDisplay"
+        android:name="tv.letsrobot.controller.android.activities.settings.SettingsDisplay"
+        android:label="Display Settings" />
 </navigation>

@@ -1,0 +1,33 @@
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="Display">
+
+    <SwitchPreferenceCompat
+        app:key="displayTimeoutEnabled"
+        app:title="Display Timeout"
+        app:summary="Allow the screen to turn off"/>
+
+    <SwitchPreferenceCompat
+        app:key="displayChatEnabled"
+        app:title="Chat Display"
+        app:summary="Allow chat to display on screen"/>
+    <SwitchPreferenceCompat
+        app:key="autoHideControlsEnabled"
+        app:title="Auto Hide Controls"
+        app:summary="Controls will disappear after 10 seconds"/>
+
+    <Preference
+        app:key="displaySettingsPage"
+        app:title="System Display Settings"
+        app:summary="Brightness, Sleep Time, Color Mode">
+        <intent android:action="android.settings.DISPLAY_SETTINGS"/>
+    </Preference>
+
+    <Preference
+        app:key="dozeSettingsPage"
+        app:title="App Power Settings"
+        app:summary="Control power saving mode for this app. Only needed if the screen is turned off">
+        <intent android:action="android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS"/>
+    </Preference>
+
+</androidx.preference.PreferenceScreen>
