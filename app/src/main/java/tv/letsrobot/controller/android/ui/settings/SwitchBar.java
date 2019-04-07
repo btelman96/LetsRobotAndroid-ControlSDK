@@ -43,6 +43,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
+import androidx.preference.PreferenceManager;
 import tv.letsrobot.controller.android.R;
 
 public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedChangeListener {
@@ -66,6 +67,7 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
     private final List<OnSwitchChangeListener> mSwitchChangeListeners = new ArrayList<>();
     private TextAppearanceSpan mSummarySpan;
 
+    private String prefsKey;
     private ToggleSwitch mSwitch;
     private TextView mTextView;
     private String mLabel;
@@ -250,13 +252,22 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
     }
 
     public void setPrefsKey(@NotNull String key) {
-
+        prefsKey = key;
+        setChecked(PreferenceManager.getDefaultSharedPreferences(
+                getContext()).getBoolean(prefsKey, false));
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         mLoggingIntialized = true;
+        maybeChangePrefs(isChecked);
         propagateChecked(isChecked);
+    }
+
+    private void maybeChangePrefs(boolean isChecked) {
+        if(prefsKey == null) return;
+        PreferenceManager.getDefaultSharedPreferences(getContext()).edit()
+                .putBoolean(prefsKey, isChecked).apply();
     }
 
     public void addOnSwitchChangeListener(OnSwitchChangeListener listener) {

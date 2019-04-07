@@ -61,6 +61,7 @@ public class MasterSwitchPreference extends TwoTargetPreference {
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
         final View widgetView = holder.findViewById(android.R.id.widget_frame);
+        setChecked(getPersistedBoolean(false));
         if (widgetView != null) {
             widgetView.setOnClickListener(new OnClickListener() {
                 @Override

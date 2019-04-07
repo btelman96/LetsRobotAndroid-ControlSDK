@@ -17,7 +17,7 @@ class SettingsRobot : BasePreferenceFragmentCompat() {
         switchBar.setSwitchBarText(
                 R.string.switch_on_text,
                 R.string.switch_off_text)
-        switchBar.show()
         switchBar.setPrefsKey("robotSettingsEnable")
+        switchBar.show()
     }
 }
