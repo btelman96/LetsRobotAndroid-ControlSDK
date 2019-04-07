@@ -1,11 +1,4 @@
-<androidx.preference.PreferenceScreen
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="Settings">
-    <tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference
-        app:key="robotSettingsEnable"
-        app:summary="Testing123"
-        app:icon="@drawable/ic_public_black_24dp"
-        app:title="Enable Robot Settings"/>
 
 </androidx.preference.PreferenceScreen>

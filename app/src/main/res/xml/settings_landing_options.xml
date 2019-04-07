@@ -15,30 +15,30 @@
         app:icon="@drawable/ic_developer_board_black_32dp"
         app:title="Robot"/>
 
-    <Preference
+    <tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference
         app:icon="@drawable/ic_camera_alt_black_24dp"
-        app:key="cameraSettings"
+        app:key="cameraSettingsEnable"
         app:title="Camera"
         app:summary="Resolution, Orientation, Bitrate">
-    </Preference>
+    </tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference>
 
-    <Preference
+    <tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference
         app:icon="@drawable/ic_mic_black_32dp"
-        app:key="microphoneSettings"
+        app:key="microphoneSettingsEnable"
         app:title="Microphone"
         app:summary="Volume, Bitrate">
-    </Preference>
+    </tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference>
 
-    <Preference
+    <tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference
         app:icon="@drawable/ic_developer_board_black_32dp"
-        app:key="speakerSettings"
-        app:title="Robot"
+        app:key="speakerSettingsEnable"
+        app:title="Audio"
         app:summary="Text to Speech, Volume">
-    </Preference>
+    </tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference>
 
     <Preference
         app:icon="@drawable/ic_phone_android_black_24dp"
-        app:key="displaySettings"
+        app:key="displaySettingsEnable"
         app:title="Display"
         app:summary="Timeout, Chat, Doze">
     </Preference>

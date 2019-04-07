@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.google.android.material.snackbar.Snackbar
 import tv.letsrobot.controller.android.activities.SettingsActivity
 
 /**
@@ -18,7 +17,6 @@ abstract class BasePreferenceFragmentCompat: PreferenceFragmentCompat() {
     }
 
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        Snackbar.make(view!!, preference?.key.toString(), Snackbar.LENGTH_LONG).show()
         return super.onPreferenceTreeClick(preference)
     }
 

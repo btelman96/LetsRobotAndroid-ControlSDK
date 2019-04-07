@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_settingsLanding_to_settingsRobot"
             app:destination="@id/settingsRobot" />
+        <action
+            android:id="@+id/action_settingsLanding_to_settingsCamera"
+            app:destination="@id/settingsCamera" />
     </fragment>
     <action
         android:id="@+id/action_nav_settings_pop"
@@ -30,4 +33,8 @@
         android:name="tv.letsrobot.controller.android.activities.settings.SettingsRobot"
         android:label="Robot Settings"
         tools:layout="@layout/fragment_settings_robot" />
+    <fragment
+        android:id="@+id/settingsCamera"
+        android:name="tv.letsrobot.controller.android.activities.settings.SettingsCamera"
+        android:label="SettingsCamera" />
 </navigation>
