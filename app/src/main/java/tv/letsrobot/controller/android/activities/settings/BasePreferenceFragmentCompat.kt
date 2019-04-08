@@ -2,26 +2,49 @@ package tv.letsrobot.controller.android.activities.settings
 
 import android.os.Bundle
 import android.view.View
-import androidx.preference.Preference
+import androidx.annotation.StringRes
+import androidx.annotation.XmlRes
 import androidx.preference.PreferenceFragmentCompat
+import tv.letsrobot.controller.android.R
 import tv.letsrobot.controller.android.activities.SettingsActivity
 
 /**
- * Created by Brendon on 3/23/2019.
+ * Fragment that will handle preferences logic.
+ * Giving it a second parameter will make it automatically handle a master switch
  */
-abstract class BasePreferenceFragmentCompat: PreferenceFragmentCompat() {
-    abstract fun getDesiredPreferencesFromResources() : Int
+abstract class BasePreferenceFragmentCompat(
+        @XmlRes val preferencesXmlId : Int,
+        @StringRes val switchBarKeyStringId : Int = -1
+) : PreferenceFragmentCompat() {
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(getDesiredPreferencesFromResources(), rootKey)
+    open fun getSwitchBarOnText() : Int{
+        return R.string.switch_on_text
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        return super.onPreferenceTreeClick(preference)
+    open fun getSwitchBarOffText() : Int{
+        return R.string.switch_off_text
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(preferencesXmlId, rootKey)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as SettingsActivity).getSwitchBar().hide()
+        evalSwitchBar()
+    }
+
+    private fun evalSwitchBar(){
+        val switchBar = (activity as SettingsActivity).getSwitchBar()
+        if(switchBarKeyStringId == -1){
+            switchBar.hide()
+            return
+        }
+
+        switchBar.setSwitchBarText(
+                getSwitchBarOnText(),
+                getSwitchBarOffText())
+        switchBar.setPrefsKey(getString(switchBarKeyStringId))
+        switchBar.show()
     }
 }

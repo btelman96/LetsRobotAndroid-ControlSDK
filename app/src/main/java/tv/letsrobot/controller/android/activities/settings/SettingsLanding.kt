@@ -8,10 +8,9 @@ import androidx.preference.Preference
 import tv.letsrobot.controller.android.R
 
 
-class SettingsLanding : BasePreferenceFragmentCompat() {
-    override fun getDesiredPreferencesFromResources(): Int {
-        return R.xml.settings_landing_options
-    }
+class SettingsLanding : BasePreferenceFragmentCompat(
+        R.xml.settings_landing_options
+) {
 
     /**
      * Settings navigation links are placed here. This requires that the key is a StringId
