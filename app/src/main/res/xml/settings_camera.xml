@@ -1,21 +1,21 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/cameraSettingsTitle">
-    <androidx.preference.DropDownPreference
+    <androidx.preference.ListPreference
         app:key="cameraResolution"
         app:title="Resolution"
         app:useSimpleSummaryProvider="true"
         app:entries="@array/resolution_pref_list"
         app:entryValues="@array/resolution_pref_list"/>
 
-    <androidx.preference.DropDownPreference
+    <androidx.preference.ListPreference
         app:key="cameraOrientation"
         app:title="Orientation"
         app:useSimpleSummaryProvider="true"
         app:entries="@array/orientation_pref_list"
         app:entryValues="@array/orientation_pref_list_values"/>
 
-    <androidx.preference.DropDownPreference
+    <androidx.preference.ListPreference
         app:key="cameraBitrate"
         app:title="Bitrate"
         app:useSimpleSummaryProvider="true"
