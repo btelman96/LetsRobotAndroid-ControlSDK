@@ -7,6 +7,7 @@ import androidx.annotation.XmlRes
 import androidx.preference.PreferenceFragmentCompat
 import tv.letsrobot.controller.android.R
 import tv.letsrobot.controller.android.activities.SettingsActivity
+import tv.letsrobot.controller.android.ui.settings.SwitchBar
 
 /**
  * Fragment that will handle preferences logic.
@@ -29,22 +30,35 @@ abstract class BasePreferenceFragmentCompat(
         setPreferencesFromResource(preferencesXmlId, rootKey)
     }
 
+    private lateinit var switchBar: SwitchBar
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        switchBar = (activity as SettingsActivity).getSwitchBar()
         evalSwitchBar()
     }
 
     private fun evalSwitchBar(){
-        val switchBar = (activity as SettingsActivity).getSwitchBar()
         if(switchBarKeyStringId == -1){
             switchBar.hide()
             return
         }
-
         switchBar.setSwitchBarText(
                 getSwitchBarOnText(),
                 getSwitchBarOffText())
         switchBar.setPrefsKey(getString(switchBarKeyStringId))
         switchBar.show()
+        setupSwitchBarListener()
+    }
+
+    private fun setupSwitchBarListener() {
+        switchBar.addOnSwitchChangeListener { _, isChecked ->
+            evaluateSwitchState(isChecked)
+        }
+        evaluateSwitchState(switchBar.isChecked)
+    }
+
+    private fun evaluateSwitchState(checked: Boolean) {
+        preferenceManager.preferenceScreen.isEnabled = checked
     }
 }
