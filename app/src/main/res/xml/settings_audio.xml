@@ -2,43 +2,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/audioSettingsTitle">
 
-    <SwitchPreferenceCompat
-        app:key="ttsEnabled"
-        app:title="Chat TTS"
-        app:summary="Receive chat from Let's Robot"/>
+    <PreferenceCategory
+        app:key="tts"
+        app:title="@string/textToSpeech">
+        <SwitchPreferenceCompat
+            app:key="ttsEnabled"
+            app:title="Allow Text To Speech"
+            app:summary="Receive chat from Let's Robot"/>
 
-    <SwitchPreferenceCompat
-        app:key="anonTTSEnabled"
-        app:title="Anonymous TTS"
-        app:summary="Anonymous users are able to use TTS"/>
+        <SwitchPreferenceCompat
+            app:key="anonTTSEnabled"
+            app:dependency="ttsEnabled"
+            app:title="Allow Anonymous"
+            app:summary="Anonymous users are able to use TTS"/>
+    </PreferenceCategory>
 
-    <SwitchPreferenceCompat
-        app:key="banVoiceEnabled"
-        app:title="Timeout/Ban TTS"
-        app:summary="'User timed out' or 'User banned'"/>
+    <PreferenceCategory
+        app:key="genericTTS"
+        app:title="@string/generalSettings">
+        <SwitchPreferenceCompat
+            app:key="banVoiceEnabled"
+            app:title="Timeout/Ban Notify"
+            app:summary="'User timed out' or 'User banned'"/>
 
-    <SwitchPreferenceCompat
-        app:key="ttsInternalEnabled"
-        app:title="Internal TTS Messages"
-        app:summary="Internal app events, such as connectivity"/>
+        <SwitchPreferenceCompat
+            app:key="ttsInternalEnabled"
+            app:title="Internal App Messages"
+            app:summary="Internal app events via TTS, such as connectivity"/>
 
-    <SwitchPreferenceCompat
-        app:key="batteryCommandEnabled"
-        app:title="Battery Command TTS"
-        app:summary=".battery level"/>
+        <SwitchPreferenceCompat
+            app:key="batteryCommandEnabled"
+            app:title="Allow battery command"
+            app:summary=".battery level"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        app:key="systemSoundSettings"
+        app:title="@string/systemSettingsTitle">
+        <Preference
+            app:key="volumeSettingsPage"
+            app:title="Sound Settings"
+            app:summary="System Sound Settings">
+            <intent android:action="android.settings.SOUND_SETTINGS"/>
+        </Preference>
 
-    <Preference
-        app:key="volumeSettingsPage"
-        app:title="Sound Settings"
-        app:summary="System Sound Settings">
-        <intent android:action="android.settings.SOUND_SETTINGS"/>
-    </Preference>
-
-    <Preference
-        app:key="ttsSettingsPage"
-        app:title="TTS Settings"
-        app:summary="System Text To Speech Settings">
-        <intent android:action="com.android.settings.TTS_SETTINGS"/>
-    </Preference>
+        <Preference
+            app:key="ttsSettingsPage"
+            app:title="TTS Settings"
+            app:summary="System Text To Speech Settings">
+            <intent android:action="com.android.settings.TTS_SETTINGS"/>
+        </Preference>
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

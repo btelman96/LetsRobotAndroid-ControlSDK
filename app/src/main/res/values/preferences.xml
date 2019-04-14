@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Settings Landing Page-->
+    <string name="generalSettings">General</string>
+    <string name="advancedSettings">Experimental</string>
+    <string name="systemSettingsTitle">System Settings</string>
 
     <!--Connection-->
     <string name="connectionSettingsKey">connectionSettings</string>
@@ -29,6 +32,7 @@
     <string name="audioSettingsEnableKey">audioSettingsEnable</string>
     <string name="audioSettingsTitle">Audio</string>
     <string name="audioSettingsSummary">Text to Speech, Volume</string>
+    <string name="textToSpeech">Text To Speech</string>
 
     <!--Display-->
     <string name="displaySettingsKey">displaySettings</string>

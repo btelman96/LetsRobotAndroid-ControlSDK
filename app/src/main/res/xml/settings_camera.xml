@@ -1,6 +1,9 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/cameraSettingsTitle">
+    <PreferenceCategory
+        app:key="genericCamera"
+        app:title="@string/generalSettings">
     <androidx.preference.ListPreference
         app:key="cameraResolution"
         app:title="Resolution"
@@ -21,5 +24,22 @@
         app:useSimpleSummaryProvider="true"
         app:entries="@array/bitrate_video_list"
         app:entryValues="@array/bitrate_video_list_values"/>
+    </PreferenceCategory>
+    <!--TODO Settings V2-->
+    <!--<PreferenceCategory-->
+        <!--app:key="advanced"-->
+        <!--app:title="@string/advancedSettings"-->
+        <!--app:initialExpandedChildrenCount="0">-->
+        <!--<EditTextPreference-->
+            <!--app:key="ffmpegFilters"-->
+            <!--app:title="FFmpeg filters"-->
+            <!--app:useSimpleSummaryProvider="true"-->
+            <!--app:isPreferenceVisible="true"/>-->
+        <!--<EditTextPreference-->
+            <!--app:key="ffmpegInput"-->
+            <!--app:title="FFmpeg stream external url"-->
+            <!--app:useSimpleSummaryProvider="true"-->
+            <!--app:isPreferenceVisible="true"/>-->
+    <!--</PreferenceCategory>-->
 
 </androidx.preference.PreferenceScreen>
