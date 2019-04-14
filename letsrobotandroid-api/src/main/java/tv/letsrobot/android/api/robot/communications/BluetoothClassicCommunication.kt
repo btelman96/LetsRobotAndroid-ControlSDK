@@ -24,6 +24,10 @@ class BluetoothClassicCommunication : CommunicationInterface {
         context.getSharedPreferences(CONFIG_PREFS, 0).edit().clear().apply()
     }
 
+    override fun usesCustomSetup(): Boolean {
+        return true
+    }
+
     override fun needsSetup(activity: Activity): Boolean {
         val pairingRequired = !activity.applicationContext.getSharedPreferences(CONFIG_PREFS, 0).contains(BLUETOOTH_ADDR)
         val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -31,7 +35,7 @@ class BluetoothClassicCommunication : CommunicationInterface {
         return pairingRequired || !mBluetoothAdapter.isEnabled
     }
 
-    override fun setupComponent(activity: Activity): Int {
+    override fun setupComponent(activity: Activity, force : Boolean): Int {
         //Make sure we turn bluetooth on for setup
         val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         if(!mBluetoothAdapter.isEnabled) {
@@ -39,7 +43,7 @@ class BluetoothClassicCommunication : CommunicationInterface {
         }
         //Start an activity to select our preferred device
         val pairingRequired = !activity.applicationContext.getSharedPreferences(CONFIG_PREFS, 0).contains(BLUETOOTH_ADDR)
-        if(pairingRequired) {
+        if(force || pairingRequired) {
             activity.startActivityForResult(
                     Intent(activity, ChooseBluetoothActivity::class.java), RESULT_CODE)
             return RESULT_CODE

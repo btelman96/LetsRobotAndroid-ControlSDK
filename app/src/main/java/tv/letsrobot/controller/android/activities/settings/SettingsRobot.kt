@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.preference.ListPreference
+import tv.letsrobot.android.api.robot.CommunicationType
 import tv.letsrobot.android.api.utils.RobotConfig
 import tv.letsrobot.android.api.utils.getEntries
 import tv.letsrobot.android.api.utils.getEntryValues
@@ -15,6 +16,8 @@ class SettingsRobot : BasePreferenceFragmentCompat(
         R.xml.settings_robot,
         R.string.robotSettingsEnableKey
 ){
+    private var pendingResultCode: Int? = -1
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val connPref = findPreference<ListSettingsPreference>(getString(R.string.robotConnectionType))
@@ -22,7 +25,9 @@ class SettingsRobot : BasePreferenceFragmentCompat(
         createFromDefaultAndListen(connPref, RobotConfig.Communication)
         createFromDefaultAndListen(protoPref, RobotConfig.Protocol)
         connPref?.setOnClickListener {
-
+            val enum = RobotConfig.Communication.getValue(context!!) as CommunicationType
+            val clazz = enum.getInstantiatedClass
+            pendingResultCode = clazz?.setupComponent(activity!!)
         }
 
         protoPref?.setOnClickListener {
@@ -32,7 +37,8 @@ class SettingsRobot : BasePreferenceFragmentCompat(
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
+        if(pendingResultCode == resultCode)
+            Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
     }
 
     private fun createFromDefaultAndListen(pref : ListPreference?, key : RobotConfig){
@@ -41,7 +47,7 @@ class SettingsRobot : BasePreferenceFragmentCompat(
         pref.entries = enumValue.getEntries()
         pref.entryValues = enumValue.getEntryValues()
         pref.value = enumValue.name
-        pref.setOnPreferenceChangeListener { _, newValue ->
+        pref.setOnPreferenceChangeListener { preference, newValue ->
             val any = searchForEnum(newValue, enumValue)
             any?.let { key.saveValue(context!!, it) }
             true
