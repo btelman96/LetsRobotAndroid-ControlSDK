@@ -76,12 +76,10 @@ class MainSocketComponent(context: Context) : Component(context) {
             onMessageRemoved(it)
         }
         userAppSocket!!.on("user_blocked"){
-            say("user banned")
-            onUserRemoved(it)
+            onUserRemoved(it, true)
         }
         userAppSocket!!.on("user_timeout"){
-            say("user timed out")
-            onUserRemoved(it)
+            onUserRemoved(it, false)
         }
         userAppSocket?.connect()
     }
@@ -91,12 +89,13 @@ class MainSocketComponent(context: Context) : Component(context) {
                 , TTSBaseComponent.COMMAND_PITCH, shouldFlush = true), this)
     }
 
-    private fun onUserRemoved(params: Array<out Any>) {
-
+    private fun onUserRemoved(params: Array<out Any>, banned : Boolean) {
         params.getJsonObject()?.runCatching {
             if(this["room"] != owner) return
             LocalBroadcastManager.getInstance(context)
                     .sendJson(ChatSocketComponent.LR_CHAT_USER_REMOVED_BROADCAST, this)
+            val textToSay = if(banned) "user banned" else "user timed out"
+            say(textToSay)
         }
     }
 
