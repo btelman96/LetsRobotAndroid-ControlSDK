@@ -6,16 +6,19 @@
         app:key="genericDisplay"
         app:title="@string/generalSettings">
     <SwitchPreferenceCompat
-        app:key="displayTimeoutEnabled"
-        app:title="Display Timeout"
-        app:summary="Allow the screen to turn off"/>
+        app:key="keepScreenOn"
+        app:defaultValue="true"
+        app:title="Keep Screen On"
+        app:summary="Screen will stay on until device is manually locked"/>
 
     <SwitchPreferenceCompat
         app:key="displayChatEnabled"
+        app:defaultValue="true"
         app:title="Chat Display"
         app:summary="Allow chat to display on screen"/>
     <SwitchPreferenceCompat
         app:key="autoHideControlsEnabled"
+        app:defaultValue="true"
         app:title="Auto Hide Controls"
         app:summary="Controls will disappear after 10 seconds"/>
     </PreferenceCategory>

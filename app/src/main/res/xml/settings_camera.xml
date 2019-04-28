@@ -7,6 +7,7 @@
     <androidx.preference.ListPreference
         app:key="cameraResolution"
         app:title="Resolution"
+        app:defaultValue="640x480"
         app:useSimpleSummaryProvider="true"
         app:entries="@array/resolution_pref_list"
         app:entryValues="@array/resolution_pref_list"/>
@@ -15,6 +16,7 @@
         app:key="cameraOrientation"
         app:title="Orientation"
         app:useSimpleSummaryProvider="true"
+        app:defaultValue="90"
         app:entries="@array/orientation_pref_list"
         app:entryValues="@array/orientation_pref_list_values"/>
 
@@ -22,6 +24,7 @@
         app:key="cameraBitrate"
         app:title="Bitrate"
         app:useSimpleSummaryProvider="true"
+        app:defaultValue="1024"
         app:entries="@array/bitrate_video_list"
         app:entryValues="@array/bitrate_video_list_values"/>
     </PreferenceCategory>

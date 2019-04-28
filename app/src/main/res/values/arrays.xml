@@ -46,4 +46,24 @@
         <item>64 kb/s</item>
         <item>128 kb/s</item>
     </string-array>
+
+    <string-array name="volume_mic_list_values">
+        <item>.25</item>
+        <item>.5</item>
+        <item>.75</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="volume_mic_list">
+        <item>1/4X</item>
+        <item>1/2X</item>
+        <item>3/4X</item>
+        <item>1X</item>
+        <item>2X</item>
+        <item>3X</item>
+        <item>4X</item>
+    </string-array>
 </resources>

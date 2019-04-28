@@ -2,15 +2,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/microphoneSettingsTitle">
 
-    <androidx.preference.SeekBarPreference
-        app:key="micVolume"
-        app:title="Volume"
-        app:defaultValue="100"
-        />
+    <androidx.preference.ListPreference
+        app:key="micVolumeBoost"
+        app:title="Volume Boost"
+        app:defaultValue="1"
+        app:useSimpleSummaryProvider="true"
+        app:entries="@array/volume_mic_list"
+        app:entryValues="@array/volume_mic_list_values"/>
 
-    <androidx.preference.DropDownPreference
+    <androidx.preference.ListPreference
         app:key="audioBitrate"
         app:title="Bitrate"
+        app:defaultValue="32"
         app:useSimpleSummaryProvider="true"
         app:entries="@array/bitrate_audio_list"
         app:entryValues="@array/bitrate_audio_list_values"/>
