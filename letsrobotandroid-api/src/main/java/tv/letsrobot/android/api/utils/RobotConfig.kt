@@ -7,7 +7,7 @@ import tv.letsrobot.android.api.enums.CameraDirection
 import tv.letsrobot.android.api.robot.CommunicationType
 import tv.letsrobot.android.api.robot.ProtocolType
 
-enum class RobotConfig(val default: Any) {
+enum class RobotConfig(val default: Any, val key : String? = null) {
     Configured(false),
     RobotId(""),
     CameraId(""),
@@ -23,6 +23,7 @@ enum class RobotConfig(val default: Any) {
     Protocol(ProtocolType.values()[0]),
     Orientation(CameraDirection.values()[1]), //default to 90 degrees
     UseLegacyCamera(Build.VERSION.SDK_INT < 21); //true if less than Android 5.0
+    private val prefKey = key ?: name
 
     @Throws(IllegalArgumentException::class)
     fun saveValue(context: Context, value: Any){
@@ -30,9 +31,9 @@ enum class RobotConfig(val default: Any) {
             throw IllegalArgumentException("Expected type of ${default::class.java.simpleName}")
         val sharedPrefs = getSharedPrefs(context).edit()
         when(default){
-            is Boolean -> sharedPrefs.putBoolean(name, value as Boolean)
-            is String -> sharedPrefs.putString(name, value as String)
-            is Enum<*> -> sharedPrefs.putInt(name, (value as Enum<*>).ordinal)
+            is Boolean -> sharedPrefs.putBoolean(prefKey, value as Boolean)
+            is String -> sharedPrefs.putString(prefKey, value as String)
+            is Enum<*> -> sharedPrefs.putInt(prefKey, (value as Enum<*>).ordinal)
         }
         sharedPrefs.apply()
     }
@@ -42,11 +43,11 @@ enum class RobotConfig(val default: Any) {
     fun <T : Any> getValue(context: Context) : T{
         val sharedPrefs = getSharedPrefs(context)
         val value = when(default){
-            is Boolean -> sharedPrefs.getBoolean(name, default)
-            is String -> sharedPrefs.getString(name, default)
-            is Int -> sharedPrefs.getInt(name, default)
+            is Boolean -> sharedPrefs.getBoolean(prefKey, default)
+            is String -> sharedPrefs.getString(prefKey, default)
+            is Int -> sharedPrefs.getInt(prefKey, default)
             is Enum<*> -> {
-                sharedPrefs.getInt(name, -1).takeIf { it != -1 }?.let{
+                sharedPrefs.getInt(prefKey, -1).takeIf { it != -1 }?.let{
                     default::class.java.enumConstants[it]
                 } ?: default
             }
@@ -56,7 +57,7 @@ enum class RobotConfig(val default: Any) {
     }
 
     fun reset(context: Context) {
-        getSharedPrefs(context).edit().remove(name).apply()
+        getSharedPrefs(context).edit().remove(prefKey).apply()
     }
 
     companion object {
