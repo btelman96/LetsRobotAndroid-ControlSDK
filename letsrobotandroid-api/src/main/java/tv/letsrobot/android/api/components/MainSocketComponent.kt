@@ -6,6 +6,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.socket.client.IO
 import io.socket.client.Socket
 import org.json.JSONObject
+import tv.letsrobot.android.api.components.tts.TTSBaseComponent
 import tv.letsrobot.android.api.enums.ComponentStatus
 import tv.letsrobot.android.api.enums.ComponentType
 import tv.letsrobot.android.api.interfaces.Component
@@ -31,6 +32,7 @@ class MainSocketComponent(context: Context) : Component(context) {
     override fun enableInternal() {
         setOwner()
         setupAppWebSocket()
+        setupUserWebSocket()
         handler.sendEmptyMessage(DO_SOME_WORK)
     }
 
@@ -53,7 +55,6 @@ class MainSocketComponent(context: Context) : Component(context) {
     }
 
     private fun setupAppWebSocket() {
-        userAppSocket = IO.socket("https://letsrobot.tv:8000")
         appServerSocket = IO.socket("http://letsrobot.tv:8022")
         appServerSocket?.on(Socket.EVENT_CONNECT_ERROR){
             status = ComponentStatus.ERROR
@@ -62,6 +63,12 @@ class MainSocketComponent(context: Context) : Component(context) {
             status = ComponentStatus.STABLE
             appServerSocket?.emit("identify_robot_id", robotId)
         }
+        appServerSocket?.connect()
+
+    }
+
+    private fun setupUserWebSocket(){
+        userAppSocket = IO.socket("https://letsrobot.tv:8000")
         appServerSocket?.on(Socket.EVENT_DISCONNECT){
             status = ComponentStatus.DISABLED
         }
@@ -69,20 +76,26 @@ class MainSocketComponent(context: Context) : Component(context) {
             onMessageRemoved(it)
         }
         userAppSocket!!.on("user_blocked"){
-            onUserRemoved(it)
+            onUserRemoved(it, true)
         }
         userAppSocket!!.on("user_timeout"){
-            onUserRemoved(it)
+            onUserRemoved(it, false)
         }
-        appServerSocket?.connect()
         userAppSocket?.connect()
     }
 
-    private fun onUserRemoved(params: Array<out Any>) {
+    fun say(text : String){
+        eventDispatcher?.handleMessage(ComponentType.TTS, EVENT_MAIN, TTSBaseComponent.TTSObject(text
+                , TTSBaseComponent.COMMAND_PITCH, shouldFlush = true), this)
+    }
+
+    private fun onUserRemoved(params: Array<out Any>, banned : Boolean) {
         params.getJsonObject()?.runCatching {
             if(this["room"] != owner) return
             LocalBroadcastManager.getInstance(context)
                     .sendJson(ChatSocketComponent.LR_CHAT_USER_REMOVED_BROADCAST, this)
+            val textToSay = if(banned) "user banned" else "user timed out"
+            say(textToSay)
         }
     }
 
