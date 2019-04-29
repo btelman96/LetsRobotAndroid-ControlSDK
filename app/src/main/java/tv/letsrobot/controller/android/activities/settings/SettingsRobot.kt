@@ -31,9 +31,9 @@ class SettingsRobot : BasePreferenceFragmentCompat(
             pendingResultCode = clazz?.setupComponent(activity!!)
         }
 
-        protoPref?.setOnClickListener {
-
-        }
+//        protoPref?.setOnClickListener {
+//              TODO()
+//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
