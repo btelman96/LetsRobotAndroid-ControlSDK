@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.preference.ListPreference
+import androidx.preference.Preference
 import tv.letsrobot.android.api.robot.CommunicationType
 import tv.letsrobot.android.api.utils.RobotConfig
 import tv.letsrobot.android.api.utils.getEntries
@@ -47,10 +48,31 @@ class SettingsRobot : BasePreferenceFragmentCompat(
         pref.entries = enumValue.getEntries()
         pref.entryValues = enumValue.getEntryValues()
         pref.value = enumValue.name
+        maybeDisplayExpandedSetup(pref, key)
         pref.setOnPreferenceChangeListener { preference, newValue ->
             val any = searchForEnum(newValue, enumValue)
             any?.let { key.saveValue(context!!, it) }
+            maybeDisplayExpandedSetup(preference, key)
             true
+        }
+    }
+
+    private fun maybeDisplayExpandedSetup(preference: Preference?, key: RobotConfig) {
+        val settingsPref = preference as? ListSettingsPreference
+        settingsPref?.let {
+            it.hideSecondTarget = !hasSetup(key)
+        }
+    }
+
+    private fun hasSetup(key : RobotConfig) : Boolean{
+        return when(key){
+            RobotConfig.Communication -> {
+                val enum = RobotConfig.Communication.getValue(context!!) as CommunicationType
+                val clazz = enum.getInstantiatedClass
+                return clazz?.needsSetup(activity!!) == true //because result could be null
+            }
+//            RobotConfig.Protocol -> TODO()
+            else -> false
         }
     }
 
