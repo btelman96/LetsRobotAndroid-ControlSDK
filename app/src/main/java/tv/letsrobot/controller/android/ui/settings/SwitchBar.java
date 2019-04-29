@@ -34,16 +34,17 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.preference.PreferenceManager;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import tv.letsrobot.controller.android.R;
 
 public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedChangeListener {
@@ -109,10 +110,11 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
         LayoutInflater.from(context).inflate(R.layout.switch_bar, this);
 
         final TypedArray a = context.obtainStyledAttributes(attrs, XML_ATTRIBUTES);
-        int switchBarMarginStart = (int) a.getDimension(0, 0);
-        int switchBarMarginEnd = (int) a.getDimension(1, 0);
-        mBackgroundColor = a.getColor(2, 0);
-        mBackgroundActivatedColor = a.getColor(3, 0);
+        int id = 0;
+        int switchBarMarginStart = (int) a.getDimension( id++, 0);
+        int switchBarMarginEnd = (int) a.getDimension(id++, 0);
+        mBackgroundColor = a.getColor(id++, 0);
+        mBackgroundActivatedColor = a.getColor(id, 0);
         a.recycle();
 
         mTextView = findViewById(R.id.switch_text);

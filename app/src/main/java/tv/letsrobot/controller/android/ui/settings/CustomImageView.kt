@@ -1,5 +1,6 @@
 package tv.letsrobot.controller.android.ui.settings
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.ImageView
@@ -7,6 +8,7 @@ import android.widget.ImageView
 /**
  * Image View that follows other UI behavior if disabled
  */
+@SuppressLint("AppCompatCustomView")
 class CustomImageView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ImageView(context, attrs, defStyleAttr) {
