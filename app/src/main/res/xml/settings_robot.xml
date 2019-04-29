@@ -2,11 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/robotSettingsTitle">
     <tv.letsrobot.controller.android.ui.settings.ListSettingsPreference
-        app:key="robotConnectionType"
-        app:title="Connection Type"
+        app:key="@string/robotConnectionTypeKey"
+        app:title="@string/robotConnectionTypeTitle"
         app:useSimpleSummaryProvider="true"/>
     <tv.letsrobot.controller.android.ui.settings.ListSettingsPreference
-        app:key="robotProtocolType"
-        app:title="Protocol Type"
+        app:key="@string/robotProtocolTypeKey"
+        app:title="@string/robotConnectionTypeTitle"
         app:useSimpleSummaryProvider="true"/>
 </androidx.preference.PreferenceScreen>

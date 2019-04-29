@@ -20,8 +20,8 @@ class SettingsRobot : BasePreferenceFragmentCompat(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val connPref = findPreference<ListSettingsPreference>(getString(R.string.robotConnectionType))
-        val protoPref = findPreference<ListSettingsPreference>(getString(R.string.robotProtocolType))
+        val connPref = findPreference<ListSettingsPreference>(getString(R.string.robotConnectionTypeKey))
+        val protoPref = findPreference<ListSettingsPreference>(getString(R.string.robotProtocolTypeKey))
         createFromDefaultAndListen(connPref, RobotConfig.Communication)
         createFromDefaultAndListen(protoPref, RobotConfig.Protocol)
         connPref?.setOnClickListener {

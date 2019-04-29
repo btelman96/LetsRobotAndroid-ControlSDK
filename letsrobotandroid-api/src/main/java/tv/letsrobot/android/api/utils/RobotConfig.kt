@@ -3,11 +3,15 @@ package tv.letsrobot.android.api.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
+import androidx.annotation.StringRes
 import tv.letsrobot.android.api.enums.CameraDirection
 import tv.letsrobot.android.api.robot.CommunicationType
 import tv.letsrobot.android.api.robot.ProtocolType
 
-enum class RobotConfig(val default: Any, val key : String? = null) {
+/**
+ * Easy way to access all defined settings without duplicating a lot of code
+ */
+enum class RobotConfig(val default: Any, @StringRes val key : Int? = null) {
     Configured(false),
     RobotId(""),
     CameraId(""),
@@ -23,10 +27,10 @@ enum class RobotConfig(val default: Any, val key : String? = null) {
     Protocol(ProtocolType.values()[0]),
     Orientation(CameraDirection.values()[1]), //default to 90 degrees
     UseLegacyCamera(Build.VERSION.SDK_INT < 21); //true if less than Android 5.0
-    private val prefKey = key ?: name
 
     @Throws(IllegalArgumentException::class)
     fun saveValue(context: Context, value: Any){
+        val prefKey = determineKey(context)
         if(value::class.java.name != default::class.java.name)
             throw IllegalArgumentException("Expected type of ${default::class.java.simpleName}")
         val sharedPrefs = getSharedPrefs(context).edit()
@@ -41,6 +45,7 @@ enum class RobotConfig(val default: Any, val key : String? = null) {
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalArgumentException::class)
     fun <T : Any> getValue(context: Context) : T{
+        val prefKey = determineKey(context)
         val sharedPrefs = getSharedPrefs(context)
         val value = when(default){
             is Boolean -> sharedPrefs.getBoolean(prefKey, default)
@@ -57,7 +62,12 @@ enum class RobotConfig(val default: Any, val key : String? = null) {
     }
 
     fun reset(context: Context) {
+        val prefKey = determineKey(context)
         getSharedPrefs(context).edit().remove(prefKey).apply()
+    }
+
+    private fun determineKey(context: Context): String? {
+        return key?.let { context.getString(key) } ?: name
     }
 
     companion object {

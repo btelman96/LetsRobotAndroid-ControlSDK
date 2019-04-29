@@ -14,9 +14,10 @@
     <string name="robotSettingsEnableKey">robotSettingsEnable</string>
     <string name="robotSettingsTitle">Robot</string>
     <string name="robotSettingsSummary">Motors, Sensors, Telemetry</string>
-    <string name="robotConnectionType">robotConnectionType</string>
-    <string name="robotProtocolType">robotProtocolType</string>
-
+    <string name="robotConnectionTypeKey">robotConnectionType</string>
+    <string name="robotProtocolTypeKey">robotProtocolType</string>
+    <string name="robotConnectionTypeTitle">Connection Type</string>
+    <string name="robotProtocolTypeTitle">Protocol Type</string>
 
     <!--Camera-->
     <string name="cameraSettingsEnableKey">cameraSettingsEnable</string>

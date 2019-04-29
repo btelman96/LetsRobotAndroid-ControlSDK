@@ -6,7 +6,7 @@
         app:key="tts"
         app:title="@string/textToSpeech">
         <SwitchPreferenceCompat
-            app:key="ttsEnabled"
+            app:key="ttsLREnabled"
             app:defaultValue="true"
             app:title="Allow Text To Speech"
             app:summary="Receive chat from Let's Robot"/>
