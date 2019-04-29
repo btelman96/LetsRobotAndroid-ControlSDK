@@ -9,7 +9,6 @@ import androidx.preference.Preference
 import tv.letsrobot.android.api.robot.CommunicationType
 import tv.letsrobot.android.api.utils.RobotConfig
 import tv.letsrobot.android.api.utils.getEntries
-import tv.letsrobot.android.api.utils.getEntryValues
 import tv.letsrobot.controller.android.R
 import tv.letsrobot.controller.android.ui.settings.ListSettingsPreference
 
@@ -46,7 +45,7 @@ class SettingsRobot : BasePreferenceFragmentCompat(
         pref ?: return //skip if null
         val enumValue = (key.getValue(context!!) as Enum<*>)
         pref.entries = enumValue.getEntries()
-        pref.entryValues = enumValue.getEntryValues()
+        pref.entryValues = enumValue.getEntries()
         pref.value = enumValue.name
         maybeDisplayExpandedSetup(pref, key)
         pref.setOnPreferenceChangeListener { preference, newValue ->
