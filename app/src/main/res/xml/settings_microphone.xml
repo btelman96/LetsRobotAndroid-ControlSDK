@@ -3,16 +3,16 @@
     android:title="@string/microphoneSettingsTitle">
 
     <androidx.preference.ListPreference
-        app:key="micVolumeBoost"
-        app:title="Volume Boost"
+        app:key="@string/micVolumeBoostKey"
+        app:title="@string/micVolumeBoostTitle"
         app:defaultValue="1"
         app:useSimpleSummaryProvider="true"
         app:entries="@array/volume_mic_list"
         app:entryValues="@array/volume_mic_list_values"/>
 
     <androidx.preference.ListPreference
-        app:key="audioBitrate"
-        app:title="Bitrate"
+        app:key="@string/micAudioBitrateKey"
+        app:title="@string/bitrate"
         app:defaultValue="32"
         app:useSimpleSummaryProvider="true"
         app:entries="@array/bitrate_audio_list"

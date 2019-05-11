@@ -8,6 +8,9 @@
     <string name="robotProtocolTypeKey">robotProtocolType</string>
     <string name="cameraSettingsEnableKey">cameraSettingsEnable</string>
     <string name="microphoneSettingsEnableKey">microphoneSettingsEnable</string>
+    <string name="micVolumeBoostKey">micVolumeBoostKey</string>
+    <string name="micAudioBitrateKey">micAudioBitrateKey</string>
+
 
     <string name="audioSettingsEnableKey">audioSettingsEnable</string>
     <string name="audioSettingsTTSGroupKey">ttsCategoryKey</string>
@@ -35,6 +38,8 @@
 
     <!--Region Translatable Values-->
 
+    <string name="bitrate">Bitrate</string>
+
     <!--Settings Landing Page-->
     <string name="generalSettings">General</string>
     <string name="advancedSettings">Experimental</string>
@@ -59,6 +64,8 @@
     <!--Microphone-->
     <string name="microphoneSettingsTitle">Microphone</string>
     <string name="microphoneSettingsSummary">Volume, Bitrate</string>
+    <string name="micVolumeBoostTitle">Volume Boost</string>
+
 
     <!--Audio/Speaker-->
     <string name="audioSettingsTitle">Audio</string>
