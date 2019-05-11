@@ -3,42 +3,43 @@
     android:title="@string/displaySettingsTitle">
 
     <PreferenceCategory
-        app:key="genericDisplay"
+        app:key="@string/displayGroupKey"
         app:title="@string/generalSettings">
-    <SwitchPreferenceCompat
-        app:key="keepScreenOn"
-        app:defaultValue="true"
-        app:title="Keep Screen On"
-        app:summary="Screen will stay on until device is manually locked"/>
 
     <SwitchPreferenceCompat
-        app:key="displayChatEnabled"
+        app:key="@string/displayPersistKey"
         app:defaultValue="true"
-        app:title="Chat Display"
-        app:summary="Allow chat to display on screen"/>
+        app:title="@string/displayPersistTitle"
+        app:summary="@string/displayPersistSummary"/>
+
     <SwitchPreferenceCompat
-        app:key="autoHideControlsEnabled"
+        app:key="@string/displayChatEnabledKey"
         app:defaultValue="true"
-        app:title="Auto Hide Controls"
-        app:summary="Controls will disappear after 10 seconds"/>
+        app:title="@string/displayChatEnabledTitle"
+        app:summary="@string/displayChatEnabledSummary"/>
+
+    <SwitchPreferenceCompat
+        app:key="@string/autoHideControlsEnabledKey"
+        app:defaultValue="true"
+        app:title="@string/autoHideControlsEnabledTitle"
+        app:summary="@string/autoHideControlsEnabledSummary"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key="systemDisplaySettings"
+        app:key="@string/systemDisplaySettingsGroupKey"
         app:title="@string/systemSettingsTitle">
         <Preference
-            app:key="displaySettingsPage"
-            app:title="System Display Settings"
-            app:summary="Brightness, Sleep Time, Color Mode">
+            app:key="@string/displaySystemSettingsKey"
+            app:title="@string/displaySystemSettingsTitle"
+            app:summary="@string/displaySystemSettingsSummary">
             <intent android:action="android.settings.DISPLAY_SETTINGS"/>
         </Preference>
 
         <Preference
-            app:key="dozeSettingsPage"
-            app:title="App Power Settings"
-            app:summary="Control power saving mode for this app. Only needed if the screen is turned off">
+            app:key="@string/dozeSystemSettingsKey"
+            app:title="@string/dozeSettingsPageTitle"
+            app:summary="@string/dozeSettingsPageSummary">
             <intent android:action="android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS"/>
         </Preference>
     </PreferenceCategory>
-
 </androidx.preference.PreferenceScreen>
