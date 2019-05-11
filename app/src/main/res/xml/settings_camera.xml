@@ -2,27 +2,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/cameraSettingsTitle">
     <PreferenceCategory
-        app:key="genericCamera"
+        app:key="@string/cameraSettingsGeneralGroupKey"
         app:title="@string/generalSettings">
     <androidx.preference.ListPreference
-        app:key="cameraResolution"
-        app:title="Resolution"
+        app:key="@string/cameraResolutionKey"
+        app:title="@string/cameraResolutionTitle"
         app:defaultValue="640x480"
         app:useSimpleSummaryProvider="true"
         app:entries="@array/resolution_pref_list"
         app:entryValues="@array/resolution_pref_list"/>
 
     <androidx.preference.ListPreference
-        app:key="cameraOrientation"
-        app:title="Orientation"
+        app:key="@string/cameraOrientationKey"
+        app:title="@string/cameraOrientationTitle"
         app:useSimpleSummaryProvider="true"
         app:defaultValue="90"
         app:entries="@array/orientation_pref_list"
         app:entryValues="@array/orientation_pref_list_values"/>
 
     <androidx.preference.ListPreference
-        app:key="cameraBitrate"
-        app:title="Bitrate"
+        app:key="@string/cameraBitrateKey"
+        app:title="@string/bitrate"
         app:useSimpleSummaryProvider="true"
         app:defaultValue="1024"
         app:entries="@array/bitrate_video_list"

@@ -10,7 +10,13 @@
     <string name="robotSettingsEnableKey">robotSettingsEnable</string>
     <string name="robotConnectionTypeKey">robotConnectionType</string>
     <string name="robotProtocolTypeKey">robotProtocolType</string>
+
+    <string name="cameraSettingsGeneralGroupKey">genericCameraSettingsGroupKey</string>
     <string name="cameraSettingsEnableKey">cameraSettingsEnable</string>
+    <string name="cameraResolutionKey">cameraResolution</string>
+    <string name="cameraOrientationKey">cameraOrientation</string>
+    <string name="cameraBitrateKey">cameraBitrate</string>
+
     <string name="microphoneSettingsEnableKey">microphoneSettingsEnable</string>
     <string name="micVolumeBoostKey">micVolumeBoostKey</string>
     <string name="micAudioBitrateKey">micAudioBitrateKey</string>
@@ -66,6 +72,8 @@
     <!--Camera-->
     <string name="cameraSettingsTitle">Camera</string>
     <string name="cameraSettingsSummary">Resolution, Orientation, Bitrate</string>
+    <string name="cameraResolutionTitle">Resolution</string>
+    <string name="cameraOrientationTitle">Orientation</string>
 
     <!--Microphone-->
     <string name="microphoneSettingsTitle">Microphone</string>
