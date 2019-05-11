@@ -3,6 +3,7 @@ package tv.letsrobot.android.api.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
+import android.preference.PreferenceManager
 import androidx.annotation.StringRes
 import tv.letsrobot.android.api.R
 import tv.letsrobot.android.api.enums.CameraDirection
@@ -20,7 +21,10 @@ enum class RobotConfig(val default: Any, @StringRes val key : Int? = null) {
     CameraEnabled(false, R.string.cameraSettingsEnableKey),
     SleepMode(true, R.string.displayPersistKey),
     MicEnabled(false, R.string.microphoneSettingsEnableKey),
+    MicVolumeBoost(1, R.string.micVolumeBoostKey),
+    MicBitrate(1, R.string.micVolumeBoostKey),
     TTSEnabled(false, R.string.audioSettingsEnableKey),
+
     VideoBitrate("512", R.string.cameraBitrateKey),
     VideoResolution("640x480", R.string.cameraResolutionKey),
     Communication(CommunicationType.values()[0], R.string.robotConnectionTypeKey),
@@ -37,7 +41,7 @@ enum class RobotConfig(val default: Any, @StringRes val key : Int? = null) {
         when(default){
             is Boolean -> sharedPrefs.putBoolean(prefKey, value as Boolean)
             is String -> sharedPrefs.putString(prefKey, value as String)
-            is Enum<*> -> sharedPrefs.putInt(prefKey, (value as Enum<*>).ordinal)
+            is Enum<*> -> sharedPrefs.putString(prefKey, (value as Enum<*>).name)
         }
         sharedPrefs.apply()
     }
@@ -52,8 +56,13 @@ enum class RobotConfig(val default: Any, @StringRes val key : Int? = null) {
             is String -> sharedPrefs.getString(prefKey, default)
             is Int -> sharedPrefs.getInt(prefKey, default)
             is Enum<*> -> {
-                sharedPrefs.getInt(prefKey, -1).takeIf { it != -1 }?.let{
-                    default::class.java.enumConstants[it]
+                sharedPrefs.getString(prefKey, null)?.let{enumName ->
+                    var enum : Enum<*>? = null
+                    default::class.java.enumConstants.forEach {
+                        if((it as Enum<*>).name == enumName)
+                            enum = it
+                    }
+                    enum
                 } ?: default
             }
             else -> default
@@ -72,7 +81,7 @@ enum class RobotConfig(val default: Any, @StringRes val key : Int? = null) {
 
     companion object {
         fun getSharedPrefs(context: Context) : SharedPreferences {
-            return context.getSharedPreferences("robotConfig", 0)
+            return PreferenceManager.getDefaultSharedPreferences(context)
         }
     }
 }

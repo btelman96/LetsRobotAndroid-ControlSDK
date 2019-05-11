@@ -23,7 +23,7 @@
         app:key="@string/cameraOrientationKey"
         app:title="@string/cameraOrientationTitle"
         app:useSimpleSummaryProvider="true"
-        app:defaultValue="90"
+        app:defaultValue="DIR_90"
         app:entries="@array/orientation_pref_list"
         app:entryValues="@array/orientation_pref_list_values"/>
 
