@@ -30,7 +30,7 @@
     </tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference>
 
     <tv.letsrobot.controller.android.ui.settings.MasterSwitchPreference
-        app:icon="@drawable/ic_developer_board_black_32dp"
+        app:icon="@drawable/ic_volume_up_black_24dp"
         app:key="@string/audioSettingsEnableKey"
         app:title="@string/audioSettingsTitle"
         app:summary="@string/audioSettingsSummary">
