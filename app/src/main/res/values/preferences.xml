@@ -3,6 +3,10 @@
 
     <!--Keys-->
     <string name="connectionSettingsKey">connectionSettings</string>
+    <string name="connectionRobotIdKey">RobotId</string>
+    <string name="connectionCameraIdKey">CameraId</string>
+    <string name="connectionCameraPassKey">CameraPass</string>
+
     <string name="robotSettingsEnableKey">robotSettingsEnable</string>
     <string name="robotConnectionTypeKey">robotConnectionType</string>
     <string name="robotProtocolTypeKey">robotProtocolType</string>
@@ -10,7 +14,6 @@
     <string name="microphoneSettingsEnableKey">microphoneSettingsEnable</string>
     <string name="micVolumeBoostKey">micVolumeBoostKey</string>
     <string name="micAudioBitrateKey">micAudioBitrateKey</string>
-
 
     <string name="audioSettingsEnableKey">audioSettingsEnable</string>
     <string name="audioSettingsTTSGroupKey">ttsCategoryKey</string>
@@ -49,6 +52,9 @@
 
     <string name="connectionSettingsTitle">Connection</string>
     <string name="connectionSettingsSummary">RobotId, CameraId, Stream Key</string>
+    <string name="connectionRobotIdTitle">Robot ID</string>
+    <string name="connectionCameraIdTitle">Camera ID</string>
+    <string name="connectionCameraPassTitle">Stream Key</string>
 
     <!--Robot-->
 

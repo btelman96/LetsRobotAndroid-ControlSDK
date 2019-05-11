@@ -4,22 +4,21 @@
     android:title="@string/connectionSettingsTitle">
 
     <EditTextPreference
-        app:key="RobotId"
-        app:title="Robot ID"
+        app:key="@string/connectionRobotIdKey"
+        app:title="@string/connectionRobotIdTitle"
         app:useSimpleSummaryProvider="true"
         app:isPreferenceVisible="true"/>
 
     <EditTextPreference
-        app:key="CameraId"
-        app:title="Camera ID"
+        app:key="@string/connectionCameraIdKey"
+        app:title="@string/connectionCameraIdTitle"
         app:useSimpleSummaryProvider="true"
         app:isPreferenceVisible="true"/>
 
     <EditTextPreference
-        app:key="CameraPass"
+        app:key="@string/connectionCameraPassKey"
         app:defaultValue="hello"
-        app:title="Stream Key"
+        app:title="@string/connectionCameraPassTitle"
         app:useSimpleSummaryProvider="true"
         app:isPreferenceVisible="true"/>
-
 </androidx.preference.PreferenceScreen>
