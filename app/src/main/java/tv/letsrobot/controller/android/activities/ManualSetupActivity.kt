@@ -146,7 +146,7 @@ class ManualSetupActivity : AppCompatActivity() {
         screenOverlaySettingsButton.isChecked = settings.screenTimeout
         bitrateEditText.setText(settings.cameraBitrate.toString())
         legacyCameraEnableToggle.isEnabled = !legacyOnly
-        legacyCameraEnableToggle.isChecked = settings.cameraLegacy
+        legacyCameraEnableToggle.isChecked = !settings.cameraV2
         bitrateEditText.isEnabled = true
         checkCameraState(cameraEnableToggle.isChecked)
         updateSpinners(settings)

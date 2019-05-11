@@ -20,7 +20,7 @@ data class RobotSettingsObject(val robotId : String,
                                val cameraBitrate : Int,
                                val cameraResolution : String,
                                val cameraEnabled : Boolean,
-                               val cameraLegacy : Boolean,
+                               val cameraV2 : Boolean,
                                val enableMic : Boolean,
                                val enableTTS : Boolean,
                                val screenTimeout : Boolean,
@@ -38,7 +38,7 @@ data class RobotSettingsObject(val robotId : String,
         variables.add(cameraBitrate.toString())
         variables.add(cameraResolution)
         variables.add(cameraEnabled)
-        variables.add(cameraLegacy)
+        variables.add(cameraV2)
         variables.add(enableMic)
         variables.add(enableTTS)
         variables.add(screenTimeout)
@@ -94,7 +94,7 @@ data class RobotSettingsObject(val robotId : String,
                         cameraBitrate = splitData[7].toInt(),
                         cameraResolution = splitData[8],
                         cameraEnabled = splitData[9].fromNumericBoolean()!!,
-                        cameraLegacy = splitData[10].fromNumericBoolean()!!,
+                        cameraV2 = splitData[10].fromNumericBoolean()!!,
                         enableMic = splitData[11].fromNumericBoolean()!!,
                         enableTTS = splitData[12].fromNumericBoolean()!!,
                         screenTimeout = splitData[13].fromNumericBoolean()!!,
@@ -107,7 +107,7 @@ data class RobotSettingsObject(val robotId : String,
 
         fun save(context: Context, settings: RobotSettingsObject) {
             //we don't allow higher resolution currently for legacy camera API right now, so prevent that
-            val cameraRes = if(settings.cameraLegacy)
+            val cameraRes = if(!settings.cameraV2)
                 RobotConfig.VideoResolution.default as String
             else
                 settings.cameraResolution
@@ -116,7 +116,7 @@ data class RobotSettingsObject(val robotId : String,
             saveTextSafelyToRobotConfig(context, settings.cameraPassword, RobotConfig.CameraPass)
             saveTextSafelyToRobotConfig(context, settings.cameraBitrate.toString(), RobotConfig.VideoBitrate)
             saveTextSafelyToRobotConfig(context, cameraRes, RobotConfig.VideoResolution)
-            RobotConfig.UseLegacyCamera.saveValue(context, settings.cameraLegacy)
+            RobotConfig.UseCamera2.saveValue(context, settings.cameraV2)
             RobotConfig.CameraEnabled.saveValue(context, settings.cameraEnabled)
             RobotConfig.MicEnabled.saveValue(context, settings.enableMic)
             RobotConfig.TTSEnabled.saveValue(context, settings.enableTTS)
@@ -137,7 +137,7 @@ data class RobotSettingsObject(val robotId : String,
                     (RobotConfig.VideoBitrate.getValue(context) as String).toInt(),
                     RobotConfig.VideoResolution.getValue(context),
                     RobotConfig.CameraEnabled.getValue(context),
-                    RobotConfig.UseLegacyCamera.getValue(context),
+                    RobotConfig.UseCamera2.getValue(context),
                     RobotConfig.MicEnabled.getValue(context),
                     RobotConfig.TTSEnabled.getValue(context),
                     RobotConfig.SleepMode.getValue(context)
@@ -152,7 +152,7 @@ data class RobotSettingsObject(val robotId : String,
                     width = arrRes[0].toInt(),
                     height = arrRes[1].toInt(),
                     bitrate = settings.cameraBitrate,
-                    useLegacyApi = settings.cameraLegacy,
+                    useLegacyApi = !settings.cameraV2,
                     orientation = settings.cameraOrientation
             )
         }

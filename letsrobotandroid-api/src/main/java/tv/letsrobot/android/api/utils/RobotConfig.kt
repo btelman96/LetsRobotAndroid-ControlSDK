@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.StringRes
+import tv.letsrobot.android.api.R
 import tv.letsrobot.android.api.enums.CameraDirection
 import tv.letsrobot.android.api.robot.CommunicationType
 import tv.letsrobot.android.api.robot.ProtocolType
@@ -13,20 +14,19 @@ import tv.letsrobot.android.api.robot.ProtocolType
  */
 enum class RobotConfig(val default: Any, @StringRes val key : Int? = null) {
     Configured(false),
-    RobotId(""),
-    CameraId(""),
-    CameraPass("hello"),
-    CameraEnabled(false),
-    SleepMode(true),
-    MicEnabled(false),
-    TTSEnabled(false),
-    ErrorReporting(false),
-    VideoBitrate("512"),
-    VideoResolution("640x480"),
-    Communication(CommunicationType.values()[0]),
-    Protocol(ProtocolType.values()[0]),
-    Orientation(CameraDirection.values()[1]), //default to 90 degrees
-    UseLegacyCamera(Build.VERSION.SDK_INT < 21); //true if less than Android 5.0
+    RobotId("", R.string.connectionRobotIdKey),
+    CameraId("", R.string.connectionCameraIdKey),
+    CameraPass("hello", R.string.connectionCameraPassKey),
+    CameraEnabled(false, R.string.cameraSettingsEnableKey),
+    SleepMode(true, R.string.displayPersistKey),
+    MicEnabled(false, R.string.microphoneSettingsEnableKey),
+    TTSEnabled(false, R.string.audioSettingsEnableKey),
+    VideoBitrate("512", R.string.cameraBitrateKey),
+    VideoResolution("640x480", R.string.cameraResolutionKey),
+    Communication(CommunicationType.values()[0], R.string.robotConnectionTypeKey),
+    Protocol(ProtocolType.values()[0], R.string.robotProtocolTypeKey),
+    Orientation(CameraDirection.values()[1], R.string.cameraOrientationKey), //default to 90 degrees
+    UseCamera2(Build.VERSION.SDK_INT >= 21, R.string.useCamera2); //true if Android 5.0 or greater
 
     @Throws(IllegalArgumentException::class)
     fun saveValue(context: Context, value: Any){
