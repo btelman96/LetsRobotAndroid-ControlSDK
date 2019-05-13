@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_settings"
-    app:startDestination="@id/settingsLanding">
-
+    app:startDestination="@id/splashScreen">
     <fragment
         android:id="@+id/settingsLanding"
         android:name="tv.letsrobot.controller.android.activities.settings.SettingsLanding"
@@ -28,6 +27,13 @@
         <action
             android:id="@+id/action_settingsLanding_to_settingsDisplay"
             app:destination="@id/settingsDisplay" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="lr://controller.settings"
+            android:autoVerify="true" />
+        <action
+            android:id="@+id/action_settingsLanding_to_splashScreen"
+            app:destination="@id/splashScreen" />
     </fragment>
     <action
         android:id="@+id/action_nav_settings_pop"
@@ -58,4 +64,25 @@
         android:id="@+id/settingsDisplay"
         android:name="tv.letsrobot.controller.android.activities.settings.SettingsDisplay"
         android:label="@string/displaySettingsTitle" />
+    <fragment
+        android:id="@+id/splashScreen"
+        android:name="tv.letsrobot.controller.android.activities.SplashScreen"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreen_to_settingsLanding"
+            app:destination="@id/settingsLanding" />
+        <action
+            android:id="@+id/action_splashScreen_to_mainRobotFragment"
+            app:destination="@id/mainRobotFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainRobotFragment"
+        android:name="tv.letsrobot.controller.android.activities.MainRobotFragment"
+        android:label="fragment_main_robot"
+        tools:layout="@layout/fragment_main_robot" >
+        <action
+            android:id="@+id/action_mainRobotFragment_to_settingsLanding"
+            app:destination="@id/settingsLanding" />
+    </fragment>
 </navigation>

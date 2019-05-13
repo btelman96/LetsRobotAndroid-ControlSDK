@@ -110,5 +110,8 @@
     <string name="feedbackSettingsTitle">Send feedback</string>
     <string name="feedbackSettingsSummary">Report technical issues or suggest
         new features</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--EndRegion-->
 </resources>
