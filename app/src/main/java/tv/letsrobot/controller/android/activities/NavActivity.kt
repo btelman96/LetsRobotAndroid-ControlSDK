@@ -15,15 +15,10 @@ class NavActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, NavHostFragment.findNavController(nav_host_fragment))
     }
 
+    override fun onSupportNavigateUp()
+            = NavHostFragment.findNavController(nav_host_fragment).navigateUp()
+
     fun getSwitchBar(): SwitchBar {
         return switch_bar
     }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-    }
-
-    override fun onSupportNavigateUp()
-            = NavHostFragment.findNavController(nav_host_fragment).navigateUp()
 }
