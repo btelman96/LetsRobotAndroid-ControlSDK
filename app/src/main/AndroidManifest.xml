@@ -29,7 +29,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".activities.SettingsActivity"
             android:label="LetsRobot Controller"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/Theme.AppCompat.Light">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.INFO" />
