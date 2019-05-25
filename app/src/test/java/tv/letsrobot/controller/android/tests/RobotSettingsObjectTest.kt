@@ -45,7 +45,7 @@ class RobotSettingsObjectTest{
             Assert.assertEquals(CameraDirection.DIR_0, it.cameraOrientation)
             Assert.assertEquals(1024, it.cameraBitrate)
             Assert.assertEquals("640x480", it.cameraResolution)
-            Assert.assertEquals(false, it.cameraLegacy)
+            Assert.assertEquals(false, it.cameraV2)
             Assert.assertEquals(true, it.enableMic)
             Assert.assertEquals(true, it.enableTTS)
             Assert.assertEquals(true, it.screenTimeout)
