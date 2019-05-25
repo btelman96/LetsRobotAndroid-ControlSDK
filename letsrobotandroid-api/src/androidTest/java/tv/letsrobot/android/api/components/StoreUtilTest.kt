@@ -23,7 +23,7 @@ class StoreUtilTest {
         RobotConfig.SleepMode.saveValue(context, true)
         RobotConfig.MicEnabled.saveValue(context, true)
         RobotConfig.TTSEnabled.saveValue(context, true)
-        RobotConfig.UseLegacyCamera.saveValue(context, true)
+        RobotConfig.UseCamera2.saveValue(context, true)
         //Test setting strings
         RobotConfig.RobotId.saveValue(context, "Robot")
         RobotConfig.CameraId.saveValue(context, "Camera")
@@ -52,7 +52,7 @@ class StoreUtilTest {
         Assert.assertTrue(RobotConfig.SleepMode.getValue(context) as Boolean)
         Assert.assertTrue(RobotConfig.MicEnabled.getValue(context) as Boolean)
         Assert.assertTrue(RobotConfig.TTSEnabled.getValue(context) as Boolean)
-        Assert.assertTrue(RobotConfig.UseLegacyCamera.getValue(context) as Boolean)
+        Assert.assertTrue(RobotConfig.UseCamera2.getValue(context) as Boolean)
 
         Assert.assertEquals("Robot",RobotConfig.RobotId.getValue(context))
         Assert.assertEquals("Camera",RobotConfig.CameraId.getValue(context))
