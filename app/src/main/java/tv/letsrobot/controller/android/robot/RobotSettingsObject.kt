@@ -5,7 +5,7 @@ import tv.letsrobot.android.api.enums.CameraDirection
 import tv.letsrobot.android.api.models.CameraSettings
 import tv.letsrobot.android.api.robot.CommunicationType
 import tv.letsrobot.android.api.robot.ProtocolType
-import tv.letsrobot.android.api.utils.RobotConfig
+import tv.letsrobot.android.api.settings.RobotConfig
 import java.util.*
 
 /**

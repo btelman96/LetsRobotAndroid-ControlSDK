@@ -12,7 +12,7 @@ import tv.letsrobot.android.api.components.tts.TTSBaseComponent
 import tv.letsrobot.android.api.enums.ComponentStatus
 import tv.letsrobot.android.api.enums.ComponentType
 import tv.letsrobot.android.api.interfaces.Component
-import tv.letsrobot.android.api.utils.JsonObjectUtils
+import tv.letsrobot.android.api.settings.JsonObjectUtils
 import tv.letsrobot.android.api.utils.PhoneBatteryMeter
 import tv.letsrobot.android.api.utils.ValueUtil
 import tv.letsrobot.android.api.utils.getJsonObject

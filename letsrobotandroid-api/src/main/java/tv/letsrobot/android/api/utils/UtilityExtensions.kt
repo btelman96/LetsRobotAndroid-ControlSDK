@@ -2,6 +2,7 @@ package tv.letsrobot.android.api.utils
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import org.json.JSONObject
+import tv.letsrobot.android.api.settings.JsonObjectUtils
 
 fun Array<out Any>.getJsonObject() : JSONObject?{
     if(size == 0) return null

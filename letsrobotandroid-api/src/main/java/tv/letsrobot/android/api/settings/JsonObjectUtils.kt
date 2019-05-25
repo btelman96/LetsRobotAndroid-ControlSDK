@@ -1,4 +1,4 @@
-package tv.letsrobot.android.api.utils
+package tv.letsrobot.android.api.settings
 
 import android.content.Intent
 import okhttp3.OkHttpClient
@@ -32,7 +32,7 @@ object JsonObjectUtils{
      * Get a single string value from the json
      */
     fun getValueJsonObject(url : String, key : String) : String?{
-        return JsonObjectUtils.getJsonObjectFromUrl(url)?.let{
+        return getJsonObjectFromUrl(url)?.let{
             try {
                 it.getString(key)
             } catch (e: Exception) {

@@ -8,7 +8,7 @@ import org.junit.runner.RunWith
 import tv.letsrobot.android.api.enums.CameraDirection
 import tv.letsrobot.android.api.robot.CommunicationType
 import tv.letsrobot.android.api.robot.ProtocolType
-import tv.letsrobot.android.api.utils.RobotConfig
+import tv.letsrobot.android.api.settings.RobotConfig
 
 /**
  * Verify that all of the settings get saved correctly
@@ -54,14 +54,14 @@ class StoreUtilTest {
         Assert.assertTrue(RobotConfig.TTSEnabled.getValue(context) as Boolean)
         Assert.assertTrue(RobotConfig.UseCamera2.getValue(context) as Boolean)
 
-        Assert.assertEquals("Robot",RobotConfig.RobotId.getValue(context))
-        Assert.assertEquals("Camera",RobotConfig.CameraId.getValue(context))
-        Assert.assertEquals("Test",RobotConfig.CameraPass.getValue(context))
-        Assert.assertEquals("Bitrate",RobotConfig.VideoBitrate.getValue(context))
-        Assert.assertEquals("Res",RobotConfig.VideoResolution.getValue(context))
+        Assert.assertEquals("Robot", RobotConfig.RobotId.getValue(context))
+        Assert.assertEquals("Camera", RobotConfig.CameraId.getValue(context))
+        Assert.assertEquals("Test", RobotConfig.CameraPass.getValue(context))
+        Assert.assertEquals("Bitrate", RobotConfig.VideoBitrate.getValue(context))
+        Assert.assertEquals("Res", RobotConfig.VideoResolution.getValue(context))
 
-        Assert.assertEquals(CommunicationType.BluetoothClassic,RobotConfig.Communication.getValue(context))
-        Assert.assertEquals(ProtocolType.ArduinoRaw,RobotConfig.Protocol.getValue(context))
-        Assert.assertEquals(CameraDirection.DIR_90,RobotConfig.Orientation.getValue(context))
+        Assert.assertEquals(CommunicationType.BluetoothClassic, RobotConfig.Communication.getValue(context))
+        Assert.assertEquals(ProtocolType.ArduinoRaw, RobotConfig.Protocol.getValue(context))
+        Assert.assertEquals(CameraDirection.DIR_90, RobotConfig.Orientation.getValue(context))
     }
 }

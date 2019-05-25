@@ -12,7 +12,7 @@ import tv.letsrobot.android.api.robot.drivers.bluetooth.BluetoothClassic
 import tv.letsrobot.android.api.robot.drivers.bluetooth.Connection
 
 /**
- * Communication class that works with bluetooth classic
+ * communication class that works with bluetooth classic
  * and takes control data via EventManager.ROBOT_BYTE_ARRAY event
  */
 class BluetoothClassicCommunication : CommunicationInterface {

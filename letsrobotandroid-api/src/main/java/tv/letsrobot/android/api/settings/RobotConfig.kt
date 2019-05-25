@@ -1,4 +1,4 @@
-package tv.letsrobot.android.api.utils
+package tv.letsrobot.android.api.settings
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -76,7 +76,7 @@ enum class RobotConfig(val default: Any, @StringRes val key : Int? = null) {
     }
 
     private fun determineKey(context: Context): String? {
-        return key?.let { context.getString(key) } ?: name
+        return key?.let { context.getString(it) } ?: name
     }
 
     companion object {

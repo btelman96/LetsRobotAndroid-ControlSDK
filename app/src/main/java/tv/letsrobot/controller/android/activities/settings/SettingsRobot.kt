@@ -7,7 +7,8 @@ import android.widget.Toast
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import tv.letsrobot.android.api.robot.CommunicationType
-import tv.letsrobot.android.api.utils.RobotConfig
+import tv.letsrobot.android.api.settings.LRPreference
+import tv.letsrobot.android.api.settings.LRPreferences
 import tv.letsrobot.android.api.utils.getEntries
 import tv.letsrobot.controller.android.R
 import tv.letsrobot.controller.android.ui.settings.ListSettingsPreference
@@ -22,10 +23,10 @@ class SettingsRobot : BasePreferenceFragmentCompat(
         super.onViewCreated(view, savedInstanceState)
         val connPref = findPreference<ListSettingsPreference>(getString(R.string.robotConnectionTypeKey))
         val protoPref = findPreference<ListSettingsPreference>(getString(R.string.robotProtocolTypeKey))
-        createFromDefaultAndListen(connPref, RobotConfig.Communication)
-        createFromDefaultAndListen(protoPref, RobotConfig.Protocol)
+        createFromDefaultAndListen(connPref, LRPreferences.INSTANCE.communication)
+        createFromDefaultAndListen(protoPref, LRPreferences.INSTANCE.protocol)
         connPref?.setOnClickListener {
-            val enum = RobotConfig.Communication.getValue(context!!) as CommunicationType
+            val enum : CommunicationType = LRPreferences.INSTANCE.communication.getValue()
             val clazz = enum.getInstantiatedClass
             pendingResultCode = clazz?.setupComponent(activity!!)
         }
@@ -41,36 +42,37 @@ class SettingsRobot : BasePreferenceFragmentCompat(
             Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
     }
 
-    private fun createFromDefaultAndListen(pref : ListPreference?, key : RobotConfig){
+    private fun <T : Any> createFromDefaultAndListen(pref : ListPreference?, lrPreference: LRPreference<T>){
+        if(lrPreference.default !is Enum<*>)
+           return
         pref ?: return //skip if null
-        val enumValue = (key.getValue(context!!) as Enum<*>)
+        val enumValue = lrPreference.getValue<Enum<*>>()
         pref.entries = enumValue.getEntries()
         pref.entryValues = enumValue.getEntries()
         pref.value = enumValue.name
-        maybeDisplayExpandedSetup(pref, key)
+        maybeDisplayExpandedSetup(pref, enumValue)
         pref.setOnPreferenceChangeListener { preference, newValue ->
             val any = searchForEnum(newValue, enumValue)
-            any?.let { key.saveValue(context!!, it) }
-            maybeDisplayExpandedSetup(preference, key)
+            any?.let { lrPreference.saveValue(it) }
+            maybeDisplayExpandedSetup(preference, enumValue)
             true
         }
     }
 
-    private fun maybeDisplayExpandedSetup(preference: Preference?, key: RobotConfig) {
+    private fun maybeDisplayExpandedSetup(preference: Preference?, enumValue : Enum<*>) {
         val settingsPref = preference as? ListSettingsPreference
         settingsPref?.let {
-            it.hideSecondTarget = !hasSetup(key)
+            it.hideSecondTarget = !hasSetup(enumValue)
         }
     }
 
-    private fun hasSetup(key : RobotConfig) : Boolean{
-        return when(key){
-            RobotConfig.Communication -> {
-                val enum = RobotConfig.Communication.getValue(context!!) as CommunicationType
-                val clazz = enum.getInstantiatedClass
+    private fun hasSetup(enumValue : Enum<*>) : Boolean{
+        return when(enumValue){
+            is CommunicationType -> {
+                val clazz = enumValue.getInstantiatedClass
                 return clazz?.needsSetup(activity!!) == true //because result could be null
             }
-//            RobotConfig.Protocol -> TODO()
+//            RobotConfig.protocol -> TODO()
             else -> false
         }
     }
