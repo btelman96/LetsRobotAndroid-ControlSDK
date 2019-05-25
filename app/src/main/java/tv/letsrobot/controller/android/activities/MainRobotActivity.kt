@@ -19,7 +19,6 @@ import tv.letsrobot.android.api.utils.PhoneBatteryMeter
 import tv.letsrobot.android.api.viewModels.LetsRobotViewModel
 import tv.letsrobot.controller.android.R
 import tv.letsrobot.controller.android.RobotApplication
-import tv.letsrobot.controller.android.robot.RobotSettingsObject
 
 class MainRobotActivity : FragmentActivity(), Runnable{
 
@@ -28,7 +27,6 @@ class MainRobotActivity : FragmentActivity(), Runnable{
         setContentView(R.layout.fragment_main_robot)
         PhoneBatteryMeter.getReceiver(this.applicationContext) //Setup phone battery monitor TODO integrate with component
         handler = Handler(Looper.getMainLooper())
-        settings = RobotSettingsObject.load(this)
         setupExternalComponents()
         setupApiInterface()
         setupButtons()

@@ -12,7 +12,6 @@ import tv.letsrobot.android.api.enums.ComponentType
 import tv.letsrobot.android.api.interfaces.Component
 import tv.letsrobot.android.api.interfaces.ComponentEventObject
 import tv.letsrobot.android.api.settings.JsonObjectUtils
-import tv.letsrobot.android.api.settings.RobotConfig
 import tv.letsrobot.android.api.utils.getJsonObject
 import tv.letsrobot.android.api.utils.sendJson
 import java.util.concurrent.TimeUnit

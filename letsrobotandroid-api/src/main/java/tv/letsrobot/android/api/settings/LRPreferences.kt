@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.preference.PreferenceManager
+import org.btelman.prefs.annotation.PreferenceString
 import tv.letsrobot.android.api.R
 import tv.letsrobot.android.api.enums.CameraDirection
 import tv.letsrobot.android.api.robot.CommunicationType
@@ -14,14 +15,19 @@ import tv.letsrobot.android.api.robot.ProtocolType
  */
 class LRPreferences private constructor(context: Context) {
     private val preferenceManager : SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
     val configured = LRPreference(preferenceManager,
             false, "configured")
+    @PreferenceString(R.string.connectionRobotIdKey, "")
     val robotId = LRPreference.fromId(preferenceManager, context,
             "", R.string.connectionRobotIdKey)
+    @Preference
     val cameraId = LRPreference.fromId(preferenceManager, context,
             "", R.string.connectionCameraIdKey)
+    @Preference
     val cameraPass = LRPreference.fromId(preferenceManager, context,
             "hello", R.string.connectionCameraPassKey)
+    @Preference
     val cameraEnabled = LRPreference.fromId(preferenceManager, context,
             false, R.string.cameraSettingsEnableKey)
     val sleepMode = LRPreference.fromId(preferenceManager, context,

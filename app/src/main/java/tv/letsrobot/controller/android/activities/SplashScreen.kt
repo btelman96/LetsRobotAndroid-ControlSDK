@@ -14,9 +14,8 @@ import tv.letsrobot.android.api.interfaces.CommunicationInterface
 import tv.letsrobot.android.api.models.ServiceComponentGenerator
 import tv.letsrobot.android.api.robot.CommunicationType
 import tv.letsrobot.android.api.services.LetsRobotService
-import tv.letsrobot.android.api.settings.RobotConfig
+import tv.letsrobot.android.api.settings.LRPreferences
 import tv.letsrobot.controller.android.R
-import tv.letsrobot.controller.android.robot.RobotSettingsObject
 
 class SplashScreen : FragmentActivity() {
 
@@ -26,7 +25,7 @@ class SplashScreen : FragmentActivity() {
 
         ServiceComponentGenerator.initDependencies(this){
             runOnUiThread{
-                if(RobotConfig.RobotId.getValue(this) as? String == "" ||
+                if(LRPreferences.INSTANCE.robotId.getValue<String>() == "" ||
                         (RobotConfig.RobotId.getValue(this) as? String) == ""){
                     startSetup()
                     Toast.makeText(this, "RobotID or CameraId need to be setup!", Toast.LENGTH_SHORT).show()
