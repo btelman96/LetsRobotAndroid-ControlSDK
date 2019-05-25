@@ -6,7 +6,7 @@ import androidx.annotation.StringRes
 import androidx.annotation.XmlRes
 import androidx.preference.PreferenceFragmentCompat
 import tv.letsrobot.controller.android.R
-import tv.letsrobot.controller.android.activities.NavActivity
+import tv.letsrobot.controller.android.activities.SettingsActivity
 import tv.letsrobot.controller.android.ui.settings.SwitchBar
 
 /**
@@ -34,7 +34,7 @@ abstract class BasePreferenceFragmentCompat(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        switchBar = (activity as NavActivity).getSwitchBar()
+        switchBar = (activity as SettingsActivity).getSwitchBar()
         evalSwitchBar()
     }
 

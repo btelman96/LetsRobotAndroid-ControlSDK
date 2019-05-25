@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.NavActivity">
+    tools:context=".activities.SettingsActivity">
     <tv.letsrobot.controller.android.ui.settings.SwitchBar android:id="@+id/switch_bar"
         android:layout_height="?android:attr/actionBarSize"
         android:layout_width="match_parent"

@@ -5,15 +5,11 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
+import androidx.fragment.app.FragmentActivity
 import tv.letsrobot.android.api.interfaces.CommunicationInterface
 import tv.letsrobot.android.api.models.ServiceComponentGenerator
 import tv.letsrobot.android.api.robot.CommunicationType
@@ -22,44 +18,27 @@ import tv.letsrobot.android.api.utils.RobotConfig
 import tv.letsrobot.controller.android.R
 import tv.letsrobot.controller.android.robot.RobotSettingsObject
 
+class SplashScreen : FragmentActivity() {
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- *
- */
-class SplashScreen : Fragment() {
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_splash_screen, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // Setup App before initializing anything, then go back to do permissions flow
-        // and to do device setup
-        if(RobotConfig.RobotId.getValue(context!!) as? String == "" ||
-                (RobotConfig.RobotId.getValue(context!!) as? String) == ""){
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_splash_screen)
+        if(RobotConfig.RobotId.getValue(this) as? String == "" ||
+                (RobotConfig.RobotId.getValue(this) as? String) == ""){
             startSetup()
-            Toast.makeText(context!!, "RobotID or CameraId need to be setup!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "RobotID or CameraId need to be setup!", Toast.LENGTH_SHORT).show()
             return
         }
 
-        ServiceComponentGenerator.initDependencies(context!!){
-            activity!!.runOnUiThread{
+        ServiceComponentGenerator.initDependencies(this){
+            runOnUiThread{
                 next()
             }
         }
     }
 
     private fun startSetup() {
-        Navigation.findNavController(view!!).navigate(R.id.action_splashScreen_to_settingsLanding)
+        startActivity(SettingsActivity.getIntent(this))
     }
 
     private fun next() {
@@ -79,20 +58,19 @@ class SplashScreen : Fragment() {
             return
         }
         //All checks are done. Lets startup the activity!
-        ContextCompat.startForegroundService(context!!.applicationContext, Intent(context!!.applicationContext, LetsRobotService::class.java))
-        Navigation.findNavController(view!!).navigate(R.id.action_splashScreen_to_mainRobotFragment, null, NavOptions.Builder()
-                .setPopUpTo(R.id.splashScreen,
-                        true).build())
+        ContextCompat.startForegroundService(applicationContext, Intent(applicationContext, LetsRobotService::class.java))
+        startActivity(MainRobotFragment.getIntent(this))
+        finish()
     }
 
     /**
      * Show some setup error message. Allow the user to attempt setup again
      */
     private fun setupError() {
-        Toast.makeText(context
+        Toast.makeText(this
                 , "Something happened while trying to setup. Please try again"
                 , Toast.LENGTH_LONG).show()
-        RobotConfig.Configured.saveValue(context!!, false)
+        RobotConfig.Configured.saveValue(this, false)
         startSetup()
     }
 
@@ -101,12 +79,12 @@ class SplashScreen : Fragment() {
     private var pendingRequestCode: Int = -1
 
     private fun setupDevice(): Boolean? {
-        val commType = RobotConfig.Communication.getValue(context!!) as CommunicationType?
+        val commType = RobotConfig.Communication.getValue(this) as CommunicationType?
         commType?.let {
             val clazz = it.getInstantiatedClass
             clazz?.let {
-                return if(it.needsSetup(activity!!)){
-                    val tmpCode = it.setupComponent(activity!!)
+                return if(it.needsSetup(this)){
+                    val tmpCode = it.setupComponent(this)
                     //Sometimes we still need setup without a UI. Will return -1 if that is the case
                     if(tmpCode == -1){
                         true
@@ -140,7 +118,7 @@ class SplashScreen : Fragment() {
                 startSetup() //not ok, exit to setup
             }
             else{
-                it.receivedComponentSetupDetails(context!!, data)
+                it.receivedComponentSetupDetails(this, data)
                 next()
             }
             pendingDeviceSetup = null
@@ -153,16 +131,19 @@ class SplashScreen : Fragment() {
     private fun checkPermissions() : Boolean{
         val permissionsToAccept = ArrayList<String>()
         for (perm in getCurrentRequiredPermissions()){
-            if(ContextCompat.checkSelfPermission(context!!, perm) != PackageManager.PERMISSION_GRANTED){
+            if(ContextCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED){
                 permissionsToAccept.add(perm)
             }
         }
 
         return if(permissionsToAccept.isNotEmpty()){
-            requestPermissions(
-                    permissionsToAccept.toArray(Array(0) {""}),
-                    requestCode)
-            false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(
+                        permissionsToAccept.toArray(Array(0) {""}),
+                        requestCode)
+                false
+            }
+            else true
         }
         else{
             true
@@ -171,7 +152,7 @@ class SplashScreen : Fragment() {
 
     private fun getCurrentRequiredPermissions() : ArrayList<String> {
         val list = ArrayList<String>()
-        val settings = RobotSettingsObject.load(context!!)
+        val settings = RobotSettingsObject.load(this)
         if(settings.enableMic){
             list.add(Manifest.permission.RECORD_AUDIO)
         }

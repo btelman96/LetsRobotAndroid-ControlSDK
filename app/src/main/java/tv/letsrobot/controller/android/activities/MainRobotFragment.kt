@@ -1,14 +1,13 @@
 package tv.letsrobot.controller.android.activities
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.fragment_main_robot.*
 import tv.letsrobot.android.api.components.*
 import tv.letsrobot.android.api.components.camera.CameraBaseComponent
@@ -22,17 +21,14 @@ import tv.letsrobot.controller.android.R
 import tv.letsrobot.controller.android.RobotApplication
 import tv.letsrobot.controller.android.robot.RobotSettingsObject
 
-class MainRobotFragment : Fragment(), Runnable{
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main_robot, container, false)
-    }
+class MainRobotFragment : FragmentActivity(), Runnable{
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        PhoneBatteryMeter.getReceiver(context!!.applicationContext) //Setup phone battery monitor TODO integrate with component
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_main_robot)
+        PhoneBatteryMeter.getReceiver(this.applicationContext) //Setup phone battery monitor TODO integrate with component
         handler = Handler(Looper.getMainLooper())
-        settings = RobotSettingsObject.load(context!!)
+        settings = RobotSettingsObject.load(this)
         setupExternalComponents()
         setupApiInterface()
         setupButtons()
@@ -66,11 +62,11 @@ class MainRobotFragment : Fragment(), Runnable{
     }
 
     private fun setupApiInterface() {
-        letsRobotViewModel = LetsRobotViewModel.getObject(activity!!)
-        letsRobotViewModel?.setServiceBoundListener(activity!!){ connected ->
+        letsRobotViewModel = LetsRobotViewModel.getObject(this)
+        letsRobotViewModel?.setServiceBoundListener(this){ connected ->
             mainPowerButton.isEnabled = connected == Operation.OK
         }
-        letsRobotViewModel?.setStatusObserver(activity!!){ serviceStatus ->
+        letsRobotViewModel?.setStatusObserver(this){ serviceStatus ->
             mainPowerButton?.let {
                 mainPowerButton.setTextColor(parseColorForOperation(serviceStatus))
                 val isLoading = serviceStatus == Operation.LOADING
@@ -117,7 +113,7 @@ class MainRobotFragment : Fragment(), Runnable{
 
     private fun launchSetupActivity() {
         letsRobotViewModel?.api?.disable()
-        Navigation.findNavController(view!!).navigate(R.id.action_mainRobotFragment_to_settingsLanding)
+        startActivity(SettingsActivity.getIntent(this))
     }
 
     private fun toggleServiceConnection() {
@@ -167,7 +163,7 @@ class MainRobotFragment : Fragment(), Runnable{
     override fun onDestroy() {
         super.onDestroy()
         destroyIndicators()
-        PhoneBatteryMeter.destroyReceiver(activity!!.applicationContext)
+        PhoneBatteryMeter.destroyReceiver(applicationContext)
     }
 
     /**
@@ -175,7 +171,7 @@ class MainRobotFragment : Fragment(), Runnable{
      * Core.Builder is the only way to create the Core to make sure settings do not change wile the robot is running
      */
     private fun addDefaultComponents() {
-        val builder = ServiceComponentGenerator(activity!!.applicationContext) //Initialize the Core Builder
+        val builder = ServiceComponentGenerator(applicationContext) //Initialize the Core Builder
         //Attach the SurfaceView textureView to render the camera to
         builder.robotId = settings.robotId //Pass in our Robot ID
 
@@ -196,16 +192,16 @@ class MainRobotFragment : Fragment(), Runnable{
         }
     }
 
-//    TODO? override fun onWindowFocusChanged(hasFocus: Boolean) {
-//        super.onWindowFocusChanged(hasFocus)
-//        if (hasFocus) hideSystemUI()
-//    }
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) hideSystemUI()
+    }
 
     private fun hideSystemUI() {
         // Enables regular immersive mode.
         // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
         // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        activity!!.window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
                 // Set the content to appear under the system bars so that the
                 // content doesn't resize when the system bars hide and show.
                 or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -219,10 +215,14 @@ class MainRobotFragment : Fragment(), Runnable{
     // Shows the system bars by removing all the flags
 // except for the ones that make the content appear under the system bars.
     private fun showSystemUI() {
-        activity!!.window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
     }
 
     companion object {
+        fun getIntent(context: Context): Intent {
+            return Intent(context, MainRobotFragment::class.java)
+        }
+
         const val LOGTAG = "MainRobot"
     }
 }
