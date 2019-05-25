@@ -195,7 +195,7 @@ class MainRobotActivity : FragmentActivity(), Runnable{
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) hideSystemUI()
+        if (hasFocus && recording) hideSystemUI()
     }
 
     private fun hideSystemUI() {
