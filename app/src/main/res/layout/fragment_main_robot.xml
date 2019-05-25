@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/black"
     android:orientation="vertical"
-    tools:context=".activities.MainRobotFragment">
+    tools:context=".activities.MainRobotActivity">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

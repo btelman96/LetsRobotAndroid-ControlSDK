@@ -21,7 +21,7 @@ import tv.letsrobot.controller.android.R
 import tv.letsrobot.controller.android.RobotApplication
 import tv.letsrobot.controller.android.robot.RobotSettingsObject
 
-class MainRobotFragment : FragmentActivity(), Runnable{
+class MainRobotActivity : FragmentActivity(), Runnable{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,6 +114,7 @@ class MainRobotFragment : FragmentActivity(), Runnable{
     private fun launchSetupActivity() {
         letsRobotViewModel?.api?.disable()
         startActivity(SettingsActivity.getIntent(this))
+        finish()
     }
 
     private fun toggleServiceConnection() {
@@ -220,7 +221,7 @@ class MainRobotFragment : FragmentActivity(), Runnable{
 
     companion object {
         fun getIntent(context: Context): Intent {
-            return Intent(context, MainRobotFragment::class.java)
+            return Intent(context, MainRobotActivity::class.java)
         }
 
         const val LOGTAG = "MainRobot"

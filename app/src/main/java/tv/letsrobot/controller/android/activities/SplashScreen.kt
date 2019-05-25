@@ -59,7 +59,7 @@ class SplashScreen : FragmentActivity() {
         }
         //All checks are done. Lets startup the activity!
         ContextCompat.startForegroundService(applicationContext, Intent(applicationContext, LetsRobotService::class.java))
-        startActivity(MainRobotFragment.getIntent(this))
+        startActivity(MainRobotActivity.getIntent(this))
         finish()
     }
 
