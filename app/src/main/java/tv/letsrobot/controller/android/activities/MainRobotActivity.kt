@@ -9,7 +9,7 @@ import android.os.Looper
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.FragmentActivity
-import kotlinx.android.synthetic.main.fragment_main_robot.*
+import kotlinx.android.synthetic.main.activity_main_robot.*
 import tv.letsrobot.android.api.components.*
 import tv.letsrobot.android.api.components.camera.CameraBaseComponent
 import tv.letsrobot.android.api.enums.Operation
@@ -35,7 +35,7 @@ class MainRobotActivity : FragmentActivity(), Runnable{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_main_robot)
+        setContentView(R.layout.activity_main_robot)
         PhoneBatteryMeter.getReceiver(this.applicationContext) //Setup phone battery monitor TODO integrate with component
         handler = Handler(Looper.getMainLooper())
         setupUI()

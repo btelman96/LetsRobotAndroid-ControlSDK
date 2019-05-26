@@ -68,7 +68,7 @@
         android:id="@+id/splashScreen"
         android:name="tv.letsrobot.controller.android.activities.SplashScreen"
         android:label="fragment_splash_screen"
-        tools:layout="@layout/fragment_splash_screen" />
+        tools:layout="@layout/activity_splash_screen" />
     <fragment
         android:id="@+id/settingsEntryFragment"
         android:name="tv.letsrobot.controller.android.SettingsEntryFragment"

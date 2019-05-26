@@ -21,7 +21,7 @@ class SplashScreen : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_splash_screen)
+        setContentView(R.layout.activity_splash_screen)
 
         ServiceComponentGenerator.initDependencies(this){
             runOnUiThread{
