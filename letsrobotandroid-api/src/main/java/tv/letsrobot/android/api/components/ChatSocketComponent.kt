@@ -13,6 +13,7 @@ import tv.letsrobot.android.api.enums.ComponentStatus
 import tv.letsrobot.android.api.enums.ComponentType
 import tv.letsrobot.android.api.interfaces.Component
 import tv.letsrobot.android.api.settings.JsonObjectUtils
+import tv.letsrobot.android.api.settings.LRPreferences
 import tv.letsrobot.android.api.utils.PhoneBatteryMeter
 import tv.letsrobot.android.api.utils.ValueUtil
 import tv.letsrobot.android.api.utils.getJsonObject
@@ -118,6 +119,7 @@ class ChatSocketComponent internal constructor(context: Context, private val rob
             val ttsObject = TTSBaseComponent.TTSObject( rawMessage,
                     pitch,
                     user = user,
+                    anonymous = jsonObject.getBoolean("anonymous"),
                     isSpeakable = !isCommand,
                     isMod = user == MainSocketComponent.owner,
                     color = jsonObject.getString("username_color"),
@@ -128,6 +130,10 @@ class ChatSocketComponent internal constructor(context: Context, private val rob
     }
 
     private fun sendChatEvents(ttsObject: TTSBaseComponent.TTSObject, speakingText: String?, isCommand : Boolean) {
+        if(!LRPreferences.INSTANCE.anonTTSEnabled.value && ttsObject.anonymous) {
+            return //drop message if anon chat is disabled
+        }
+
         //send the packet via Local Broadcast. Anywhere in this app can intercept this
         LocalBroadcastManager.getInstance(context)
                 .sendBroadcast(Intent(LR_CHAT_MESSAGE_WITH_NAME_BROADCAST)
