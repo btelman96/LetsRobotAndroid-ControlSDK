@@ -52,6 +52,8 @@
         app:key="@string/feedbackSettingsKey"
         app:title="@string/feedbackSettingsTitle"
         app:summary="@string/feedbackSettingsSummary">
+        <intent android:action="android.intent.action.VIEW"
+            android:data="https://github.com/btelman96/letsrobot-android/issues" />
     </Preference>
 
 </androidx.preference.PreferenceScreen>

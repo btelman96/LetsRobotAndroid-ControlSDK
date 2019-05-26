@@ -1,10 +1,12 @@
 package tv.letsrobot.controller.android.activities.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.navigation.Navigation
 import androidx.preference.Preference
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import tv.letsrobot.controller.android.R
 
 
@@ -37,6 +39,9 @@ class SettingsLanding : BasePreferenceFragmentCompat(
     override fun onPreferenceTreeClick(preference: Preference?): Boolean {
         dict[preference?.key]?.let {
             navigate(it)
+        }
+        if(preference?.key == getString(R.string.openSourceSettingsKey)){
+            startActivity(Intent(context, OssLicensesMenuActivity::class.java))
         }
         return super.onPreferenceTreeClick(preference)
     }
