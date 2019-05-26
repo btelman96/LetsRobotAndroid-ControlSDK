@@ -31,6 +31,9 @@
             android:id="@+id/deepLink"
             app:uri="lr://controller.settings"
             android:autoVerify="true" />
+        <action
+            android:id="@+id/action_settingsLanding_to_licenseViewer"
+            app:destination="@id/licenseViewer" />
     </fragment>
     <action
         android:id="@+id/action_nav_settings_pop"
@@ -80,4 +83,9 @@
             app:launchSingleTop="true"
             app:popUpTo="@+id/splashScreen" />
     </fragment>
+    <fragment
+        android:id="@+id/licenseViewer"
+        android:name="tv.letsrobot.controller.android.activities.settings.SettingsLicenseViewer"
+        android:label="@string/openSourceSettingsTitle"
+        tools:layout="@layout/fragment_license_viewer" />
 </navigation>
