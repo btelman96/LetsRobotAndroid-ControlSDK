@@ -7,6 +7,7 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler
 import tv.letsrobot.android.api.enums.ComponentStatus
 import tv.letsrobot.android.api.enums.ComponentType
 import tv.letsrobot.android.api.interfaces.Component
+import tv.letsrobot.android.api.settings.LRPreferences
 import tv.letsrobot.android.api.utils.JsonObjectUtils
 import tv.letsrobot.android.api.utils.RecordingThread
 import java.nio.ByteBuffer
@@ -77,17 +78,7 @@ class AudioComponent(contextA: Context, val cameraId : String, val cameraPass : 
     }
 
     override fun onAudioDataReceived(data: ShortArray?) {
-        try {
-            if(!ffmpegRunning.get()){
-                successCounter = 0
-                status = ComponentStatus.CONNECTING
-                val audioCommandLine2 = String.format("-f s16be -i - -f mpegts -codec:a mp2 -b:a 32k -ar 44100 -muxdelay 0.001 http://%s:%s/%s/640/480/", host, port, cameraPass)
-                fFmpeg.execute(UUID, null, audioCommandLine2.split(" ").toTypedArray(), this)
-            }
-        } catch (e: Exception) {
-            status = ComponentStatus.ERROR
-            e.printStackTrace()
-        }
+        ensureFFmpegStarted()
         data?.let { d->
             try {
                 val buffer = ShortToByte_ByteBuffer_Method(d)
@@ -95,6 +86,26 @@ class AudioComponent(contextA: Context, val cameraId : String, val cameraPass : 
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    private fun ensureFFmpegStarted() {
+        try {
+            if(!ffmpegRunning.get()){
+                successCounter = 0
+                status = ComponentStatus.CONNECTING
+                val bitrate = LRPreferences.INSTANCE.micBitrate.value
+                val volumeBoost = LRPreferences.INSTANCE.micVolumeBoost.value
+                val separator = " "
+                val command = "-f s16be -i - -f mpegts -codec:a mp2 -b:a ${bitrate}k -ar 44100" +
+                        "$separator-muxdelay 0.001 -filter:a volume=$volumeBoost" +
+                        "${separator}http://$host:$port/$cameraPass/640/480/"
+                fFmpeg.execute(UUID, null, command.split(" ")
+                        .toTypedArray(), this)
+            }
+        } catch (e: Exception) {
+            status = ComponentStatus.ERROR
+            e.printStackTrace()
         }
     }
 

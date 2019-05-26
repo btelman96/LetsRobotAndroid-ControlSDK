@@ -78,13 +78,13 @@ class LRPreferences private constructor(context: Context) {
      * Audio In volume boost for use with FFmpeg
      */
     val micVolumeBoost = Preference.fromId(preferenceManager, context,
-            1, R.string.micVolumeBoostKey) as IntPreference
+            "1", R.string.micVolumeBoostKey) as StringPreference
 
     /**
      * Audio In bitrate for use with FFmpeg
      */
     val micBitrate = Preference.fromId(preferenceManager, context,
-            1, R.string.micVolumeBoostKey) as IntPreference
+            "32", R.string.micAudioBitrateKey) as StringPreference
 
     /**
      * Should Text to speech features be used?
