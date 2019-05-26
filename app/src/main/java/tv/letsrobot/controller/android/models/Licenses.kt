@@ -6,7 +6,7 @@ import org.btelman.licensehelper.LicenseType
 /**
  * All of the licenses used in Let's Robot Main app
  */
-class Licenses{
+object Licenses{
     val licenses = arrayListOf(
             License("Android Multi Dex Library", LicenseType.APACHE2_0),
             License("Android ConstraintLayout", LicenseType.APACHE2_0),
@@ -22,5 +22,11 @@ class Licenses{
             License("LeakCanary For Android (Debug Builds)", LicenseType.APACHE2_0),
             License("ZXing Core", LicenseType.APACHE2_0),
             License("Let's Robot Core Library", LicenseType.APACHE2_0)
-    )
+    ).also {
+        for(license in tv.letsrobot.android.api.models.Licenses.licenses){
+            if(!it.contains(license)){
+                it.add(license)
+            }
+        }
+    }
 }
