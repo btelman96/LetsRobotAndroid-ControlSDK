@@ -22,19 +22,21 @@
         app:key="@string/audioGenericTTSCategoryKey"
         app:title="@string/generalSettings">
         <SwitchPreferenceCompat
-            app:key="@string/audioBanVoiceEnabledKey"
-            app:title="@string/audioBanVoiceTitle"
-            app:summary="@string/audioBanVoiceSummary"/>
-
-        <SwitchPreferenceCompat
             app:key="@string/audioTTSInternalEnabledKey"
             app:defaultValue="true"
             app:title="@string/audioInternalTTSTitle"
             app:summary="@string/audioInternalTTSSummary"/>
 
         <SwitchPreferenceCompat
+            app:key="@string/audioBanVoiceEnabledKey"
+            app:title="@string/audioBanVoiceTitle"
+            app:dependency="@string/audioTTSInternalEnabledKey"
+            app:summary="@string/audioBanVoiceSummary"/>
+
+        <SwitchPreferenceCompat
             app:key="@string/audioBatteryCommandEnabledKey"
             app:title="@string/audioBatteryCommandTitle"
+            app:dependency="@string/audioTTSInternalEnabledKey"
             app:defaultValue="true"
             app:summary="@string/audioBatteryCommandSummary"/>
     </PreferenceCategory>
