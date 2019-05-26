@@ -25,8 +25,8 @@ class SplashScreen : FragmentActivity() {
 
         ServiceComponentGenerator.initDependencies(this){
             runOnUiThread{
-                if(LRPreferences.INSTANCE.robotId.getValue<String>() == "" ||
-                        (RobotConfig.RobotId.getValue(this) as? String) == ""){
+                if(LRPreferences.INSTANCE.robotId.value == "" ||
+                        LRPreferences.INSTANCE.cameraId.value == "") {
                     startSetup()
                     Toast.makeText(this, "RobotID or CameraId need to be setup!", Toast.LENGTH_SHORT).show()
                     return@runOnUiThread
@@ -69,7 +69,6 @@ class SplashScreen : FragmentActivity() {
         Toast.makeText(this
                 , "Something happened while trying to setup. Please try again"
                 , Toast.LENGTH_LONG).show()
-        RobotConfig.Configured.saveValue(this, false)
         startSetup()
     }
 
@@ -78,7 +77,7 @@ class SplashScreen : FragmentActivity() {
     private var pendingRequestCode: Int = -1
 
     private fun setupDevice(): Boolean? {
-        val commType = RobotConfig.Communication.getValue(this) as CommunicationType?
+        val commType = LRPreferences.INSTANCE.communication.value as? CommunicationType
         commType?.let {
             val clazz = it.getInstantiatedClass
             clazz?.let {
@@ -151,16 +150,16 @@ class SplashScreen : FragmentActivity() {
 
     private fun getCurrentRequiredPermissions() : ArrayList<String> {
         val list = ArrayList<String>()
-        val settings = RobotSettingsObject.load(this)
-        if(settings.enableMic){
+        val settings = LRPreferences.INSTANCE
+        if(settings.micEnabled.value){
             list.add(Manifest.permission.RECORD_AUDIO)
         }
-        if(settings.cameraEnabled){
+        if(settings.cameraEnabled.value){
             list.add(Manifest.permission.CAMERA)
         }
 
         //location permission required to scan for bluetooth device
-        if(settings.robotCommunication == CommunicationType.BluetoothClassic){
+        if(settings.communication.value == CommunicationType.BluetoothClassic){
             list.add(Manifest.permission.ACCESS_COARSE_LOCATION)
             list.add(Manifest.permission.ACCESS_FINE_LOCATION)
         }

@@ -14,7 +14,9 @@ import tv.letsrobot.android.api.components.camera.CameraBaseComponent
 import tv.letsrobot.android.api.enums.Operation
 import tv.letsrobot.android.api.interfaces.Component
 import tv.letsrobot.android.api.interfaces.IComponent
+import tv.letsrobot.android.api.models.CameraSettings
 import tv.letsrobot.android.api.models.ServiceComponentGenerator
+import tv.letsrobot.android.api.settings.LRPreferences
 import tv.letsrobot.android.api.utils.PhoneBatteryMeter
 import tv.letsrobot.android.api.viewModels.LetsRobotViewModel
 import tv.letsrobot.controller.android.R
@@ -44,7 +46,7 @@ class MainRobotActivity : FragmentActivity(), Runnable{
 
     private var recording = false
     lateinit var handler : Handler
-    lateinit var settings : RobotSettingsObject
+    var settings = LRPreferences.INSTANCE
     private var letsRobotViewModel: LetsRobotViewModel? = null
 
     private val extComponents = ArrayList<Component>()
@@ -71,7 +73,7 @@ class MainRobotActivity : FragmentActivity(), Runnable{
                 mainPowerButton.isEnabled = !isLoading
                 if(isLoading) return@setStatusObserver //processing command. Disable button
                 recording = serviceStatus == Operation.OK
-                if(recording && settings.screenTimeout)
+                if(recording && settings.sleepMode.value)
                     startSleepDelayed()
             }
         }
@@ -102,7 +104,7 @@ class MainRobotActivity : FragmentActivity(), Runnable{
     }
 
     private fun handleSleepLayoutTouch(): Boolean {
-        if(settings.screenTimeout) {
+        if(settings.sleepMode.value) {
             startSleepDelayed()
             showSystemUI()
         }
@@ -172,17 +174,17 @@ class MainRobotActivity : FragmentActivity(), Runnable{
     private fun addDefaultComponents() {
         val builder = ServiceComponentGenerator(applicationContext) //Initialize the Core Builder
         //Attach the SurfaceView textureView to render the camera to
-        builder.robotId = settings.robotId //Pass in our Robot ID
+        builder.robotId = settings.robotId.value //Pass in our Robot ID
 
-        (settings.cameraId).takeIf {
-            settings.cameraEnabled
-        }?.let{ cameraId ->
-            builder.cameraSettings = RobotSettingsObject.buildCameraSettings(settings)
+        (settings.cameraId.value).takeIf {
+            settings.cameraEnabled.value
+        }?.let{ _ ->
+            builder.cameraSettings = CameraSettings.buildCameraSettings(settings)
         }
-        builder.useTTS = settings.enableTTS
-        builder.useMic = settings.enableMic
-        builder.protocol = settings.robotProtocol
-        builder.communication = settings.robotCommunication
+        builder.useTTS = settings.ttsEnabled.value
+        builder.useMic = settings.micEnabled.value
+        builder.protocol = settings.protocol.value
+        builder.communication = settings.communication.value
         try {
             components = builder.build()
         } catch (e: ServiceComponentGenerator.InitializationException) {

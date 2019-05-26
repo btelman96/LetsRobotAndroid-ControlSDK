@@ -7,9 +7,10 @@ import androidx.annotation.StringRes
 /**
  * Preference Item
  */
-class LRPreference<T : Any>(private val preferences: SharedPreferences, val default: T, val key : String) {
+abstract class Preference<T : Any>(protected val preferences: SharedPreferences, val default: T, protected val key : String) {
+
     @Throws(IllegalArgumentException::class)
-    fun saveValue(value: Any){
+    open fun saveValue(value: T){
         if(value::class.java.name != default::class.java.name)
             throw IllegalArgumentException("Expected type of ${default::class.java.simpleName}")
         val sharedPrefs = preferences.edit()
@@ -23,7 +24,7 @@ class LRPreference<T : Any>(private val preferences: SharedPreferences, val defa
 
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalArgumentException::class)
-    fun <T : Any> getValue() : T{
+    protected open fun <T : Any> getGenericValue() : T{
         val value = when(default){
             is Boolean -> preferences.getBoolean(key, default)
             is String -> preferences.getString(key, default)
@@ -48,13 +49,25 @@ class LRPreference<T : Any>(private val preferences: SharedPreferences, val defa
     }
 
     companion object{
-        fun extractKeyFromId(context: Context, @StringRes key : Int): String {
+        private fun extractKeyFromId(context: Context, @StringRes key : Int): String {
             return context.getString(key)
         }
 
-        fun <T:Any> fromId(preferences: SharedPreferences, context: Context, default: T, @StringRes key : Int) : LRPreference<T>{
+        @Throws(IllegalArgumentException::class)
+        fun <T:Any> fromId(preferences: SharedPreferences, context: Context, default: T, @StringRes key : Int) : Preference<*>{
             val strKey = extractKeyFromId(context, key)
-            return LRPreference(preferences, default, strKey)
+            return when(default){
+                is String -> { StringPreference(preferences, default, strKey) }
+                is Boolean ->  { BooleanPreference(preferences, default, strKey) }
+                is Int -> { IntPreference(preferences, default, strKey) }
+                is Enum<*> -> { throw IllegalStateException("Use fromEnumId for enums") }
+                else -> throw java.lang.IllegalArgumentException("No preferences exist for this class yet")
+            }
+        }
+
+        fun <T:Enum<*>> fromEnumId(preferences: SharedPreferences, context: Context, default: T, @StringRes key : Int) : EnumPreference<T>{
+            val strKey = extractKeyFromId(context, key)
+            return EnumPreference(preferences, default, strKey)
         }
     }
 }

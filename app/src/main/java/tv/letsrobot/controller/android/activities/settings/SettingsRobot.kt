@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import tv.letsrobot.android.api.robot.CommunicationType
-import tv.letsrobot.android.api.settings.LRPreference
+import tv.letsrobot.android.api.settings.EnumPreference
 import tv.letsrobot.android.api.settings.LRPreferences
 import tv.letsrobot.android.api.utils.getEntries
 import tv.letsrobot.controller.android.R
@@ -26,7 +26,7 @@ class SettingsRobot : BasePreferenceFragmentCompat(
         createFromDefaultAndListen(connPref, LRPreferences.INSTANCE.communication)
         createFromDefaultAndListen(protoPref, LRPreferences.INSTANCE.protocol)
         connPref?.setOnClickListener {
-            val enum : CommunicationType = LRPreferences.INSTANCE.communication.getValue()
+            val enum = LRPreferences.INSTANCE.communication.value
             val clazz = enum.getInstantiatedClass
             pendingResultCode = clazz?.setupComponent(activity!!)
         }
@@ -42,11 +42,9 @@ class SettingsRobot : BasePreferenceFragmentCompat(
             Toast.makeText(context, "Success", Toast.LENGTH_LONG).show()
     }
 
-    private fun <T : Any> createFromDefaultAndListen(pref : ListPreference?, lrPreference: LRPreference<T>){
-        if(lrPreference.default !is Enum<*>)
-           return
+    private fun <T : Enum<*>> createFromDefaultAndListen(pref : ListPreference?, lrPreference: EnumPreference<T>){
         pref ?: return //skip if null
-        val enumValue = lrPreference.getValue<Enum<*>>()
+        val enumValue = lrPreference.value
         pref.entries = enumValue.getEntries()
         pref.entryValues = enumValue.getEntries()
         pref.value = enumValue.name

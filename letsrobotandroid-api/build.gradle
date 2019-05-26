@@ -46,9 +46,6 @@ dependencies {
     api project(':FFmpegAndroid-release')
     api 'com.google.guava:guava:27.1-android'
     api project(':ext_webcam')
-
-    implementation project(':prefs_annotations')
-    annotationProcessor project(':pref_processor')
 }
 repositories {
     google()
