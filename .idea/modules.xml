@@ -7,8 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/ext_webcam/ext_webcam.iml" filepath="$PROJECT_DIR$/ext_webcam/ext_webcam.iml" />
       <module fileurl="file://$PROJECT_DIR$/letsrobot-android.iml" filepath="$PROJECT_DIR$/letsrobot-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/letsrobotandroid-api/letsrobotandroid-api.iml" filepath="$PROJECT_DIR$/letsrobotandroid-api/letsrobotandroid-api.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pref_processor/pref_processor.iml" filepath="$PROJECT_DIR$/pref_processor/pref_processor.iml" />
-      <module fileurl="file://$PROJECT_DIR$/prefs_annotations/prefs_annotations.iml" filepath="$PROJECT_DIR$/prefs_annotations/prefs_annotations.iml" />
     </modules>
   </component>
 </project>
