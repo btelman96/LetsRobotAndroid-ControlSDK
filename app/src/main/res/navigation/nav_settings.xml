@@ -69,8 +69,8 @@
     <fragment
         android:id="@+id/settingsEntryFragment"
         android:name="tv.letsrobot.controller.android.SettingsEntryFragment"
-        android:label="fragment_settings_entry"
-        tools:layout="@layout/fragment_settings_entry" >
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings_entry">
         <action
             android:id="@+id/action_settingsEntryFragment_to_settingsLanding"
             app:destination="@id/settingsLanding" />
