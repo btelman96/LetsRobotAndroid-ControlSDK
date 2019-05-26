@@ -32,13 +32,6 @@
             app:title="@string/audioBanVoiceTitle"
             app:dependency="@string/audioTTSInternalEnabledKey"
             app:summary="@string/audioBanVoiceSummary"/>
-
-        <SwitchPreferenceCompat
-            app:key="@string/audioBatteryCommandEnabledKey"
-            app:title="@string/audioBatteryCommandTitle"
-            app:dependency="@string/audioTTSInternalEnabledKey"
-            app:defaultValue="true"
-            app:summary="@string/audioBatteryCommandSummary"/>
     </PreferenceCategory>
     <PreferenceCategory
         app:key="@string/audioSystemSettingsGroupKey"

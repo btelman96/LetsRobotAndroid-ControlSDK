@@ -117,12 +117,6 @@ class LRPreferences private constructor(context: Context) {
             false, R.string.audioTTSInternalEnabledKey) as BooleanPreference
 
     /**
-     * Should the streamer be able to use .battery level?
-     */
-    val internalBatteryCommandEnabled = Preference.fromId(preferenceManager, context,
-    false, R.string.audioBatteryCommandEnabledKey) as BooleanPreference
-
-    /**
      * Should the chat display be enabled in the main robot activity?
      */
     val chatDisplayEnabled = Preference.fromId(preferenceManager, context,
