@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.WindowManager
 import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.fragment_main_robot.*
 import tv.letsrobot.android.api.components.*
@@ -24,18 +25,32 @@ import tv.letsrobot.controller.android.RobotApplication
 
 class MainRobotActivity : FragmentActivity(), Runnable{
 
+    private var recording = false
+    lateinit var handler : Handler
+    var settings = LRPreferences.INSTANCE
+    private var letsRobotViewModel: LetsRobotViewModel? = null
+    var components = ArrayList<IComponent>() //arraylist of core components
+
+    private val extComponents = ArrayList<Component>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_main_robot)
         PhoneBatteryMeter.getReceiver(this.applicationContext) //Setup phone battery monitor TODO integrate with component
         handler = Handler(Looper.getMainLooper())
+        setupUI()
         setupExternalComponents()
         setupApiInterface()
+    }
+
+    private fun setupUI() {
+        if(!settings.chatDisplayEnabled.value)
+            lrChatView.visibility = View.GONE
+        if(settings.sleepMode.value)
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setupButtons()
         initIndicators()
     }
-
-    var components = ArrayList<IComponent>() //arraylist of core components
 
     override fun run() {
         if (recording){
@@ -43,13 +58,6 @@ class MainRobotActivity : FragmentActivity(), Runnable{
             hideSystemUI()
         }
     }
-
-    private var recording = false
-    lateinit var handler : Handler
-    var settings = LRPreferences.INSTANCE
-    private var letsRobotViewModel: LetsRobotViewModel? = null
-
-    private val extComponents = ArrayList<Component>()
 
     private fun setupExternalComponents() {
         //add custom components here
@@ -73,7 +81,7 @@ class MainRobotActivity : FragmentActivity(), Runnable{
                 mainPowerButton.isEnabled = !isLoading
                 if(isLoading) return@setStatusObserver //processing command. Disable button
                 recording = serviceStatus == Operation.OK
-                if(recording && settings.sleepMode.value)
+                if(recording && settings.autoHideMainControls.value)
                     startSleepDelayed()
             }
         }
@@ -104,7 +112,7 @@ class MainRobotActivity : FragmentActivity(), Runnable{
     }
 
     private fun handleSleepLayoutTouch(): Boolean {
-        if(settings.sleepMode.value) {
+        if(settings.autoHideMainControls.value) {
             startSleepDelayed()
             showSystemUI()
         }
