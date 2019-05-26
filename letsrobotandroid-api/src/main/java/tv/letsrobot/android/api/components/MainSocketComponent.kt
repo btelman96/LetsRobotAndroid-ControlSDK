@@ -94,8 +94,11 @@ class MainSocketComponent(context: Context) : Component(context) {
             if(this["room"] != owner) return
             LocalBroadcastManager.getInstance(context)
                     .sendJson(ChatSocketComponent.LR_CHAT_USER_REMOVED_BROADCAST, this)
-            val textToSay = if(banned) "user banned" else "user timed out"
-            say(textToSay)
+            if(LRPreferences.INSTANCE.internalSystemTTSMessagesEnabled.value &&
+                    LRPreferences.INSTANCE.timeoutBanTTSNotificationsEnabled.value) {
+                val textToSay = if(banned) "user banned" else "user timed out"
+                say(textToSay)
+            }
         }
     }
 

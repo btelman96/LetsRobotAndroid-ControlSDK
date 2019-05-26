@@ -77,7 +77,8 @@ class ChatSocketComponent internal constructor(context: Context, private val rob
     private fun onConnect() {
         mSocket!!.emit("identify_robot_id", robotId)
         status = ComponentStatus.STABLE
-        sendText(TTSBaseComponent.TTSObject(TTSBaseComponent.TTS_OK
+        if(LRPreferences.INSTANCE.internalSystemTTSMessagesEnabled.value)
+            sendText(TTSBaseComponent.TTSObject(TTSBaseComponent.TTS_OK
                 , TTSBaseComponent.COMMAND_PITCH, shouldFlush = true))
     }
 
@@ -87,7 +88,8 @@ class ChatSocketComponent internal constructor(context: Context, private val rob
     }
 
     private fun onDisconnect() {
-        sendText(TTSBaseComponent.TTSObject(TTSBaseComponent.TTS_DISCONNECTED
+        if(LRPreferences.INSTANCE.internalSystemTTSMessagesEnabled.value)
+            sendText(TTSBaseComponent.TTSObject(TTSBaseComponent.TTS_DISCONNECTED
                 , TTSBaseComponent.COMMAND_PITCH, shouldFlush = true))
         if(status != ComponentStatus.DISABLED)
             status = ComponentStatus.INTERMITTENT
