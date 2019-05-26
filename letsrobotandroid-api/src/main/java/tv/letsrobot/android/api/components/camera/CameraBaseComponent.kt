@@ -12,7 +12,7 @@ import tv.letsrobot.android.api.enums.ComponentStatus
 import tv.letsrobot.android.api.enums.ComponentType
 import tv.letsrobot.android.api.interfaces.Component
 import tv.letsrobot.android.api.models.CameraSettings
-import tv.letsrobot.android.api.settings.JsonObjectUtils
+import tv.letsrobot.android.api.utils.JsonObjectUtils
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 

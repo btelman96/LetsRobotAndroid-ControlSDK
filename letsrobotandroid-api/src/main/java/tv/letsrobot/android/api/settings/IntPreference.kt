@@ -3,7 +3,7 @@ package tv.letsrobot.android.api.settings
 import android.content.SharedPreferences
 
 /**
- * Created by Brendon on 5/25/2019.
+ * Preference helper that accesses an int preference given a key
  */
 class IntPreference(preferences: SharedPreferences, default: Int, key: String)
     : Preference<Int>(preferences, default, key) {

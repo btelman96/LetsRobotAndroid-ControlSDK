@@ -7,7 +7,7 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler
 import tv.letsrobot.android.api.enums.ComponentStatus
 import tv.letsrobot.android.api.enums.ComponentType
 import tv.letsrobot.android.api.interfaces.Component
-import tv.letsrobot.android.api.settings.JsonObjectUtils
+import tv.letsrobot.android.api.utils.JsonObjectUtils
 import tv.letsrobot.android.api.utils.RecordingThread
 import java.nio.ByteBuffer
 import java.util.concurrent.atomic.AtomicBoolean

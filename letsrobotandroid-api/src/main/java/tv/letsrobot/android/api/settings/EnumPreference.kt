@@ -3,7 +3,7 @@ package tv.letsrobot.android.api.settings
 import android.content.SharedPreferences
 
 /**
- * Created by Brendon on 5/25/2019.
+ * Preference helper that accesses an enum preference given a key
  */
 class EnumPreference<T : Enum<*>>(preferences: SharedPreferences, default: Enum<*>, key: String)
     : Preference<Enum<*>>(preferences, default, key) {

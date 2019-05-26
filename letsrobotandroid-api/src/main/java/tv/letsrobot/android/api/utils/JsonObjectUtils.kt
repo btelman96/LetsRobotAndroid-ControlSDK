@@ -1,4 +1,4 @@
-package tv.letsrobot.android.api.settings
+package tv.letsrobot.android.api.utils
 
 import android.content.Intent
 import okhttp3.OkHttpClient
