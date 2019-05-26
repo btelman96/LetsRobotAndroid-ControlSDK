@@ -132,9 +132,8 @@ class ChatSocketComponent internal constructor(context: Context, private val rob
     }
 
     private fun sendChatEvents(ttsObject: TTSBaseComponent.TTSObject, speakingText: String?, isCommand : Boolean) {
-        if(!LRPreferences.INSTANCE.anonTTSEnabled.value && ttsObject.anonymous) {
-            return //drop message if anon chat is disabled
-        }
+        if(!LRPreferences.INSTANCE.anonTTSEnabled.value && ttsObject.anonymous) return //drop message if anon chat is disabled
+        if(!isCommand && !LRPreferences.INSTANCE.ttsLREnabled.value) return //drop if not command and lr messages disabled
 
         //send the packet via Local Broadcast. Anywhere in this app can intercept this
         LocalBroadcastManager.getInstance(context)
