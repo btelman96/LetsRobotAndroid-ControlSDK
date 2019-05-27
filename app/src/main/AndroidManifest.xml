@@ -35,7 +35,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.MainRobotActivity" android:theme="@style/Theme.AppCompat"/>
+        <activity android:name=".activities.MainRobotActivity" android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat"/>
 
         <activity android:name=".activities.SettingsActivity"
             android:label="LetsRobot Controller"
