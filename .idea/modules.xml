@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/ext_webcam/ext_webcam.iml" filepath="$PROJECT_DIR$/ext_webcam/ext_webcam.iml" />
       <module fileurl="file://$PROJECT_DIR$/letsrobot-android.iml" filepath="$PROJECT_DIR$/letsrobot-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/letsrobotandroid-api/letsrobotandroid-api.iml" filepath="$PROJECT_DIR$/letsrobotandroid-api/letsrobotandroid-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/licensehelper/licensehelper.iml" filepath="$PROJECT_DIR$/licensehelper/licensehelper.iml" />
     </modules>
   </component>
 </project>

@@ -17,6 +17,7 @@ import tv.letsrobot.android.api.interfaces.IComponent
 import tv.letsrobot.android.api.robot.CommunicationType
 import tv.letsrobot.android.api.robot.ProtocolType
 import tv.letsrobot.android.api.services.LetsRobotService
+import tv.letsrobot.android.api.settings.LRPreferences
 
 /**
  * Created by Brendon on 12/26/2018.
@@ -42,12 +43,12 @@ class ServiceComponentGenerator
     private var logLevel = LogLevel.NONE
 
     /**
-     * Communication type to use. Ex. Bluetooth or USB
+     * communication type to use. Ex. Bluetooth or USB
      */
     var communication : CommunicationType? = null
 
     /**
-     * Protocol type to use. Ex. Arduino Raw or Sabertooth Serial
+     * protocol type to use. Ex. Arduino Raw or Sabertooth Serial
      */
     var protocol : ProtocolType? = null
 
@@ -142,6 +143,7 @@ class ServiceComponentGenerator
 
     companion object {
         fun initDependencies(context: Context, done: () -> Unit) {
+            LRPreferences.init(context)
             val ffmpeg = FFmpeg.getInstance(context.applicationContext)
             try {
                 ffmpeg.loadBinary(object : LoadBinaryResponseHandler() {
@@ -159,7 +161,7 @@ class ServiceComponentGenerator
         }
 
         /**
-         * Clear all stored config data for our Communication components, which would trigger setup again
+         * Clear all stored config data for our communication components, which would trigger setup again
          */
         fun resetCommunicationConfig(context: Context) {
             CommunicationType.values().forEach {

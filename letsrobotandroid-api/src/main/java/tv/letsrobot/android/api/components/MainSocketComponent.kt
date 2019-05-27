@@ -11,8 +11,8 @@ import tv.letsrobot.android.api.enums.ComponentStatus
 import tv.letsrobot.android.api.enums.ComponentType
 import tv.letsrobot.android.api.interfaces.Component
 import tv.letsrobot.android.api.interfaces.ComponentEventObject
+import tv.letsrobot.android.api.settings.LRPreferences
 import tv.letsrobot.android.api.utils.JsonObjectUtils
-import tv.letsrobot.android.api.utils.RobotConfig
 import tv.letsrobot.android.api.utils.getJsonObject
 import tv.letsrobot.android.api.utils.sendJson
 import java.util.concurrent.TimeUnit
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
  * and IP, and publishes other useful information
  */
 class MainSocketComponent(context: Context) : Component(context) {
-    var robotId = RobotConfig.RobotId.getValue(context) as String
+    val robotId = LRPreferences.INSTANCE.robotId.value
     private var cameraStatus: ComponentStatus? = null
 
     override fun getType(): ComponentType {
@@ -94,8 +94,11 @@ class MainSocketComponent(context: Context) : Component(context) {
             if(this["room"] != owner) return
             LocalBroadcastManager.getInstance(context)
                     .sendJson(ChatSocketComponent.LR_CHAT_USER_REMOVED_BROADCAST, this)
-            val textToSay = if(banned) "user banned" else "user timed out"
-            say(textToSay)
+            if(LRPreferences.INSTANCE.internalSystemTTSMessagesEnabled.value &&
+                    LRPreferences.INSTANCE.timeoutBanTTSNotificationsEnabled.value) {
+                val textToSay = if(banned) "user banned" else "user timed out"
+                say(textToSay)
+            }
         }
     }
 
@@ -112,7 +115,7 @@ class MainSocketComponent(context: Context) : Component(context) {
             val obj = JSONObject()
             obj.put("send_video_process_exists",true)
             obj.put("ffmpeg_process_exists", it == ComponentStatus.STABLE)
-            obj.put("camera_id", RobotConfig.CameraId.getValue(context) as String)
+            obj.put("camera_id", LRPreferences.INSTANCE.cameraId.value)
             appServerSocket?.emit("send_video_status", obj)
         }
     }

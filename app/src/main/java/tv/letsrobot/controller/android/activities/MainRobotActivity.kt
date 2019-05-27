@@ -1,12 +1,12 @@
 package tv.letsrobot.controller.android.activities
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.activity_main_robot.*
@@ -15,21 +15,42 @@ import tv.letsrobot.android.api.components.camera.CameraBaseComponent
 import tv.letsrobot.android.api.enums.Operation
 import tv.letsrobot.android.api.interfaces.Component
 import tv.letsrobot.android.api.interfaces.IComponent
+import tv.letsrobot.android.api.models.CameraSettings
 import tv.letsrobot.android.api.models.ServiceComponentGenerator
+import tv.letsrobot.android.api.settings.LRPreferences
 import tv.letsrobot.android.api.utils.PhoneBatteryMeter
 import tv.letsrobot.android.api.viewModels.LetsRobotViewModel
 import tv.letsrobot.controller.android.R
 import tv.letsrobot.controller.android.RobotApplication
-import tv.letsrobot.controller.android.robot.RobotSettingsObject
 
-/**
- * Main activity for the robot. It has a simple camera UI and a button to connect and disconnect.
- * For camera functionality, this activity needs to have a
- * SurfaceView to pass to the camera component via the Builder
- */
 class MainRobotActivity : FragmentActivity(), Runnable{
 
+    private var recording = false
+    lateinit var handler : Handler
+    var settings = LRPreferences.INSTANCE
+    private var letsRobotViewModel: LetsRobotViewModel? = null
     var components = ArrayList<IComponent>() //arraylist of core components
+
+    private val extComponents = ArrayList<Component>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main_robot)
+        PhoneBatteryMeter.getReceiver(this.applicationContext) //Setup phone battery monitor TODO integrate with component
+        handler = Handler(Looper.getMainLooper())
+        setupUI()
+        setupExternalComponents()
+        setupApiInterface()
+    }
+
+    private fun setupUI() {
+        if(!settings.chatDisplayEnabled.value)
+            lrChatView.visibility = View.GONE
+        if(settings.sleepMode.value)
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        setupButtons()
+        initIndicators()
+    }
 
     override fun run() {
         if (recording){
@@ -37,30 +58,6 @@ class MainRobotActivity : FragmentActivity(), Runnable{
             hideSystemUI()
         }
     }
-
-    private var recording = false
-    lateinit var handler : Handler
-    lateinit var settings : RobotSettingsObject
-    private var letsRobotViewModel: LetsRobotViewModel? = null
-
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        PhoneBatteryMeter.getReceiver(applicationContext) //Setup phone battery monitor TODO integrate with component
-        handler = Handler(Looper.getMainLooper())
-        settings = RobotSettingsObject.load(this)
-        //Full screen with no title
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        setContentView(R.layout.activity_main_robot) //Set the layout to use for activity
-        setupExternalComponents()
-        setupApiInterface()
-        setupButtons()
-        initIndicators()
-    }
-
-    private val extComponents = ArrayList<Component>()
 
     private fun setupExternalComponents() {
         //add custom components here
@@ -78,13 +75,15 @@ class MainRobotActivity : FragmentActivity(), Runnable{
             mainPowerButton.isEnabled = connected == Operation.OK
         }
         letsRobotViewModel?.setStatusObserver(this){ serviceStatus ->
-            mainPowerButton.setTextColor(parseColorForOperation(serviceStatus))
-            val isLoading = serviceStatus == Operation.LOADING
-            mainPowerButton.isEnabled = !isLoading
-            if(isLoading) return@setStatusObserver //processing command. Disable button
-            recording = serviceStatus == Operation.OK
-            if(recording && settings.screenTimeout)
-                startSleepDelayed()
+            mainPowerButton?.let {
+                mainPowerButton.setTextColor(parseColorForOperation(serviceStatus))
+                val isLoading = serviceStatus == Operation.LOADING
+                mainPowerButton.isEnabled = !isLoading
+                if(isLoading) return@setStatusObserver //processing command. Disable button
+                recording = serviceStatus == Operation.OK
+                if(recording && settings.autoHideMainControls.value)
+                    startSleepDelayed()
+            }
         }
     }
 
@@ -113,7 +112,7 @@ class MainRobotActivity : FragmentActivity(), Runnable{
     }
 
     private fun handleSleepLayoutTouch(): Boolean {
-        if(settings.screenTimeout) {
+        if(settings.autoHideMainControls.value) {
             startSleepDelayed()
             showSystemUI()
         }
@@ -122,8 +121,8 @@ class MainRobotActivity : FragmentActivity(), Runnable{
 
     private fun launchSetupActivity() {
         letsRobotViewModel?.api?.disable()
-        finish() //Stop activity
-        startActivity(Intent(this, ManualSetupActivity::class.java))
+        startActivity(SettingsActivity.getIntent(this))
+        finish()
     }
 
     private fun toggleServiceConnection() {
@@ -162,12 +161,12 @@ class MainRobotActivity : FragmentActivity(), Runnable{
     }
 
     private fun destroyIndicators() {
-        cloudStatusIcon.onDestroy()
-        cameraStatusIcon.onDestroy()
-        robotStatusIcon.onDestroy()
-        micStatusIcon.onDestroy()
-        ttsStatusIcon.onDestroy()
-        robotMotorStatusIcon.onDestroy()
+        cloudStatusIcon?.onDestroy()
+        cameraStatusIcon?.onDestroy()
+        robotStatusIcon?.onDestroy()
+        micStatusIcon?.onDestroy()
+        ttsStatusIcon?.onDestroy()
+        robotMotorStatusIcon?.onDestroy()
     }
 
     override fun onDestroy() {
@@ -183,17 +182,17 @@ class MainRobotActivity : FragmentActivity(), Runnable{
     private fun addDefaultComponents() {
         val builder = ServiceComponentGenerator(applicationContext) //Initialize the Core Builder
         //Attach the SurfaceView textureView to render the camera to
-        builder.robotId = settings.robotId //Pass in our Robot ID
+        builder.robotId = settings.robotId.value //Pass in our Robot ID
 
-        (settings.cameraId).takeIf {
-            settings.cameraEnabled
-        }?.let{ cameraId ->
-            builder.cameraSettings = RobotSettingsObject.buildCameraSettings(settings)
+        (settings.cameraId.value).takeIf {
+            settings.cameraEnabled.value
+        }?.let{ _ ->
+            builder.cameraSettings = CameraSettings.buildCameraSettings(settings)
         }
-        builder.useTTS = settings.enableTTS
-        builder.useMic = settings.enableMic
-        builder.protocol = settings.robotProtocol
-        builder.communication = settings.robotCommunication
+        builder.useTTS = settings.ttsEnabled.value
+        builder.useMic = settings.micEnabled.value
+        builder.protocol = settings.protocol.value
+        builder.communication = settings.communication.value
         try {
             components = builder.build()
         } catch (e: ServiceComponentGenerator.InitializationException) {
@@ -204,7 +203,7 @@ class MainRobotActivity : FragmentActivity(), Runnable{
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) hideSystemUI()
+        if (hasFocus && recording) hideSystemUI()
     }
 
     private fun hideSystemUI() {
@@ -229,6 +228,10 @@ class MainRobotActivity : FragmentActivity(), Runnable{
     }
 
     companion object {
+        fun getIntent(context: Context): Intent {
+            return Intent(context, MainRobotActivity::class.java)
+        }
+
         const val LOGTAG = "MainRobot"
     }
 }

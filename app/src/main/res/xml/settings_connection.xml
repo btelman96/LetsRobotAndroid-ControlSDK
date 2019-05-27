@@ -1,0 +1,24 @@
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/connectionSettingsTitle">
+
+    <EditTextPreference
+        app:key="@string/connectionRobotIdKey"
+        app:title="@string/connectionRobotIdTitle"
+        app:useSimpleSummaryProvider="true"
+        app:isPreferenceVisible="true"/>
+
+    <EditTextPreference
+        app:key="@string/connectionCameraIdKey"
+        app:title="@string/connectionCameraIdTitle"
+        app:useSimpleSummaryProvider="true"
+        app:isPreferenceVisible="true"/>
+
+    <EditTextPreference
+        app:key="@string/connectionCameraPassKey"
+        app:defaultValue="hello"
+        app:title="@string/connectionCameraPassTitle"
+        app:useSimpleSummaryProvider="true"
+        app:isPreferenceVisible="true"/>
+</androidx.preference.PreferenceScreen>

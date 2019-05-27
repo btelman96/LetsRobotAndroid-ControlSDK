@@ -10,7 +10,7 @@ import tv.letsrobot.android.api.interfaces.Component
 import tv.letsrobot.android.api.interfaces.ComponentEventObject
 
 /**
- * Main Communication Component that holds a reference to CommunicationInterface and controls it
+ * Main communication Component that holds a reference to CommunicationInterface and controls it
  */
 class CommunicationComponent(context: Context, val communicationInterface: CommunicationInterface) : Component(context) , Runnable{
     override fun getType(): ComponentType {

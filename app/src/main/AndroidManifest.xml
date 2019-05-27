@@ -27,6 +27,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <activity android:name=".activities.SplashScreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activities.MainRobotActivity" android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat"/>
+
+        <activity android:name=".activities.SettingsActivity"
+            android:label="LetsRobot Controller"
+            android:theme="@style/Theme.AppCompat.Light">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.INFO" />
+            </intent-filter>
+
+        </activity>
+
         <meta-data
             android:name="com.bugsnag.android.API_KEY"
             android:value="451020ca1fe775c40065ae897c760d61" />
@@ -53,38 +74,8 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/usb_device_filter" />
         </activity>
-        <activity
-            android:name=".activities.MainRobotActivity"
-            android:keepScreenOn="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat" />
+
         <activity android:name="tv.letsrobot.android.api.activities.ChooseBluetoothActivity" />
-        <activity
-            android:name=".activities.ManualSetupActivity"
-            android:label="LetsRobot Controller Setup" />
-        <activity
-            android:name=".activities.SplashActivity"
-            android:label="LetsRobot Controller">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activities.QRActivity"
-            android:label="@string/title_activity_qr"
-            android:parentActivityName=".activities.ManualSetupActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="tv.letsrobot.controller.android.activities.ManualSetupActivity" />
-        </activity>
     </application>
 
 </manifest>
