@@ -177,7 +177,7 @@ abstract class CameraBaseComponent(context: Context, val config: CameraSettings)
             if(i == 0) builder.append("-vf transpose=1")
             else builder.append(",transpose=1")
         }
-        val command = "-f image2pipe -codec:v mjpeg -i - -f mpegts -framerate ${config.frameRate} -codec:v mpeg1video -b ${bitrateKb}k -minrate ${bitrateKb}k -maxrate ${bitrateKb}k -bufsize ${bitrateKb/1.5}k -bf 0 -tune zerolatency -preset ultrafast -pix_fmt yuv420p $builder http://$host:$port/${config.pass}/$xres/$yres/"
+        val command = "-f image2pipe -codec:v mjpeg -i - -f mpegts -framerate ${config.frameRate} -codec:v mpeg1video -b ${bitrateKb}k -minrate ${bitrateKb}k -maxrate ${bitrateKb}k -bufsize ${bitrateKb/1.5}k -bf 0 -tune zerolatency -preset ultrafast -pix_fmt yuv420p $builder http://dev.remo.tv:1567/transmit?name=chan-eb194a7e-6a4f-4ae7-8112-b48a16032d91-video"
         ffmpeg.execute(UUID, null, command.split(" ").toTypedArray(), this)
     }
 

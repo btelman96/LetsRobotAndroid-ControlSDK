@@ -99,7 +99,7 @@ class AudioComponent(contextA: Context, val cameraId : String, val cameraPass : 
                 val separator = " "
                 val command = "-f s16be -i - -f mpegts -codec:a mp2 -b:a ${bitrate}k -ar 44100" +
                         "$separator-muxdelay 0.001 -filter:a volume=$volumeBoost" +
-                        "${separator}http://$host:$port/$cameraPass/640/480/"
+                        "${separator}http://dev.remo.tv:1567/transmit?name=chan-eb194a7e-6a4f-4ae7-8112-b48a16032d91-audio"
                 fFmpeg.execute(UUID, null, command.split(" ")
                         .toTypedArray(), this)
             }
