@@ -12,6 +12,7 @@ import tv.letsrobot.android.api.components.tts.TTSBaseComponent
 import tv.letsrobot.android.api.enums.ComponentStatus
 import tv.letsrobot.android.api.enums.ComponentType
 import tv.letsrobot.android.api.interfaces.Component
+import tv.letsrobot.android.api.settings.LRPreferences
 import tv.letsrobot.android.api.utils.JsonObjectUtils
 import tv.letsrobot.android.api.utils.PhoneBatteryMeter
 import tv.letsrobot.android.api.utils.ValueUtil
@@ -76,7 +77,8 @@ class ChatSocketComponent internal constructor(context: Context, private val rob
     private fun onConnect() {
         mSocket!!.emit("identify_robot_id", robotId)
         status = ComponentStatus.STABLE
-        sendText(TTSBaseComponent.TTSObject(TTSBaseComponent.TTS_OK
+        if(LRPreferences.INSTANCE.internalSystemTTSMessagesEnabled.value)
+            sendText(TTSBaseComponent.TTSObject(TTSBaseComponent.TTS_OK
                 , TTSBaseComponent.COMMAND_PITCH, shouldFlush = true))
     }
 
@@ -86,7 +88,8 @@ class ChatSocketComponent internal constructor(context: Context, private val rob
     }
 
     private fun onDisconnect() {
-        sendText(TTSBaseComponent.TTSObject(TTSBaseComponent.TTS_DISCONNECTED
+        if(LRPreferences.INSTANCE.internalSystemTTSMessagesEnabled.value)
+            sendText(TTSBaseComponent.TTSObject(TTSBaseComponent.TTS_DISCONNECTED
                 , TTSBaseComponent.COMMAND_PITCH, shouldFlush = true))
         if(status != ComponentStatus.DISABLED)
             status = ComponentStatus.INTERMITTENT
@@ -118,6 +121,7 @@ class ChatSocketComponent internal constructor(context: Context, private val rob
             val ttsObject = TTSBaseComponent.TTSObject( rawMessage,
                     pitch,
                     user = user,
+                    anonymous = jsonObject.getBoolean("anonymous"),
                     isSpeakable = !isCommand,
                     isMod = user == MainSocketComponent.owner,
                     color = jsonObject.getString("username_color"),
@@ -128,6 +132,9 @@ class ChatSocketComponent internal constructor(context: Context, private val rob
     }
 
     private fun sendChatEvents(ttsObject: TTSBaseComponent.TTSObject, speakingText: String?, isCommand : Boolean) {
+        if(!LRPreferences.INSTANCE.anonTTSEnabled.value && ttsObject.anonymous) return //drop message if anon chat is disabled
+        if(!isCommand && !LRPreferences.INSTANCE.ttsLREnabled.value) return //drop if not command and lr messages disabled
+
         //send the packet via Local Broadcast. Anywhere in this app can intercept this
         LocalBroadcastManager.getInstance(context)
                 .sendBroadcast(Intent(LR_CHAT_MESSAGE_WITH_NAME_BROADCAST)

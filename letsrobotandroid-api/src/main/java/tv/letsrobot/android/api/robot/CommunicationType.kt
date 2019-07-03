@@ -5,7 +5,7 @@ import tv.letsrobot.android.api.robot.communications.BluetoothClassicCommunicati
 import tv.letsrobot.android.api.robot.communications.FelhrUsbSerialCommunication
 
 /**
- * Communication types will reside in here
+ * communication types will reside in here
  */
 enum class CommunicationType {
     UsbSerial,

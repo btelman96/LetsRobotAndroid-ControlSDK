@@ -8,7 +8,7 @@ import tv.letsrobot.android.api.robot.protocols.NXTJoystickDriverProtocol
 import tv.letsrobot.android.api.robot.protocols.SingleByteProtocol
 
 /**
- * Protocol types will reside in here
+ * protocol types will reside in here
  */
 enum class ProtocolType {
     /**

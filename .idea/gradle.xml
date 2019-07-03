@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/ext_webcam" />
             <option value="$PROJECT_DIR$/letsrobotandroid-api" />
+            <option value="$PROJECT_DIR$/licensehelper" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

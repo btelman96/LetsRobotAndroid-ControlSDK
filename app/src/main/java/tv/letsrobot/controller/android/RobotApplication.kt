@@ -1,24 +1,23 @@
 package tv.letsrobot.controller.android
 
-import android.app.Application
 import android.widget.Toast
-import com.squareup.leakcanary.LeakCanary
+import androidx.multidex.MultiDexApplication
 import tv.letsrobot.android.api.utils.PhoneBatteryMeter
 
 /**
  * Application class
  */
-class RobotApplication : Application() {
+class RobotApplication : MultiDexApplication() {
     var meter : PhoneBatteryMeter? = null
 
     override fun onCreate() {
         super.onCreate()
-        if (LeakCanary.isInAnalyzerProcess(this)) {
+        /*if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
             return
         }
-        LeakCanary.install(this)
+        LeakCanary.install(this)*/
         instance = this
         meter = PhoneBatteryMeter.getReceiver(applicationContext)
     }

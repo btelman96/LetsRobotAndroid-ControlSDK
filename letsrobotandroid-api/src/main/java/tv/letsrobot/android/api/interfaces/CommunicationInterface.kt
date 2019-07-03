@@ -28,6 +28,11 @@ interface CommunicationInterface{
     fun clearSetup(context: Context)
 
     /**
+     * Query this to see if there is a settings page for this setting
+     */
+    fun usesCustomSetup() : Boolean
+
+    /**
      * Query this component to see if it needs custom setup
      *
      * Pass in activity
@@ -38,7 +43,7 @@ interface CommunicationInterface{
      * Start setting up a component. Must pass in the current activity as it may
      * try launching an activity and wait for result
      */
-    fun setupComponent(activity: Activity) : Int
+    fun setupComponent(activity: Activity, force : Boolean = false) : Int
 
     /**
      * This gets called in onActivityResult in parent activity. Probably not a good way to do this.

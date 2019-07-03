@@ -12,6 +12,7 @@ import android.util.SparseIntArray
 import tv.letsrobot.android.api.EventManager
 import tv.letsrobot.android.api.enums.ComponentStatus
 import tv.letsrobot.controller.android.R
+import tv.letsrobot.controller.android.ui.settings.CustomImageView
 
 /**
  * Status view that will communicate directly with a chosen component
@@ -20,7 +21,7 @@ import tv.letsrobot.controller.android.R
  */
 class LRStatusImageView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : androidx.appcompat.widget.AppCompatImageView(context, attrs, defStyleAttr), Runnable {
+) : CustomImageView(context, attrs, defStyleAttr), Runnable {
     private var colorLookup = SparseIntArray().also{
         appendColor(context, it, R.color.colorIndicatorDisabledFromSettings)
         appendColor(context, it, R.color.colorIndicatorDisabled)

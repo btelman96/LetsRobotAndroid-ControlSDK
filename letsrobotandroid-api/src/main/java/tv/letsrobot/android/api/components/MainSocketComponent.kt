@@ -6,12 +6,13 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.socket.client.IO
 import io.socket.client.Socket
 import org.json.JSONObject
+import tv.letsrobot.android.api.components.tts.TTSBaseComponent
 import tv.letsrobot.android.api.enums.ComponentStatus
 import tv.letsrobot.android.api.enums.ComponentType
 import tv.letsrobot.android.api.interfaces.Component
 import tv.letsrobot.android.api.interfaces.ComponentEventObject
+import tv.letsrobot.android.api.settings.LRPreferences
 import tv.letsrobot.android.api.utils.JsonObjectUtils
-import tv.letsrobot.android.api.utils.RobotConfig
 import tv.letsrobot.android.api.utils.getJsonObject
 import tv.letsrobot.android.api.utils.sendJson
 import java.util.concurrent.TimeUnit
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit
  * and IP, and publishes other useful information
  */
 class MainSocketComponent(context: Context) : Component(context) {
-    var robotId = RobotConfig.RobotId.getValue(context) as String
+    val robotId = LRPreferences.INSTANCE.robotId.value
     private var cameraStatus: ComponentStatus? = null
 
     override fun getType(): ComponentType {
@@ -31,6 +32,7 @@ class MainSocketComponent(context: Context) : Component(context) {
     override fun enableInternal() {
         setOwner()
         setupAppWebSocket()
+        setupUserWebSocket()
         handler.sendEmptyMessage(DO_SOME_WORK)
     }
 
@@ -53,7 +55,6 @@ class MainSocketComponent(context: Context) : Component(context) {
     }
 
     private fun setupAppWebSocket() {
-        userAppSocket = IO.socket("https://letsrobot.tv:8000")
         appServerSocket = IO.socket("http://letsrobot.tv:8022")
         appServerSocket?.on(Socket.EVENT_CONNECT_ERROR){
             status = ComponentStatus.ERROR
@@ -62,6 +63,12 @@ class MainSocketComponent(context: Context) : Component(context) {
             status = ComponentStatus.STABLE
             appServerSocket?.emit("identify_robot_id", robotId)
         }
+        appServerSocket?.connect()
+
+    }
+
+    private fun setupUserWebSocket(){
+        userAppSocket = IO.socket("https://letsrobot.tv:8000")
         appServerSocket?.on(Socket.EVENT_DISCONNECT){
             status = ComponentStatus.DISABLED
         }
@@ -69,20 +76,29 @@ class MainSocketComponent(context: Context) : Component(context) {
             onMessageRemoved(it)
         }
         userAppSocket!!.on("user_blocked"){
-            onUserRemoved(it)
+            onUserRemoved(it, true)
         }
         userAppSocket!!.on("user_timeout"){
-            onUserRemoved(it)
+            onUserRemoved(it, false)
         }
-        appServerSocket?.connect()
         userAppSocket?.connect()
     }
 
-    private fun onUserRemoved(params: Array<out Any>) {
+    fun say(text : String){
+        eventDispatcher?.handleMessage(ComponentType.TTS, EVENT_MAIN, TTSBaseComponent.TTSObject(text
+                , TTSBaseComponent.COMMAND_PITCH, shouldFlush = true), this)
+    }
+
+    private fun onUserRemoved(params: Array<out Any>, banned : Boolean) {
         params.getJsonObject()?.runCatching {
             if(this["room"] != owner) return
             LocalBroadcastManager.getInstance(context)
                     .sendJson(ChatSocketComponent.LR_CHAT_USER_REMOVED_BROADCAST, this)
+            if(LRPreferences.INSTANCE.internalSystemTTSMessagesEnabled.value &&
+                    LRPreferences.INSTANCE.timeoutBanTTSNotificationsEnabled.value) {
+                val textToSay = if(banned) "user banned" else "user timed out"
+                say(textToSay)
+            }
         }
     }
 
@@ -99,7 +115,7 @@ class MainSocketComponent(context: Context) : Component(context) {
             val obj = JSONObject()
             obj.put("send_video_process_exists",true)
             obj.put("ffmpeg_process_exists", it == ComponentStatus.STABLE)
-            obj.put("camera_id", RobotConfig.CameraId.getValue(context) as String)
+            obj.put("camera_id", LRPreferences.INSTANCE.cameraId.value)
             appServerSocket?.emit("send_video_status", obj)
         }
     }

@@ -33,6 +33,10 @@ class FelhrUsbSerialCommunication : CommunicationInterface {
         Log.d(TAG, "disable")
     }
 
+    override fun usesCustomSetup(): Boolean {
+        return false
+    }
+
     override fun clearSetup(context: Context) {
         //not used for USB
     }
@@ -41,7 +45,7 @@ class FelhrUsbSerialCommunication : CommunicationInterface {
         return false
     }
 
-    override fun setupComponent(activity: Activity): Int {
+    override fun setupComponent(activity: Activity, force : Boolean): Int {
         return -1
     }
 
