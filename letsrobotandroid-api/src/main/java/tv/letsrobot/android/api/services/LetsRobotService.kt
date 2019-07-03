@@ -10,6 +10,7 @@ import android.os.*
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 import tv.letsrobot.android.api.R
@@ -209,6 +210,7 @@ class LetsRobotService : Service(), ComponentEventListener {
      */
     fun disable(){
         Toast.makeText(applicationContext, "Stopping LetRobot Controller", Toast.LENGTH_SHORT).show()
+        FFmpeg.getInstance(applicationContext).killRunningProcesses()
         runBlocking {
             activeComponentList.forEach{
                 it.disable().await()
